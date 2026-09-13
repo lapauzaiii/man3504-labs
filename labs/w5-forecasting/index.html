@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 5: Forecasting Methods | MAN3504</title>
+  <link rel="stylesheet" href="../../styles/shared.css">
+  <style>
+    /* W5-specific styles */
+    .method-card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .method-card h4 {
+      color: var(--unf-navy);
+      margin-top: 0;
+    }
+
+    .regression-input-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: var(--spacing-md);
+      margin: var(--spacing-lg) 0;
+    }
+
+    .calculation-result {
+      background-color: #f0f4ff;
+      border-left: 4px solid var(--unf-navy);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      margin: var(--spacing-md) 0;
+      font-family: monospace;
+      font-size: var(--font-size-sm);
+    }
+
+    [data-theme="dark"] .calculation-result {
+      background-color: #1a2340;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--spacing-lg) 0;
+      background-color: var(--bg-primary);
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: var(--spacing-sm);
+      border: 1px solid var(--border-color);
+      text-align: left;
+      font-size: var(--font-size-sm);
+    }
+
+    .comparison-table th {
+      background-color: var(--unf-navy);
+      color: white;
+      font-weight: 600;
+    }
+
+    .comparison-table tbody tr:hover {
+      background-color: var(--bg-secondary);
+    }
+
+    .phase-badge {
+      display: inline-block;
+      background-color: var(--unf-orange);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+      font-size: var(--font-size-sm);
+    }
+
+    .phase-section {
+      margin-bottom: var(--spacing-xl);
+    }
+  </style>
+</head>
+<body>
+  <div class="lab-header">
+    <h1>Week 5: Forecasting Methods</h1>
+    <p class="lab-subtitle">Qualitative Forecasting, Regression, and Method Selection for Operations Decisions</p>
+  </div>
+
+  <div class="container">
+    <!-- PHASE 1: LIVE SESSION -->
+    <section class="phase-section">
+      <div class="phase-badge">Phase 1: Live Session (35–45 min)</div>
+      <h2>Interactive Forecasting Method Explorer</h2>
+      <p>
+        Discover when to use qualitative methods (Delphi, market survey, sales force composite) vs. quantitative approaches (regression, trend projection).
+        Build a regression forecast and explore how different Cowford scenarios demand different methods.
+      </p>
+
+      <!-- Three Families of Methods -->
+      <div class="card">
+        <div class="card-header">
+          <h3>The Three Families of Forecasting Methods</h3>
+        </div>
+        <p class="card-body">
+          Different forecasting contexts call for different methods. In this phase, you'll explore when each family is strongest.
+        </p>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Family</th>
+              <th>Logic</th>
+              <th>Best When</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Time-Series</strong> (Week 4)</td>
+              <td>Future demand will resemble past patterns</td>
+              <td>Stable products with sufficient history</td>
+              <td>Moving average, exponential smoothing</td>
+            </tr>
+            <tr>
+              <td><strong>Causal</strong> (Regression)</td>
+              <td>Demand is driven by external variables</td>
+              <td>Clear drivers (time, income, advertising, weather)</td>
+              <td>Linear regression with trend or factors</td>
+            </tr>
+            <tr>
+              <td><strong>Qualitative</strong></td>
+              <td>Expert judgment + structured opinion</td>
+              <td>New products, long horizons, high uncertainty</td>
+              <td>Delphi, market survey, sales force composite</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Regression Calculator -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Regression Forecast Calculator: Cowford Coffee Cold Brew</h3>
+        </div>
+        <p class="card-body">
+          Cowford Coffee has 8 months of cold brew sales data. Build a linear regression forecast and see how the slope, intercept, and R-squared change when you adjust the data.
+        </p>
+
+        <div class="regression-input-group">
+          <div>
+            <label for="months-input">Number of Months (3–12):</label>
+            <input type="number" id="months-input" value="8" min="3" max="12" step="1">
+          </div>
+
+          <div>
+            <label for="trend-strength">Trend Strength (0–50 units/month):</label>
+            <input type="number" id="trend-strength" value="18" min="0" max="50" step="1">
+          </div>
+
+          <div>
+            <label for="base-demand">Base Demand (300–500 units):</label>
+            <input type="number" id="base-demand" value="392" min="300" max="500" step="10">
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="calc-regression" style="margin-top: var(--spacing-lg);">Build Regression</button>
+
+        <!-- Regression Results -->
+        <div id="regression-results" style="margin-top: var(--spacing-lg);"></div>
+      </div>
+
+      <!-- Method Selection Scenarios -->
+      <div class="card">
+        <div class="card-header">
+          <h3>When to Use Which Method?</h3>
+        </div>
+        <p class="card-body">
+          Read each Cowford scenario and decide: qualitative, time-series, or causal (regression)?
+        </p>
+
+        <div class="scenario-container" id="scenario-container" style="margin-top: var(--spacing-lg);"></div>
+      </div>
+    </section>
+
+    <!-- PHASE 2: REINFORCEMENT LAB -->
+    <section class="phase-section">
+      <div class="phase-badge">Phase 2: Reinforcement Lab (15–20 min)</div>
+      <h2>Concept Check Quizzes</h2>
+      <p>Test your understanding with embedded quizzes pulled directly from W5.C. Immediate feedback helps you identify gaps before the formal assessment.</p>
+
+      <div id="quiz-container"></div>
+    </section>
+
+    <!-- PHASE 3: GUIDED DIAGNOSTIC -->
+    <section class="phase-section">
+      <div class="phase-badge">Phase 3: Guided Diagnostic (10–15 min)</div>
+      <h2>Step-by-Step Method Selection Framework</h2>
+      <p>
+        Follow this four-step framework to tackle any W5.D Cowford scenario. These are the same steps you'll use on the quiz.
+      </p>
+
+      <div id="diagnostic-container"></div>
+    </section>
+
+    <!-- PHASE 4: ASSIGNMENT READINESS -->
+    <section class="phase-section">
+      <div class="phase-badge">Phase 4: Assignment Readiness</div>
+      <h2>Before You Start W5.C & W5.D</h2>
+      <p>Use this checklist to confirm you're ready for the formal assessments.</p>
+
+      <div class="card">
+        <div class="card-body">
+          <h3>Readiness Checklist</h3>
+          <form id="readiness-checklist">
+            <div class="mb-md">
+              <input type="checkbox" id="check-1"> <label for="check-1">I can explain the difference between Delphi, market survey, and sales force composite methods</label>
+            </div>
+            <div class="mb-md">
+              <input type="checkbox" id="check-2"> <label for="check-2">I understand when to use qualitative methods vs. quantitative (time-series or regression)</label>
+            </div>
+            <div class="mb-md">
+              <input type="checkbox" id="check-3"> <label for="check-3">I can interpret a regression equation (slope, intercept) and explain what the slope means</label>
+            </div>
+            <div class="mb-md">
+              <input type="checkbox" id="check-4"> <label for="check-4">I know what R-squared represents and why high R² doesn't prove causation</label>
+            </div>
+            <div class="mb-md">
+              <input type="checkbox" id="check-5"> <label for="check-5">I understand the difference between demand forecasting and demand management</label>
+            </div>
+            <div class="mb-md">
+              <input type="checkbox" id="check-6"> <label for="check-6">I can identify the bullwhip effect and explain how data sharing reduces it</label>
+            </div>
+            <div class="mb-md">
+              <input type="checkbox" id="check-7"> <label for="check-7">I know why Delphi uses anonymity and iteration</label>
+            </div>
+            <div class="mb-lg">
+              <input type="checkbox" id="check-8"> <label for="check-8">I can apply method-selection logic to a Cowford Holdings scenario (Coffee, Brewery, Medical Supply, Green Build, or Logistics)</label>
+            </div>
+
+            <div id="readiness-result" style="margin-top: var(--spacing-lg);"></div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Next Steps</h3>
+        </div>
+        <div class="card-body">
+          <p><strong>W5.C — Concept Check:</strong> Canvas quiz on qualitative forecasting, regression, method selection (15 questions, 30 min)</p>
+          <p><strong>W5.D — Application Quiz:</strong> Real Cowford scenario requiring method selection and interpretation (35 min)</p>
+          <p><strong>Tip:</strong> Revisit this lab if you miss more than 3 questions on W5.C.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../../js/shared.js"></script>
+  <script src="../../js/components.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

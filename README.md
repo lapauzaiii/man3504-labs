@@ -27,15 +27,29 @@ Each lab follows a **four-phase learning arc**:
 
 ## Current Labs
 
+### Week 5: Forecasting Methods ✨ NEW
+**URL:** `https://lapauzaiii.github.io/man3504-labs/labs/w5-forecasting/`
+
+- **Phase 1:** Interactive regression calculator (Cowford Coffee cold brew) + method-selection scenarios across all five subsidiaries
+- **Phase 2:** 5 concept-check quizzes (exact alignment with W5.C: Delphi method, sales force composite, market survey, regression slope, R-squared interpretation)
+- **Phase 3:** 4-step method-selection framework (Assess Context → Identify Data/Experts → Check Demand Drivers → Select & Justify)
+- **Phase 4:** 8-item readiness checklist
+
+**Cowford Explorers:** Coffee (regression trend), Green Build (Delphi strategic), Logistics (causal/e-commerce), Medical Supply (sales force), Brewery (bullwhip/demand management)
+
+**Lab Focus:** Qualitative methods (Delphi, market survey, sales force composite) vs. quantitative (regression, trend projection). When each method is strongest. Interpreting regression output (slope, intercept, R²). Demand management vs. forecasting. Bullwhip effect and supply chain collaboration.
+
+---
+
 ### Week 6: MRP & Aggregate Planning
 **URL:** `https://lapauzaiii.github.io/man3504-labs/labs/w6-mrp/`
 
-- **Phase 1:** Aggregate planning calculator (chase/smooth/hybrid strategies for Brewery, Medical Supply, Green Build) + MRP calculator with BOM explosion
+- **Phase 1:** Aggregate planning calculator (chase/smooth/hybrid strategies) + MRP calculator with BOM explosion
 - **Phase 2:** 4 concept-check quizzes (chase costs, level production, BOM definition, lead time offsetting)
 - **Phase 3:** 5-step diagnostic (Assess Demand → Determine Constraints → Choose Strategy → Build Schedule/Explode BOM → Document Assumptions)
 - **Phase 4:** 8-item readiness checklist
 
-**Cowford Anchor:** Brewery (seasonal), Medical Supply (stable), Green Build (volatile)
+**Cowford Anchors:** Brewery (seasonal), Medical Supply (stable), Green Build (volatile)
 
 ---
 
@@ -77,25 +91,37 @@ All labs are self-contained; no backend or API required.
 ```
 man3504-labs/
 ├── README.md                          # This file
-├── index.html                         # Landing page (coming soon)
+├── index.html                         # Landing page
 ├── styles/
 │   └── shared.css                     # UNF-branded responsive CSS
 ├── js/
 │   ├── shared.js                      # Utilities, theme, analytics
 │   └── components.js                  # Reusable component library
 ├── labs/
-│   ├── w6-mrp/
-│   │   ├── index.html                 # W6 lab interface
-│   │   └── js/
-│   │       └── app.js                 # W6 calculations & quizzes
-│   ├── w8-supply-chain/               # (In development)
-│   ├── w9-inventory/                  # (In development)
-│   └── w12-spc/                       # (In development)
+│   ├── w5-forecasting/                # ✓ LIVE
+│   │   ├── index.html
+│   │   └── js/app.js
+│   ├── w6-mrp/                        # ✓ LIVE
+│   │   ├── index.html
+│   │   └── js/app.js
+│   ├── w8-supply-chain/               # (Placeholder, in development)
+│   ├── w9-inventory/                  # (Placeholder, in development)
+│   ├── w10-lean/                      # (Placeholder, in development)
+│   ├── w11-quality/                   # (Placeholder, in development)
+│   ├── w12-spc/                       # (Placeholder, in development)
+│   ├── w13-ethics/                    # (Placeholder, in development)
+│   └── w14-performance/               # (Placeholder, in development)
 └── docs/
-    ├── ARCHITECTURE.md                # Component library patterns
     ├── CANVAS-EMBEDDING.md            # Embedding guide
-    └── LAB-TEMPLATE.md                # Template for new labs
+    └── [LAB-TEMPLATE.md] (to be created)
 ```
+
+**Build Priority (Next):**
+1. ✓ Week 5 — Forecasting (LIVE)
+2. ✓ Week 6 — MRP (LIVE)
+3. Week 8 — Supply Chain (next)
+4. Week 9 — Inventory
+5. Week 10–14 — Conceptual tier
 
 ---
 
