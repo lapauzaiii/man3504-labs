@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAN3504 Interactive Labs | Operations Management</title>
+  <link rel="stylesheet" href="styles/shared.css">
+  <style>
+    .hero {
+      background: linear-gradient(135deg, var(--unf-navy) 0%, rgba(14, 40, 65, 0.9) 100%);
+      color: white;
+      padding: var(--spacing-xl) var(--spacing-lg);
+      text-align: center;
+      margin-bottom: var(--spacing-xl);
+      border-bottom: 4px solid var(--unf-orange);
+    }
+
+    .hero h1 {
+      margin: 0 0 var(--spacing-md) 0;
+      color: white;
+      font-size: var(--font-size-2xl);
+    }
+
+    .hero p {
+      font-size: var(--font-size-lg);
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+    }
+
+    .labs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--spacing-lg);
+      margin: var(--spacing-xl) 0;
+    }
+
+    .lab-card {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .lab-card:hover {
+      border-color: var(--unf-orange);
+      box-shadow: var(--shadow-md);
+    }
+
+    .lab-card h3 {
+      color: var(--unf-navy);
+      margin: 0 0 var(--spacing-md) 0;
+    }
+
+    .lab-card .week-badge {
+      display: inline-block;
+      background-color: var(--unf-orange);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .lab-card p {
+      font-size: var(--font-size-sm);
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .lab-card .cowford-anchor {
+      background-color: rgba(233, 113, 50, 0.1);
+      border-left: 4px solid var(--unf-orange);
+      padding: var(--spacing-sm) var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      border-radius: 4px;
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+    }
+
+    .btn-launch {
+      display: inline-block;
+      background-color: var(--unf-navy);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-launch:hover {
+      background-color: #0d2033;
+      box-shadow: var(--shadow-md);
+    }
+
+    .lab-card.coming-soon {
+      opacity: 0.6;
+    }
+
+    .lab-card.coming-soon .btn-launch {
+      background-color: var(--text-secondary);
+      cursor: not-allowed;
+    }
+
+    .info-section {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      margin: var(--spacing-xl) 0;
+    }
+
+    .info-section h2 {
+      color: var(--unf-navy);
+      margin-top: 0;
+    }
+
+    .info-section ul {
+      margin: var(--spacing-md) 0;
+      padding-left: var(--spacing-lg);
+    }
+
+    .info-section li {
+      margin-bottom: var(--spacing-sm);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>MAN3504 Interactive Labs</h1>
+    <p>Operations Management | Cowford Holdings Case Universe</p>
+  </div>
+
+  <div class="container">
+    <!-- Labs Grid -->
+    <h2 style="color: var(--unf-navy); margin-top: 0;">Available Labs</h2>
+    <div class="labs-grid">
+      <!-- Week 6: MRP & Aggregate Planning (Live) -->
+      <div class="lab-card">
+        <div class="week-badge">Week 6</div>
+        <h3>MRP & Aggregate Planning</h3>
+        <p>Discover how aggregate planning and MRP work by manipulating real Cowford scenarios. Explore chase vs. smooth production strategies and BOM explosion.</p>
+        <div class="cowford-anchor">
+          <strong>Anchors:</strong> Brewery (seasonal), Medical Supply (stable), Green Build (volatile)
+        </div>
+        <a href="labs/w6-mrp/" class="btn-launch">Launch Lab →</a>
+      </div>
+
+      <!-- Week 8: Supply Chain (In Development) -->
+      <div class="lab-card coming-soon">
+        <div class="week-badge" style="background-color: var(--text-secondary);">Week 8</div>
+        <h3>Supply Chain Network Design</h3>
+        <p>Optimize supplier networks, lead times, and distribution strategies across Cowford subsidiaries.</p>
+        <div class="cowford-anchor">
+          <strong>Anchor:</strong> Logistics (in development)
+        </div>
+        <button class="btn-launch" disabled>Coming Soon</button>
+      </div>
+
+      <!-- Week 9: Inventory (In Development) -->
+      <div class="lab-card coming-soon">
+        <div class="week-badge" style="background-color: var(--text-secondary);">Week 9</div>
+        <h3>Inventory Management</h3>
+        <p>Balance holding costs vs. stockout risk. Explore EOQ, safety stock, and reorder points under demand uncertainty.</p>
+        <div class="cowford-anchor">
+          <strong>Anchor:</strong> Green Build (in development)
+        </div>
+        <button class="btn-launch" disabled>Coming Soon</button>
+      </div>
+
+      <!-- Week 12: Statistical Process Control (In Development) -->
+      <div class="lab-card coming-soon">
+        <div class="week-badge" style="background-color: var(--text-secondary);">Week 12</div>
+        <h3>Statistical Process Control</h3>
+        <p>Monitor process variation with control charts. Detect assignable causes and make improvement decisions.</p>
+        <div class="cowford-anchor">
+          <strong>Anchor:</strong> Brewery (in development)
+        </div>
+        <button class="btn-launch" disabled>Coming Soon</button>
+      </div>
+    </div>
+
+    <!-- How to Use -->
+    <div class="info-section">
+      <h2>How to Use These Labs</h2>
+      <p>These interactive labs are <strong>practice tools</strong> to help you master course concepts. They are <strong>not graded</strong> but are designed to prepare you for formal Canvas assessments (W#.C Concept Check and W#.D Application Quiz).</p>
+
+      <h3>Four-Phase Learning Arc</h3>
+      <ul>
+        <li><strong>Phase 1: Live Session</strong> — Manipulate real Cowford scenarios and see how changes ripple through operations.</li>
+        <li><strong>Phase 2: Reinforcement Lab</strong> — Test your understanding with embedded quizzes and get immediate feedback.</li>
+        <li><strong>Phase 3: Guided Diagnostic</strong> — Follow a step-by-step framework to solve problems identical in structure to W#.D.</li>
+        <li><strong>Phase 4: Assignment Readiness</strong> — Use the checklist to confirm you're ready for formal assessments.</li>
+      </ul>
+
+      <h3>Canvas Integration</h3>
+      <p>Labs can be embedded directly in Canvas pages using an iframe. Your instructor will provide embedded links in each week's module.</p>
+    </div>
+
+    <!-- Course Overview -->
+    <div class="info-section">
+      <h2>About MAN3504</h2>
+      <p><strong>Operations Management</strong> is a 14-week course exploring how organizations design and manage production processes, supply chains, and service delivery. All course content is anchored in <strong>Cowford Holdings</strong>, a fictional holding company with five operating subsidiaries:</p>
+
+      <ul>
+        <li><strong>Medical Supply</strong> — Stable contracts, high quality, predictable demand</li>
+        <li><strong>Brewery</strong> — Seasonal demand, production smoothing, ingredient sourcing</li>
+        <li><strong>Green Build</strong> — New market, 3-year ramp, capacity under uncertainty</li>
+        <li><strong>Fitness</strong> — Capacity distribution, demand shifting by season/program</li>
+        <li><strong>Logistics</strong> — Scheduling, throughput constraints, on-time performance</li>
+      </ul>
+
+      <p>Each interactive lab rotates these anchors so you see how different operations strategies apply across industries and business models.</p>
+    </div>
+
+    <!-- Support -->
+    <div class="info-section">
+      <h2>Questions or Feedback?</h2>
+      <p>If you encounter any issues with a lab or have suggestions for improvement, please reach out to your instructor via Canvas or email.</p>
+      <p style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-top: var(--spacing-lg);">
+        MAN3504 Interactive Labs — Built for UNF Operations Management Course, Spring 2026
+      </p>
+    </div>
+  </div>
+
+  <script src="js/shared.js"></script>
+</body>
+</html>

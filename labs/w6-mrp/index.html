@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 6: MRP & Aggregate Planning | MAN3504</title>
+  <link rel="stylesheet" href="../styles/shared.css">
+  <style>
+    /* W6-specific styles */
+    .mrp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--spacing-lg) 0;
+      background-color: var(--bg-primary);
+    }
+
+    .mrp-table th,
+    .mrp-table td {
+      padding: var(--spacing-sm);
+      border: 1px solid var(--border-color);
+      text-align: right;
+      font-size: var(--font-size-sm);
+    }
+
+    .mrp-table th {
+      background-color: var(--unf-navy);
+      color: white;
+      font-weight: 600;
+    }
+
+    .mrp-table td:first-child,
+    .mrp-table th:first-child {
+      text-align: left;
+    }
+
+    .mrp-table tbody tr:hover {
+      background-color: var(--bg-secondary);
+    }
+
+    .bom-tree {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      margin: var(--spacing-lg) 0;
+      font-family: monospace;
+      font-size: var(--font-size-sm);
+    }
+
+    .bom-tree-item {
+      margin: var(--spacing-sm) 0;
+      padding-left: calc(var(--spacing-lg) * 2);
+    }
+
+    .bom-tree-item.level-0 { padding-left: 0; font-weight: 600; color: var(--unf-navy); }
+    .bom-tree-item.level-1 { padding-left: var(--spacing-lg); }
+    .bom-tree-item.level-2 { padding-left: calc(var(--spacing-lg) * 2); }
+
+    .phase-section {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .phase-badge {
+      display: inline-block;
+      background-color: var(--unf-orange);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+      font-size: var(--font-size-sm);
+    }
+
+    .calculation-box {
+      background-color: #f0f4ff;
+      border-left: 4px solid var(--unf-navy);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      margin: var(--spacing-md) 0;
+      font-family: monospace;
+      font-size: var(--font-size-sm);
+    }
+
+    [data-theme="dark"] .calculation-box {
+      background-color: #1a2340;
+    }
+
+    .cowford-case-box {
+      background-color: var(--bg-secondary);
+      border-top: 4px solid;
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      margin: var(--spacing-lg) 0;
+    }
+
+    .scenario-input-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+      margin: var(--spacing-lg) 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="lab-header">
+    <h1>Week 6: Operations Planning</h1>
+    <p class="lab-subtitle">Aggregate Planning & Material Requirements Planning (MRP)</p>
+  </div>
+
+  <div class="container">
+    <!-- PHASE 1: LIVE SESSION -->
+    <section class="phase-section">
+      <div class="phase-badge">Phase 1: Live Session (30–40 min)</div>
+      <h2>Aggregate Planning & MRP Explorer</h2>
+      <p>
+        In this phase, you'll discover how aggregate planning and MRP work by manipulating real Cowford scenarios.
+        See how changes in forecast, production strategy, and lead times ripple through the supply chain.
+      </p>
+
+      <!-- Aggregate Planning Scenario -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Aggregate Planning: Brewery Production Strategy</h3>
+        </div>
+        <p class="card-body">
+          The Brewery faces <strong>seasonal demand</strong>. Decide between three strategies: produce-to-demand (chase),
+          level production (smooth), or hybrid. See cost trade-offs.
+        </p>
+
+        <div class="scenario-input-group">
+          <div>
+            <label for="ap-demand">Demand Pattern:</label>
+            <select id="ap-demand">
+              <option value="stable">Stable (Medical Supply)</option>
+              <option value="seasonal" selected>Seasonal (Brewery)</option>
+              <option value="volatile">Volatile (Green Build)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="ap-strategy">Production Strategy:</label>
+            <select id="ap-strategy">
+              <option value="chase">Chase Demand</option>
+              <option value="smooth" selected>Level Production</option>
+              <option value="hybrid">Hybrid (75/25)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="ap-months">Planning Horizon (months):</label>
+            <input type="number" id="ap-months" value="12" min="6" max="24" step="1">
+          </div>
+        </div>
+
+        <div class="d-flex" id="ap-buttons" style="gap: var(--spacing-md); margin-top: var(--spacing-lg);"></div>
+
+        <!-- Results Panel -->
+        <div id="ap-results" style="margin-top: var(--spacing-lg);"></div>
+      </div>
+
+      <!-- MRP Scenario -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Material Requirements Planning: Green Build Product</h3>
+        </div>
+        <p class="card-body">
+          Green Build launches a new product with multiple components. Enter the Bill of Materials (BOM) and master schedule.
+          Watch the system explode requirements and calculate planned order releases.
+        </p>
+
+        <div>
+          <h4>Product BOM</h4>
+          <div class="bom-tree" id="bom-display">
+            <div class="bom-tree-item level-0">Finished Product (1 unit)</div>
+            <div class="bom-tree-item level-1">├─ Component A (2 units)</div>
+            <div class="bom-tree-item level-1">├─ Component B (1 unit)</div>
+            <div class="bom-tree-item level-2">│  └─ Raw Material B1 (3 units per B)</div>
+            <div class="bom-tree-item level-1">└─ Component C (1 unit)</div>
+          </div>
+        </div>
+
+        <div class="scenario-input-group">
+          <div>
+            <label for="mrp-demand-week">Demand (Week 1, units):</label>
+            <input type="number" id="mrp-demand-week" value="100" min="10" max="500" step="10">
+          </div>
+
+          <div>
+            <label for="mrp-lead-a">Lead Time Component A (weeks):</label>
+            <input type="number" id="mrp-lead-a" value="2" min="1" max="8" step="1">
+          </div>
+
+          <div>
+            <label for="mrp-lead-b">Lead Time Component B (weeks):</label>
+            <input type="number" id="mrp-lead-b" value="3" min="1" max="8" step="1">
+          </div>
+
+          <div>
+            <label for="mrp-ss">Safety Stock (all items, units):</label>
+            <input type="number" id="mrp-ss" value="20" min="0" max="100" step="5">
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="mrp-calculate" style="margin-top: var(--spacing-lg);">Calculate MRP</button>
+
+        <!-- MRP Results -->
+        <div id="mrp-results" style="margin-top: var(--spacing-lg);"></div>
+      </div>
+    </section>
+
+    <!-- PHASE 2: REINFORCEMENT LAB -->
+    <section class="phase-section">
+      <div class="phase-badge">Phase 2: Reinforcement Lab (15–20 min)</div>
+      <h2>Concept Check Quizzes</h2>
+      <p>Test your understanding with embedded quizzes. Immediate feedback helps you identify gaps.</p>
+
+      <div id="quiz-container"></div>
+    </section>
+
+    <!-- PHASE 3: GUIDED DIAGNOSTIC -->
+    <section class="phase-section">
+      <div class="phase-badge">Phase 3: Guided Diagnostic (10–15 min)</div>
+      <h2>Step-by-Step Walkthrough</h2>
+      <p>
+        Follow this five-step framework to solve any aggregate planning or MRP problem you encounter on W6.D.
+      </p>
+
+      <div id="diagnostic-container"></div>
+    </section>
+
+    <!-- PHASE 4: ASSIGNMENT READINESS -->
+    <section class="phase-section">
+      <div class="phase-badge">Phase 4: Assignment Readiness</div>
+      <h2>Before You Start W6.C & W6.D</h2>
+      <p>Use this checklist to confirm you're ready for the formal assessments.</p>
+
+      <div class="card">
+        <div class="card-body">
+          <h3>Readiness Checklist</h3>
+          <form id="readiness-checklist">
+            <div class="mb-md">
+              <input type="checkbox" id="check-1"> <label for="check-1">I can explain the difference between chase and level production strategies</label>
+            </div>
+            <div class="mb-md">
+              <input type="checkbox" id="check-2"> <label for="check-2">I understand how to calculate holding costs vs. setup costs for each strategy</label>
+            </div>
+            <div class="mb-md">
+              <input type="checkbox" id="check-3"> <label for="check-3">I know how to read and interpret a Bill of Materials (BOM)</label>
+            </div>
+            <div class="mb-md">
+              <input type="checkbox" id="check-4"> <label for="check-4">I can explode gross requirements into planned order releases using MRP logic</label>
+            </div>
+            <div class="mb-md">
+              <input type="checkbox" id="check-5"> <label for="check-5">I understand lead time offsetting and why it matters in MRP</label>
+            </div>
+            <div class="mb-md">
+              <input type="checkbox" id="check-6"> <label for="check-6">I can explain how safety stock affects inventory costs and service levels</label>
+            </div>
+            <div class="mb-md">
+              <input type="checkbox" id="check-7"> <label for="check-7">I know the four inputs to MRP: demand forecast, BOM, lead times, and current inventory</label>
+            </div>
+            <div class="mb-lg">
+              <input type="checkbox" id="check-8"> <label for="check-8">I can apply these concepts to a Cowford Holdings scenario (Brewery, Green Build, or Medical Supply)</label>
+            </div>
+
+            <div id="readiness-result" style="margin-top: var(--spacing-lg);"></div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Next Steps</h3>
+        </div>
+        <div class="card-body">
+          <p><strong>W6.C — Concept Check:</strong> Canvas quiz on aggregate planning and MRP fundamentals (10 questions, 20 min)</p>
+          <p><strong>W6.D — Application Quiz:</strong> Real Cowford scenario requiring aggregate planning or MRP analysis (30 min)</p>
+          <p><strong>Tip:</strong> Revisit this lab if you miss more than 2 questions on W6.C.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/shared.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
