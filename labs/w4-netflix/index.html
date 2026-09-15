@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base target="_parent">
+  <title>Week 4: Netflix Excel Assignment | MAN3504</title>
+  <link rel="stylesheet" href="../../styles/shared.css">
+  <style>
+    .assignment-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+      gap: var(--spacing-lg);
+      align-items: start;
+    }
+
+    .phase-badge {
+      display: inline-block;
+      background-color: var(--unf-orange);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+      font-size: var(--font-size-sm);
+    }
+
+    .step-list {
+      display: grid;
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-md);
+    }
+
+    .step-card {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: var(--spacing-md);
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--border-radius);
+      background-color: var(--unf-navy);
+      color: white;
+      font-weight: 700;
+      font-size: var(--font-size-lg);
+    }
+
+    .step-card h3 {
+      margin: 0 0 var(--spacing-xs) 0;
+      color: var(--unf-navy);
+    }
+
+    .step-card p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: var(--font-size-sm);
+    }
+
+    .callout {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--unf-orange);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .callout h3 {
+      margin: 0 0 var(--spacing-sm) 0;
+      color: var(--unf-navy);
+    }
+
+    .callout p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: var(--font-size-sm);
+    }
+
+    .callout.success {
+      border-left-color: #28a745;
+    }
+
+    .callout.reminder {
+      border-left-color: var(--unf-navy);
+    }
+
+    .file-name {
+      display: block;
+      margin-top: var(--spacing-sm);
+      padding: var(--spacing-sm) var(--spacing-md);
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      color: var(--text-primary);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: var(--font-size-sm);
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: var(--spacing-md) 0 0 0;
+      display: grid;
+      gap: var(--spacing-sm);
+    }
+
+    .checklist li {
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr);
+      gap: var(--spacing-sm);
+      align-items: start;
+      font-size: var(--font-size-sm);
+      color: var(--text-secondary);
+    }
+
+    .checkmark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      background-color: #28a745;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .question-placeholder {
+      background-color: var(--bg-primary);
+      border: 1px dashed var(--border-color);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      margin-top: var(--spacing-md);
+      color: var(--text-secondary);
+      font-size: var(--font-size-sm);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: var(--spacing-md);
+    }
+
+    @media (max-width: 840px) {
+      .assignment-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .step-card {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="lab-header">
+    <h1>Week 4: Netflix Excel Assignment</h1>
+    <p class="lab-subtitle">Build the Excel file first, then use your results to complete the Canvas questions.</p>
+  </div>
+
+  <div class="container">
+    <div class="assignment-layout">
+      <main aria-label="Week 4 assignment instructions">
+        <section class="card">
+          <div class="phase-badge">Student Instructions</div>
+          <h2>Complete the Assignment in Order</h2>
+          <p>
+            This assignment has two parts: the Excel workbook and the written responses in Canvas.
+            Your answers should be based on the results from the completed workbook.
+          </p>
+
+          <div class="step-list">
+            <article class="step-card">
+              <span class="step-number">1</span>
+              <div>
+                <h3>Build the Necessary Excel File</h3>
+                <p>Follow the instructions provided in Canvas to create and complete the Week 4 Netflix Excel workbook.</p>
+              </div>
+            </article>
+
+            <article class="step-card">
+              <span class="step-number">2</span>
+              <div>
+                <h3>Return to Canvas and Answer the Questions</h3>
+                <p>Use the values, charts, and calculations from your finished Excel file to answer the questions below.</p>
+              </div>
+            </article>
+
+            <article class="step-card">
+              <span class="step-number">3</span>
+              <div>
+                <h3>Review the Assignment Rubric</h3>
+                <p>The assignment rubric is posted in Canvas. Check the rubric before submitting your final work.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <h3>Questions to Answer</h3>
+          </div>
+          <p>
+            Answer the Canvas questions using the results from your Excel file. Make sure your written responses match the workbook you upload.
+          </p>
+          <div class="question-placeholder">
+            The question prompts are listed in Canvas. Complete the Excel file first so your responses are supported by your calculations.
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <h3>Submission Checklist</h3>
+          </div>
+          <p>Submit both required items before the deadline.</p>
+          <ul class="checklist">
+            <li><span class="checkmark">&#10003;</span><span>Answer the questions in Canvas using results from the Excel file.</span></li>
+            <li><span class="checkmark">&#10003;</span><span>Upload the completed Excel workbook with the required file name.</span></li>
+          </ul>
+        </section>
+      </main>
+
+      <aside class="sidebar" aria-label="Submission reminders">
+        <div class="callout success">
+          <h3>What You Turn In</h3>
+          <p>Submit your Canvas answers and upload the completed Excel workbook.</p>
+        </div>
+
+        <div class="callout reminder">
+          <h3>File Name</h3>
+          <p>Name your Excel file exactly as shown:</p>
+          <span class="file-name">LastName_FirstName_Week4_Netflix.xlsx</span>
+        </div>
+
+        <div class="callout">
+          <h3>Before Submitting</h3>
+          <p>Confirm that your Canvas answers are consistent with the calculations in your uploaded workbook.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>
