@@ -95,6 +95,46 @@
       border-left-color: var(--unf-navy);
     }
 
+    .callout.deadline {
+      border-left-color: #dc3545;
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-md);
+    }
+
+    .download-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--spacing-sm);
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      box-shadow: var(--shadow-sm);
+      min-height: 190px;
+    }
+
+    .download-card h3 {
+      margin: 0;
+      color: var(--unf-navy);
+    }
+
+    .download-card p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: var(--font-size-sm);
+    }
+
+    .download-card .btn {
+      align-self: flex-start;
+      margin-top: var(--spacing-sm);
+    }
+
     .file-name {
       display: block;
       margin-top: var(--spacing-sm);
@@ -109,12 +149,25 @@
       overflow-wrap: anywhere;
     }
 
+    .detail-list,
     .checklist {
       list-style: none;
       padding: 0;
       margin: var(--spacing-md) 0 0 0;
       display: grid;
       gap: var(--spacing-sm);
+    }
+
+    .detail-list {
+      list-style: disc;
+      padding-left: var(--spacing-lg);
+    }
+
+    .detail-list li {
+      color: var(--text-secondary);
+      font-size: var(--font-size-sm);
+      line-height: 1.6;
+      margin-bottom: var(--spacing-xs);
     }
 
     .checklist li {
@@ -140,14 +193,49 @@
       line-height: 1;
     }
 
-    .question-placeholder {
+    .question-list {
       background-color: var(--bg-primary);
-      border: 1px dashed var(--border-color);
+      border: 1px solid var(--border-color);
       border-radius: var(--border-radius);
       padding: var(--spacing-md);
       margin-top: var(--spacing-md);
       color: var(--text-secondary);
       font-size: var(--font-size-sm);
+    }
+
+    .question-list ol {
+      margin: 0;
+      padding-left: var(--spacing-lg);
+    }
+
+    .question-list li {
+      margin-bottom: var(--spacing-md);
+      line-height: 1.6;
+    }
+
+    .question-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .question-list strong {
+      color: var(--text-primary);
+    }
+
+    .email-format {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      margin-top: var(--spacing-md);
+      font-size: var(--font-size-sm);
+    }
+
+    .email-format p {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .email-format p:last-child {
+      margin-bottom: 0;
     }
 
     .sidebar {
@@ -181,6 +269,43 @@
   <div class="container">
     <div class="assignment-layout">
       <main aria-label="Week 4 assignment instructions">
+        <section class="callout deadline" aria-label="Updated due date">
+          <h3>Updated Due Date</h3>
+          <p><strong>Sunday, September 20, 2026, at 11:59 PM EST.</strong> Submit through Canvas if Canvas is working. Use the email backup only if Canvas is unavailable or the upload tool is not working close to the deadline.</p>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <h3>Download the Assignment Files</h3>
+          </div>
+          <p>Use these files if Canvas is slow, unavailable, or not displaying the assignment materials correctly.</p>
+          <div class="download-grid">
+            <article class="download-card">
+              <div>
+                <h3>Netflix Starter File</h3>
+                <p>Use this workbook for your submitted Excel file. It includes the Netflix revenue data and starter instructions.</p>
+              </div>
+              <a class="btn btn-primary" href="downloads/week4-forecasting-netflix-starter.xlsx" download>Download Netflix Starter</a>
+            </article>
+
+            <article class="download-card">
+              <div>
+                <h3>Starbucks Template</h3>
+                <p>Use this as the model for how the Forecasts sheet should be structured. Do not submit the Starbucks file.</p>
+              </div>
+              <a class="btn btn-primary" href="downloads/week4-forecasting-starbucks-template.xlsx" download>Download Starbucks Template</a>
+            </article>
+
+            <article class="download-card">
+              <div>
+                <h3>Printable Assignment PDF</h3>
+                <p>Use this PDF as a backup copy of the Canvas assignment questions and file upload reminder.</p>
+              </div>
+              <a class="btn btn-primary" href="downloads/week4-netflix-assignment.pdf" target="_blank" rel="noopener">Open Assignment PDF</a>
+            </article>
+          </div>
+        </section>
+
         <section class="card">
           <div class="phase-badge">Student Instructions</div>
           <h2>Complete the Assignment in Order</h2>
@@ -194,7 +319,7 @@
               <span class="step-number">1</span>
               <div>
                 <h3>Build the Necessary Excel File</h3>
-                <p>Follow the instructions provided in Canvas to create and complete the Week 4 Netflix Excel workbook.</p>
+                <p>Open the Netflix starter file. Use the Starbucks template as your model for building the Forecasts sheet.</p>
               </div>
             </article>
 
@@ -218,13 +343,44 @@
 
         <section class="card">
           <div class="card-header">
+            <h3>Excel Workbook Instructions</h3>
+          </div>
+          <p>Your Netflix workbook should follow the Starbucks template structure.</p>
+          <ul class="detail-list">
+            <li>Use the <strong>Data</strong> sheet in the Netflix starter file as your base data.</li>
+            <li>Create a new sheet named <strong>Forecasts</strong>.</li>
+            <li>Include controls for weighted moving average weights, the exponential smoothing alpha value, and the initial exponential smoothing forecast.</li>
+            <li>Build forecast columns for 3-year moving average, 3-term weighted moving average, and exponential smoothing.</li>
+            <li>Build error columns for Error, absolute error, squared error, and absolute percentage error.</li>
+            <li>Add summary cells for MAD, MSE, and MAPE.</li>
+            <li>Experiment with at least two weighted moving average weight sets and three alpha values.</li>
+            <li>Use the completed workbook results to answer the Canvas questions.</li>
+          </ul>
+          <p style="margin-top: var(--spacing-md);">
+            Helpful Canvas links:
+            <a href="https://canvas.unf.edu/courses/130266/pages/individual-case-study-4-instructions-and-rubric" target="_blank" rel="noopener">instructions and rubric page</a>
+            and
+            <a href="https://canvas.unf.edu/courses/130266/assignments/1887590" target="_blank" rel="noopener">assignment rubric</a>.
+          </p>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
             <h3>Questions to Answer</h3>
           </div>
           <p>
-            Answer the Canvas questions using the results from your Excel file. Make sure your written responses match the workbook you upload.
+            Answer these items in Canvas using the results from your Excel file. The prompts are repeated here so you can keep working if Canvas is slow, but submit in Canvas whenever possible.
           </p>
-          <div class="question-placeholder">
-            The question prompts are listed in Canvas. Complete the Excel file first so your responses are supported by your calculations.
+          <div class="question-list">
+            <ol>
+              <li><strong>Multiple choice:</strong> Which method is most likely to lag behind during a rapid revenue increase?</li>
+              <li><strong>True or false:</strong> The smoothing constant alpha in exponential smoothing must always be between 0 and 1.</li>
+              <li><strong>Multiple choice:</strong> Using Netflix data, calculate the 3-year moving average forecast for 2007 using the 2004, 2005, and 2006 actuals. The actuals are 2004 = 506.2, 2005 = 682.2, and 2006 = 996.7.</li>
+              <li><strong>Essay:</strong> Set up exponential smoothing with alpha = 0.30 and the first actual as the initial forecast. Paste or type your formula for the first row where exponential smoothing uses both the prior Actual and prior Forecast. In 1-2 sentences, explain how alpha = 0.30 affects responsiveness.</li>
+              <li><strong>Matching:</strong> Match each business goal to the accuracy measure: minimize average error size, heavily punish rare big misses, and express error as a percent for comparisons. Possible measures: MAPE, MSE, and MAD.</li>
+              <li><strong>Essay:</strong> From your Netflix workbook, identify which method and settings produced the lowest MAPE overall. Then explain whether you would recommend a stable or responsive forecast for Netflix and why in 2-3 sentences.</li>
+              <li><strong>File upload:</strong> Submit your completed Netflix Excel workbook. Only submit one XLS or XLSX file.</li>
+            </ol>
           </div>
         </section>
 
@@ -236,14 +392,36 @@
           <ul class="checklist">
             <li><span class="checkmark">&#10003;</span><span>Answer the questions in Canvas using results from the Excel file.</span></li>
             <li><span class="checkmark">&#10003;</span><span>Upload the completed Excel workbook with the required file name.</span></li>
+            <li><span class="checkmark">&#10003;</span><span>Confirm your workbook includes a completed Forecasts sheet with MAD, MSE, and MAPE summaries.</span></li>
+            <li><span class="checkmark">&#10003;</span><span>Keep a copy of your submitted file until grades are posted.</span></li>
           </ul>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <h3>If Canvas Is Not Working</h3>
+          </div>
+          <p>
+            Canvas is still the preferred submission method. If Canvas is unavailable or the upload tool will not work close to the deadline, use email as a backup.
+          </p>
+          <div class="email-format">
+            <p><strong>Where to send:</strong> use Canvas Inbox or email <a href="mailto:louis.pauza@unf.edu?subject=MAN3504%20Week%204%20Netflix%20Submission%20-%20LastName%2C%20FirstName">louis.pauza@unf.edu</a>.</p>
+            <p><strong>Subject line:</strong> MAN3504 Week 4 Netflix Submission - LastName, FirstName</p>
+            <p><strong>Attach:</strong> your completed Excel file named <span class="file-name">LastName_FirstName_Week4_Netflix.xlsx</span></p>
+            <p><strong>Email body:</strong> paste your answers to Questions 1-6 and state that Canvas was not working for your submission.</p>
+          </div>
         </section>
       </main>
 
       <aside class="sidebar" aria-label="Submission reminders">
+        <div class="callout deadline">
+          <h3>Due Date</h3>
+          <p><strong>Sunday, September 20, 2026, 11:59 PM EST.</strong></p>
+        </div>
+
         <div class="callout success">
           <h3>What You Turn In</h3>
-          <p>Submit your Canvas answers and upload the completed Excel workbook.</p>
+          <p>Submit your Canvas answers and upload the completed Netflix Excel workbook.</p>
         </div>
 
         <div class="callout reminder">
@@ -255,6 +433,11 @@
         <div class="callout">
           <h3>Before Submitting</h3>
           <p>Confirm that your Canvas answers are consistent with the calculations in your uploaded workbook.</p>
+        </div>
+
+        <div class="callout">
+          <h3>Email Backup</h3>
+          <p>If Canvas is unavailable, email the workbook to louis.pauza@unf.edu and paste your answers in the message body. Use Canvas submission if it is working.</p>
         </div>
       </aside>
     </div>
