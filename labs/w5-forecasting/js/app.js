@@ -199,53 +199,70 @@ function displayScenarios() {
   const container = DOMUtils.query('#scenario-container');
   if (!container) return;
 
+  container.classList.add('flashcard-deck');
+
   scenarios.forEach((s, idx) => {
-    const card = DOMUtils.create('div', 'card');
-    card.style.marginBottom = 'var(--spacing-lg)';
+    let showingAnswer = false;
+    const card = DOMUtils.create('button', 'flashcard');
+    card.setAttribute('type', 'button');
+    card.setAttribute('aria-label', `Scenario ${idx + 1}: ${s.cowford}. Click to show answer.`);
 
-    const title = DOMUtils.create('h4', 'card-header mb-md');
-    title.textContent = `Scenario ${idx + 1}: ${s.cowford}`;
-    card.appendChild(title);
+    const renderCard = () => {
+      card.innerHTML = '';
+      const surface = DOMUtils.create('div', 'flashcard-surface');
 
-    const q = DOMUtils.create('p', 'mb-md');
-    q.textContent = s.question;
-    card.appendChild(q);
+      const side = DOMUtils.create('div', 'flashcard-side');
+      side.textContent = showingAnswer ? 'Answer' : 'Question';
 
-    const optList = DOMUtils.create('ul', 'answer-choice-list');
-    s.options.forEach((opt) => {
-      const item = DOMUtils.create('li', '');
-      item.textContent = opt;
-      optList.appendChild(item);
-    });
-    card.appendChild(optList);
+      const title = DOMUtils.create('div', 'flashcard-title');
+      title.textContent = `Scenario ${idx + 1}: ${s.cowford}`;
 
-    const answerBox = DOMUtils.create('div', 'calculation-result');
-    answerBox.classList.add('reveal-panel');
-    answerBox.setAttribute('id', `${s.id}-answer`);
-    answerBox.innerHTML = `
-      <strong>Best Answer:</strong> ${s.options[s.correct]}<br>
-      <strong>Why:</strong> ${s.explanation}<br>
-      <strong>Concept:</strong> ${s.concept}
-    `;
+      const main = DOMUtils.create('div', 'flashcard-main');
+      main.textContent = showingAnswer ? s.options[s.correct] : s.question;
 
-    const revealBtn = DOMUtils.create('button', 'btn btn-secondary');
-    revealBtn.setAttribute('type', 'button');
-    revealBtn.setAttribute('aria-expanded', 'false');
-    revealBtn.setAttribute('aria-controls', `${s.id}-answer`);
-    revealBtn.textContent = 'Reveal Best Answer';
-    revealBtn.addEventListener('click', () => {
-      const isVisible = answerBox.classList.toggle('visible');
-      revealBtn.setAttribute('aria-expanded', String(isVisible));
-      revealBtn.textContent = isVisible ? 'Hide Best Answer' : 'Reveal Best Answer';
-      analytics.track('scenario_answer_toggled', {
+      const detail = DOMUtils.create('div', 'flashcard-detail');
+      if (showingAnswer) {
+        detail.innerHTML = `
+          <strong>Why:</strong> ${s.explanation}<br>
+          <strong>Concept:</strong> ${s.concept}
+        `;
+      } else {
+        const optList = DOMUtils.create('ul', 'answer-choice-list');
+        s.options.forEach((opt) => {
+          const item = DOMUtils.create('li', '');
+          item.textContent = opt;
+          optList.appendChild(item);
+        });
+        detail.appendChild(optList);
+      }
+
+      const prompt = DOMUtils.create('div', 'flashcard-prompt');
+      prompt.textContent = showingAnswer ? 'Click to return to the question' : 'Click card to check your answer';
+
+      surface.appendChild(side);
+      surface.appendChild(title);
+      surface.appendChild(main);
+      surface.appendChild(detail);
+      surface.appendChild(prompt);
+      card.appendChild(surface);
+    };
+
+    card.addEventListener('click', () => {
+      showingAnswer = !showingAnswer;
+      card.setAttribute(
+        'aria-label',
+        showingAnswer
+          ? `Scenario ${idx + 1}: ${s.cowford}. Answer shown. Click to return to question.`
+          : `Scenario ${idx + 1}: ${s.cowford}. Click to show answer.`
+      );
+      renderCard();
+      analytics.track('scenario_flashcard_toggled', {
         scenario: s.id,
-        visible: isVisible,
+        showingAnswer,
       });
     });
 
-    card.appendChild(revealBtn);
-    card.appendChild(answerBox);
-
+    renderCard();
     container.appendChild(card);
   });
 }
@@ -312,80 +329,63 @@ function initializeQuizzes() {
   if (!container) return;
 
   let currentIndex = 0;
+  let showingAnswer = false;
 
   const renderQuizCard = () => {
     const q = quizzes[currentIndex];
     container.innerHTML = '';
 
-    const card = DOMUtils.create('div', 'quiz-flip-card');
-    const inner = DOMUtils.create('div', 'quiz-flip-inner');
+    const card = DOMUtils.create('button', 'flashcard');
+    card.setAttribute('type', 'button');
+    card.setAttribute(
+      'aria-label',
+      showingAnswer
+        ? `Question ${currentIndex + 1}. Answer shown. Click to return to question.`
+        : `Question ${currentIndex + 1}. Click to show answer.`
+    );
 
-    const front = DOMUtils.create('div', 'quiz-card-face quiz-card-front');
-    front.setAttribute('aria-hidden', 'false');
-    front.hidden = false;
-    const frontLabel = DOMUtils.create('div', 'quiz-card-label');
-    frontLabel.textContent = `Question ${currentIndex + 1} of ${quizzes.length}`;
+    const surface = DOMUtils.create('div', 'flashcard-surface');
+    const side = DOMUtils.create('div', 'flashcard-side');
+    side.textContent = showingAnswer ? 'Answer' : 'Question';
 
-    const question = DOMUtils.create('h3', 'mb-lg');
-    question.textContent = q.question;
+    const title = DOMUtils.create('div', 'flashcard-title');
+    title.textContent = `Concept Check ${currentIndex + 1} of ${quizzes.length}`;
 
-    const choices = DOMUtils.create('ul', 'answer-choice-list');
-    q.options.forEach((option) => {
-      const item = DOMUtils.create('li', '');
-      item.textContent = option;
-      choices.appendChild(item);
-    });
+    const main = DOMUtils.create('div', 'flashcard-main');
+    main.textContent = showingAnswer ? q.options[q.correctAnswer] : q.question;
 
-    const revealBtn = DOMUtils.create('button', 'btn btn-primary');
-    revealBtn.setAttribute('type', 'button');
-    revealBtn.textContent = 'Flip to Answer';
-    revealBtn.addEventListener('click', () => {
-      card.classList.add('is-flipped');
-      front.setAttribute('aria-hidden', 'true');
-      front.hidden = true;
-      back.setAttribute('aria-hidden', 'false');
-      back.hidden = false;
+    const detail = DOMUtils.create('div', 'flashcard-detail');
+    if (showingAnswer) {
+      detail.textContent = q.explanation;
+    } else {
+      const choices = DOMUtils.create('ul', 'answer-choice-list');
+      q.options.forEach((option) => {
+        const item = DOMUtils.create('li', '');
+        item.textContent = option;
+        choices.appendChild(item);
+      });
+      detail.appendChild(choices);
+    }
+
+    const prompt = DOMUtils.create('div', 'flashcard-prompt');
+    prompt.textContent = showingAnswer ? 'Click to return to the question' : 'Click card to flip to the answer';
+
+    surface.appendChild(side);
+    surface.appendChild(title);
+    surface.appendChild(main);
+    surface.appendChild(detail);
+    surface.appendChild(prompt);
+    card.appendChild(surface);
+
+    card.addEventListener('click', () => {
+      showingAnswer = !showingAnswer;
       analytics.track('quiz_answer_revealed', {
         question: q.id,
+        showingAnswer,
       });
+      renderQuizCard();
     });
 
-    front.appendChild(frontLabel);
-    front.appendChild(question);
-    front.appendChild(choices);
-    front.appendChild(revealBtn);
-
-    const back = DOMUtils.create('div', 'quiz-card-face quiz-card-back');
-    back.setAttribute('aria-hidden', 'true');
-    back.hidden = true;
-    const backLabel = DOMUtils.create('div', 'quiz-card-label');
-    backLabel.textContent = 'Correct Answer';
-
-    const answer = DOMUtils.create('h3', 'mb-md');
-    answer.textContent = q.options[q.correctAnswer];
-
-    const explanation = DOMUtils.create('p', 'mb-lg');
-    explanation.textContent = q.explanation;
-
-    const reviewBtn = DOMUtils.create('button', 'btn btn-secondary');
-    reviewBtn.setAttribute('type', 'button');
-    reviewBtn.textContent = 'Review Question';
-    reviewBtn.addEventListener('click', () => {
-      card.classList.remove('is-flipped');
-      front.setAttribute('aria-hidden', 'false');
-      front.hidden = false;
-      back.setAttribute('aria-hidden', 'true');
-      back.hidden = true;
-    });
-
-    back.appendChild(backLabel);
-    back.appendChild(answer);
-    back.appendChild(explanation);
-    back.appendChild(reviewBtn);
-
-    inner.appendChild(front);
-    inner.appendChild(back);
-    card.appendChild(inner);
     container.appendChild(card);
 
     const nav = DOMUtils.create('div', 'quiz-nav');
@@ -395,6 +395,7 @@ function initializeQuizzes() {
     prevBtn.disabled = currentIndex === 0;
     prevBtn.addEventListener('click', () => {
       currentIndex = Math.max(0, currentIndex - 1);
+      showingAnswer = false;
       renderQuizCard();
     });
 
@@ -406,6 +407,7 @@ function initializeQuizzes() {
     nextBtn.textContent = currentIndex === quizzes.length - 1 ? 'Start Over' : 'Next';
     nextBtn.addEventListener('click', () => {
       currentIndex = currentIndex === quizzes.length - 1 ? 0 : currentIndex + 1;
+      showingAnswer = false;
       renderQuizCard();
     });
 

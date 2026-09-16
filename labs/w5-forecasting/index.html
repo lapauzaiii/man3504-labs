@@ -115,6 +115,88 @@
       display: block;
     }
 
+    .flashcard-deck {
+      display: grid;
+      gap: var(--spacing-lg);
+    }
+
+    .flashcard {
+      background: transparent;
+      border: 0;
+      color: inherit;
+      cursor: pointer;
+      display: block;
+      font: inherit;
+      padding: 0;
+      text-align: left;
+      width: 100%;
+    }
+
+    .flashcard-surface {
+      align-items: stretch;
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 300px;
+      padding: var(--spacing-xl);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .flashcard:hover .flashcard-surface,
+    .flashcard:focus-visible .flashcard-surface {
+      border-color: var(--unf-orange);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .flashcard:focus-visible {
+      outline: none;
+    }
+
+    .flashcard-side {
+      color: var(--unf-orange);
+      font-size: var(--font-size-sm);
+      font-weight: 800;
+      letter-spacing: 0;
+      margin-bottom: var(--spacing-md);
+      text-transform: uppercase;
+    }
+
+    .flashcard-title {
+      color: var(--text-secondary);
+      font-size: var(--font-size-base);
+      font-weight: 700;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .flashcard-main {
+      font-size: 1.35rem;
+      font-weight: 650;
+      line-height: 1.45;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .flashcard-detail {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      line-height: 1.6;
+      padding: var(--spacing-md);
+    }
+
+    .flashcard-prompt {
+      color: var(--text-secondary);
+      font-size: var(--font-size-sm);
+      font-weight: 700;
+      margin-top: auto;
+      padding-top: var(--spacing-lg);
+      text-align: center;
+    }
+
     .quiz-flip-card {
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
@@ -369,6 +451,6 @@
   <!-- Scripts -->
   <script src="../../js/shared.js"></script>
   <script src="../../js/components.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=20260916-flashcards"></script>
 </body>
 </html>
