@@ -211,21 +211,39 @@ function displayScenarios() {
     q.textContent = s.question;
     card.appendChild(q);
 
-    const optList = DOMUtils.create('div', '');
-    s.options.forEach((opt, i) => {
-      const label = DOMUtils.create('label', 'mb-md');
-      label.style.display = 'block';
-      label.innerHTML = `<strong>${opt}:</strong> ${s.explanations?.[i] || ''}`;
-      optList.appendChild(label);
+    const optList = DOMUtils.create('ul', 'answer-choice-list');
+    s.options.forEach((opt) => {
+      const item = DOMUtils.create('li', '');
+      item.textContent = opt;
+      optList.appendChild(item);
     });
     card.appendChild(optList);
 
     const answerBox = DOMUtils.create('div', 'calculation-result');
+    answerBox.classList.add('reveal-panel');
+    answerBox.setAttribute('id', `${s.id}-answer`);
     answerBox.innerHTML = `
-      <strong>✓ Best Answer:</strong> ${s.options[s.correct]}<br>
+      <strong>Best Answer:</strong> ${s.options[s.correct]}<br>
       <strong>Why:</strong> ${s.explanation}<br>
       <strong>Concept:</strong> ${s.concept}
     `;
+
+    const revealBtn = DOMUtils.create('button', 'btn btn-secondary');
+    revealBtn.setAttribute('type', 'button');
+    revealBtn.setAttribute('aria-expanded', 'false');
+    revealBtn.setAttribute('aria-controls', `${s.id}-answer`);
+    revealBtn.textContent = 'Reveal Best Answer';
+    revealBtn.addEventListener('click', () => {
+      const isVisible = answerBox.classList.toggle('visible');
+      revealBtn.setAttribute('aria-expanded', String(isVisible));
+      revealBtn.textContent = isVisible ? 'Hide Best Answer' : 'Reveal Best Answer';
+      analytics.track('scenario_answer_toggled', {
+        scenario: s.id,
+        visible: isVisible,
+      });
+    });
+
+    card.appendChild(revealBtn);
     card.appendChild(answerBox);
 
     container.appendChild(card);
@@ -293,24 +311,111 @@ function initializeQuizzes() {
   const container = DOMUtils.query('#quiz-container');
   if (!container) return;
 
-  quizzes.forEach((q) => {
-    const quiz = new QuizQuestion({
-      id: q.id,
-      question: q.question,
-      type: q.type,
-      options: q.options,
-      correctAnswer: q.correctAnswer,
-      explanation: q.explanation,
-      onAnswer: (result) => {
-        analytics.track('quiz_answered', {
-          question: q.id,
-          correct: result.correct,
-        });
-      },
+  let currentIndex = 0;
+
+  const renderQuizCard = () => {
+    const q = quizzes[currentIndex];
+    container.innerHTML = '';
+
+    const card = DOMUtils.create('div', 'quiz-flip-card');
+    const inner = DOMUtils.create('div', 'quiz-flip-inner');
+
+    const front = DOMUtils.create('div', 'quiz-card-face quiz-card-front');
+    front.setAttribute('aria-hidden', 'false');
+    front.hidden = false;
+    const frontLabel = DOMUtils.create('div', 'quiz-card-label');
+    frontLabel.textContent = `Question ${currentIndex + 1} of ${quizzes.length}`;
+
+    const question = DOMUtils.create('h3', 'mb-lg');
+    question.textContent = q.question;
+
+    const choices = DOMUtils.create('ul', 'answer-choice-list');
+    q.options.forEach((option) => {
+      const item = DOMUtils.create('li', '');
+      item.textContent = option;
+      choices.appendChild(item);
     });
 
-    container.appendChild(quiz.getElement());
-  });
+    const revealBtn = DOMUtils.create('button', 'btn btn-primary');
+    revealBtn.setAttribute('type', 'button');
+    revealBtn.textContent = 'Flip to Answer';
+    revealBtn.addEventListener('click', () => {
+      card.classList.add('is-flipped');
+      front.setAttribute('aria-hidden', 'true');
+      front.hidden = true;
+      back.setAttribute('aria-hidden', 'false');
+      back.hidden = false;
+      analytics.track('quiz_answer_revealed', {
+        question: q.id,
+      });
+    });
+
+    front.appendChild(frontLabel);
+    front.appendChild(question);
+    front.appendChild(choices);
+    front.appendChild(revealBtn);
+
+    const back = DOMUtils.create('div', 'quiz-card-face quiz-card-back');
+    back.setAttribute('aria-hidden', 'true');
+    back.hidden = true;
+    const backLabel = DOMUtils.create('div', 'quiz-card-label');
+    backLabel.textContent = 'Correct Answer';
+
+    const answer = DOMUtils.create('h3', 'mb-md');
+    answer.textContent = q.options[q.correctAnswer];
+
+    const explanation = DOMUtils.create('p', 'mb-lg');
+    explanation.textContent = q.explanation;
+
+    const reviewBtn = DOMUtils.create('button', 'btn btn-secondary');
+    reviewBtn.setAttribute('type', 'button');
+    reviewBtn.textContent = 'Review Question';
+    reviewBtn.addEventListener('click', () => {
+      card.classList.remove('is-flipped');
+      front.setAttribute('aria-hidden', 'false');
+      front.hidden = false;
+      back.setAttribute('aria-hidden', 'true');
+      back.hidden = true;
+    });
+
+    back.appendChild(backLabel);
+    back.appendChild(answer);
+    back.appendChild(explanation);
+    back.appendChild(reviewBtn);
+
+    inner.appendChild(front);
+    inner.appendChild(back);
+    card.appendChild(inner);
+    container.appendChild(card);
+
+    const nav = DOMUtils.create('div', 'quiz-nav');
+    const prevBtn = DOMUtils.create('button', 'btn btn-secondary');
+    prevBtn.setAttribute('type', 'button');
+    prevBtn.textContent = 'Previous';
+    prevBtn.disabled = currentIndex === 0;
+    prevBtn.addEventListener('click', () => {
+      currentIndex = Math.max(0, currentIndex - 1);
+      renderQuizCard();
+    });
+
+    const progress = DOMUtils.create('div', 'quiz-progress');
+    progress.textContent = `${currentIndex + 1} / ${quizzes.length}`;
+
+    const nextBtn = DOMUtils.create('button', 'btn btn-secondary');
+    nextBtn.setAttribute('type', 'button');
+    nextBtn.textContent = currentIndex === quizzes.length - 1 ? 'Start Over' : 'Next';
+    nextBtn.addEventListener('click', () => {
+      currentIndex = currentIndex === quizzes.length - 1 ? 0 : currentIndex + 1;
+      renderQuizCard();
+    });
+
+    nav.appendChild(prevBtn);
+    nav.appendChild(progress);
+    nav.appendChild(nextBtn);
+    container.appendChild(nav);
+  };
+
+  renderQuizCard();
 }
 
 // ============================================

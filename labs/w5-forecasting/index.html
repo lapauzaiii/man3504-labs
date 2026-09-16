@@ -7,6 +7,18 @@
   <link rel="stylesheet" href="../../styles/shared.css">
   <style>
     /* W5-specific styles */
+    :root {
+      --font-size-base: 16px;
+      --font-size-sm: 14px;
+      --font-size-lg: 18px;
+      --font-size-xl: 24px;
+      --font-size-2xl: 34px;
+    }
+
+    body {
+      line-height: 1.7;
+    }
+
     .method-card {
       background-color: var(--bg-secondary);
       border: 1px solid var(--border-color);
@@ -33,8 +45,7 @@
       padding: var(--spacing-md);
       border-radius: var(--border-radius);
       margin: var(--spacing-md) 0;
-      font-family: monospace;
-      font-size: var(--font-size-sm);
+      font-size: var(--font-size-base);
     }
 
     [data-theme="dark"] .calculation-result {
@@ -53,7 +64,7 @@
       padding: var(--spacing-sm);
       border: 1px solid var(--border-color);
       text-align: left;
-      font-size: var(--font-size-sm);
+      font-size: var(--font-size-base);
     }
 
     .comparison-table th {
@@ -79,6 +90,104 @@
 
     .phase-section {
       margin-bottom: var(--spacing-xl);
+    }
+
+    .answer-choice-list {
+      display: grid;
+      gap: var(--spacing-sm);
+      margin: var(--spacing-md) 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .answer-choice-list li {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .reveal-panel {
+      display: none;
+    }
+
+    .reveal-panel.visible {
+      display: block;
+    }
+
+    .quiz-flip-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--spacing-lg);
+      min-height: 280px;
+      perspective: 1000px;
+    }
+
+    .quiz-flip-inner {
+      display: grid;
+      min-height: 280px;
+      transform-style: preserve-3d;
+      transition: transform 0.45s ease;
+    }
+
+    .quiz-flip-card.is-flipped .quiz-flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .quiz-card-face {
+      grid-area: 1 / 1;
+      padding: var(--spacing-lg);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .quiz-card-back {
+      transform: rotateY(180deg);
+    }
+
+    .quiz-flip-card:not(.is-flipped) .quiz-card-back,
+    .quiz-flip-card.is-flipped .quiz-card-front {
+      visibility: hidden;
+    }
+
+    .quiz-card-label {
+      color: var(--text-secondary);
+      font-size: var(--font-size-sm);
+      font-weight: 700;
+      letter-spacing: 0;
+      margin-bottom: var(--spacing-sm);
+      text-transform: uppercase;
+    }
+
+    .quiz-nav {
+      align-items: center;
+      display: flex;
+      gap: var(--spacing-md);
+      justify-content: space-between;
+      margin-top: var(--spacing-md);
+    }
+
+    .quiz-progress {
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --font-size-base: 17px;
+        --font-size-sm: 15px;
+        --font-size-lg: 20px;
+        --font-size-xl: 26px;
+        --font-size-2xl: 32px;
+      }
+
+      .quiz-nav {
+        align-items: stretch;
+        flex-direction: column;
+      }
     }
   </style>
 </head>
