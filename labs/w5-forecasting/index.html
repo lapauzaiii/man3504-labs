@@ -197,6 +197,26 @@
       text-align: center;
     }
 
+    .readiness-item {
+      align-items: flex-start;
+      display: grid;
+      gap: var(--spacing-sm);
+      grid-template-columns: 22px 1fr;
+    }
+
+    .readiness-item input[type="checkbox"] {
+      height: 18px;
+      margin: 4px 0 0;
+      width: 18px;
+    }
+
+    .readiness-item label {
+      display: block;
+      font-weight: 500;
+      line-height: 1.45;
+      margin: 0;
+    }
+
     .quiz-flip-card {
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
@@ -405,28 +425,28 @@
         <div class="card-body">
           <h3>Readiness Checklist</h3>
           <form id="readiness-checklist">
-            <div class="mb-md">
+            <div class="readiness-item mb-md">
               <input type="checkbox" id="check-1"> <label for="check-1">I can explain the difference between Delphi, market survey, and sales force composite methods</label>
             </div>
-            <div class="mb-md">
+            <div class="readiness-item mb-md">
               <input type="checkbox" id="check-2"> <label for="check-2">I understand when to use qualitative methods vs. quantitative (time-series or regression)</label>
             </div>
-            <div class="mb-md">
+            <div class="readiness-item mb-md">
               <input type="checkbox" id="check-3"> <label for="check-3">I can interpret a regression equation (slope, intercept) and explain what the slope means</label>
             </div>
-            <div class="mb-md">
+            <div class="readiness-item mb-md">
               <input type="checkbox" id="check-4"> <label for="check-4">I know what R-squared represents and why high R² doesn't prove causation</label>
             </div>
-            <div class="mb-md">
+            <div class="readiness-item mb-md">
               <input type="checkbox" id="check-5"> <label for="check-5">I understand the difference between demand forecasting and demand management</label>
             </div>
-            <div class="mb-md">
+            <div class="readiness-item mb-md">
               <input type="checkbox" id="check-6"> <label for="check-6">I can identify the bullwhip effect and explain how data sharing reduces it</label>
             </div>
-            <div class="mb-md">
+            <div class="readiness-item mb-md">
               <input type="checkbox" id="check-7"> <label for="check-7">I know why Delphi uses anonymity and iteration</label>
             </div>
-            <div class="mb-lg">
+            <div class="readiness-item mb-lg">
               <input type="checkbox" id="check-8"> <label for="check-8">I can apply method-selection logic to a Cowford Holdings scenario (Coffee, Brewery, Medical Supply, Green Build, or Logistics)</label>
             </div>
 
@@ -451,6 +471,6 @@
   <!-- Scripts -->
   <script src="../../js/shared.js"></script>
   <script src="../../js/components.js"></script>
-  <script src="js/app.js?v=20260916-flashcards"></script>
+  <script src="js/app.js?v=20260916-checklist"></script>
 </body>
 </html>
