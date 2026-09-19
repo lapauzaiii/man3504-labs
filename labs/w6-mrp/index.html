@@ -1,1003 +1,1645 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Week 6: MRP and Aggregate Planning | MAN3504</title>
-  <style>
-    :root {
-      --unf-navy: #0e2841;
-      --unf-orange: #e97132;
-      --bg-primary: #ffffff;
-      --bg-secondary: #f8f9fa;
-      --text-primary: #212529;
-      --text-secondary: #6c757d;
-      --border-color: #e9ecef;
-      --spacing-sm: 8px;
-      --spacing-md: 16px;
-      --spacing-lg: 24px;
-      --spacing-xl: 32px;
-      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      --font-size-base: 14px;
-      --font-size-sm: 12px;
-      --font-size-lg: 16px;
-      --font-size-xl: 20px;
-      --font-size-2xl: 28px;
-      --border-radius: 6px;
-      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 6: Operations Planning | MAN3504</title>
+<style>
+/* ── TOKENS ── */
+:root {
+  --navy:       #0E2841;
+  --navy-mid:   #1a3d5c;
+  --navy-soft:  #e8edf3;
+  --orange:     #E97132;
+  --orange-dim: #c45e20;
+  --orange-bg:  #fef3ec;
+  --text:       #1a2332;
+  --text-mid:   #3d5068;
+  --muted:      #617d96;
+  --border:     #cdd8e3;
+  --surface:    #ffffff;
+  --surface-2:  #f5f7fa;
+  --green:      #1b7a50;
+  --green-bg:   #eaf7f0;
+  --red:        #b91c1c;
+  --red-bg:     #fef2f2;
+  --yellow:     #854d0e;
+  --yellow-bg:  #fefce8;
+  --purple:     #5b21b6;
+  --purple-bg:  #f5f3ff;
+  --teal:       #0e7490;
+  --teal-bg:    #ecfeff;
+  --shadow-sm:  0 1px 4px rgba(14,40,65,.08);
+  --shadow-md:  0 3px 14px rgba(14,40,65,.11);
+  --r:          8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --navy: #1e3d5c; --navy-mid: #2a4f72; --navy-soft: #111c2a;
+    --orange: #f0944a; --orange-dim: #d4783a; --orange-bg: #261508;
+    --text: #dce9f5; --text-mid: #8cb0cc; --muted: #5e8aaa;
+    --border: #243548; --surface: #0d1b2a; --surface-2: #121f2e;
+    --green: #34d399; --green-bg: #042e1a;
+    --red: #f87171; --red-bg: #2d0a0a;
+    --yellow: #fbbf24; --yellow-bg: #1a1000;
+    --purple: #a78bfa; --purple-bg: #1e1040;
+    --teal: #22d3ee; --teal-bg: #041c21;
+  }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    * { box-sizing: border-box; }
+body {
+  font-family: 'Aptos', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--navy-soft);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 15px;
+}
 
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: var(--font-family);
-      font-size: var(--font-size-base);
-      line-height: 1.6;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-    }
+/* ── HEADER ── */
+.site-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 0 1.5rem;
+  border-bottom: 3px solid var(--orange);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 52px;
+}
+.site-header .course-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  color: var(--orange);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.site-header h1 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.site-header .spacer { flex: 1; }
+.site-header .week-badge {
+  background: var(--orange);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: .25rem .65rem;
+  border-radius: 99px;
+  white-space: nowrap;
+}
 
-    h1,
-    h2,
-    h3,
-    h4 {
-      margin: 0 0 var(--spacing-md) 0;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
+/* ── PHASE NAV ── */
+.phase-nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: .5rem 1.5rem;
+  display: flex;
+  gap: .25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.phase-nav::-webkit-scrollbar { display: none; }
+.phase-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: .35rem .9rem;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .15s;
+}
+.phase-btn:hover { border-color: var(--orange); color: var(--orange-dim); }
+.phase-btn.active { background: var(--navy); border-color: var(--navy); color: #fff; }
 
-    h1 { font-size: var(--font-size-2xl); }
-    h2 { font-size: var(--font-size-xl); }
-    h3 { font-size: var(--font-size-lg); }
+/* ── LAYOUT ── */
+.lab-shell { max-width: 900px; margin: 0 auto; padding: 1.25rem 1rem 4rem; }
 
-    p { margin: 0 0 var(--spacing-md) 0; }
+/* ── PHASE PANELS ── */
+.phase-panel { display: none; }
+.phase-panel.active { display: block; }
 
-    label {
-      display: block;
-      margin-bottom: var(--spacing-sm);
-      font-weight: 600;
-      color: var(--text-primary);
-    }
+/* ── PHASE HEADER ── */
+.phase-header {
+  background: var(--navy);
+  color: #fff;
+  border-radius: var(--r) var(--r) 0 0;
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: .9rem;
+}
+.phase-header .ph-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  margin-top: .05rem;
+}
+.phase-header h2 { font-size: 1.05rem; font-weight: 700; line-height: 1.25; }
+.phase-header p { font-size: .82rem; opacity: .75; margin-top: .25rem; }
+.phase-header .ph-time {
+  margin-left: auto;
+  background: rgba(255,255,255,.12);
+  border-radius: 99px;
+  padding: .2rem .6rem;
+  font-size: .72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
 
-    input[type="number"],
-    select {
-      width: 100%;
-      padding: var(--spacing-sm);
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius);
-      font-family: var(--font-family);
-      font-size: var(--font-size-base);
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-    }
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0 0 var(--r) var(--r);
+  padding: 1.3rem 1.4rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.25rem;
+}
+.card + .phase-header { border-radius: var(--r) var(--r) 0 0; margin-top: 1.5rem; }
 
-    input[type="number"]:focus,
-    select:focus {
-      outline: none;
-      border-color: var(--unf-navy);
-      box-shadow: 0 0 0 3px rgba(14, 40, 65, 0.1);
-    }
+/* inner section within a card */
+.card-section {
+  border-top: 1px solid var(--border);
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
+}
+.card-section:first-child { border-top: none; margin-top: 0; padding-top: 0; }
 
-    .lab-header {
-      background: linear-gradient(135deg, var(--unf-navy) 0%, rgba(14, 40, 65, 0.9) 100%);
-      color: white;
-      padding: var(--spacing-xl) var(--spacing-lg);
-      margin-bottom: var(--spacing-xl);
-      border-bottom: 4px solid var(--unf-orange);
-    }
+.section-label {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .65rem;
+}
 
-    .lab-header h1 {
-      margin: 0 0 var(--spacing-sm) 0;
-      color: white;
-    }
+/* ── PRIOR WEEK CALLOUT ── */
+.prior-week {
+  background: var(--purple-bg);
+  border-left: 3px solid var(--purple);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: .75rem 1rem;
+  margin-bottom: 1.1rem;
+  font-size: .83rem;
+  color: var(--text);
+}
+.prior-week strong { color: var(--purple); }
 
-    .lab-subtitle {
-      margin: 0;
-      color: rgba(255, 255, 255, 0.9);
-      font-size: var(--font-size-lg);
-    }
+/* ── CALLOUT VARIANTS ── */
+.callout {
+  border-radius: var(--r);
+  padding: .8rem 1rem;
+  margin: .9rem 0;
+  font-size: .84rem;
+  display: flex;
+  gap: .65rem;
+  align-items: flex-start;
+}
+.callout-icon { font-size: 1rem; flex-shrink: 0; margin-top: .1rem; }
+.callout.tip { background: var(--green-bg); border-left: 3px solid var(--green); }
+.callout.warn { background: var(--yellow-bg); border-left: 3px solid var(--yellow); }
+.callout.info { background: var(--teal-bg); border-left: 3px solid var(--teal); }
+.callout.danger { background: var(--red-bg); border-left: 3px solid var(--red); }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: var(--spacing-lg);
-    }
+/* ── EXPLORER ── */
+.explorer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: .9rem 0;
+}
+@media (max-width: 600px) { .explorer-grid { grid-template-columns: 1fr; } }
 
-    .card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius);
-      padding: var(--spacing-lg);
-      margin-bottom: var(--spacing-lg);
-      box-shadow: var(--shadow-sm);
-    }
+.control-group { display: flex; flex-direction: column; gap: .4rem; }
+.control-group label { font-size: .8rem; font-weight: 600; color: var(--text-mid); }
 
-    .card:hover {
-      box-shadow: var(--shadow-md);
-      transition: box-shadow 0.3s ease;
-    }
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--orange);
+}
+select, input[type="number"] {
+  width: 100%;
+  padding: .45rem .7rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  font-size: .85rem;
+  background: var(--surface-2);
+  color: var(--text);
+  font-family: inherit;
+}
+select:focus, input[type="number"]:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(233,113,50,.12);
+}
 
-    .card-header {
-      margin-bottom: var(--spacing-md);
-      padding-bottom: var(--spacing-md);
-      border-bottom: 2px solid var(--border-color);
-    }
+.run-btn {
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  border-radius: var(--r);
+  padding: .55rem 1.3rem;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s;
+  font-family: inherit;
+}
+.run-btn:hover { background: var(--orange-dim); }
+.run-btn:active { transform: translateY(1px); }
 
-    .card-header h3 {
-      margin: 0;
-      color: var(--unf-navy);
-    }
+/* ── OUTPUT TABLE ── */
+.output-area {
+  margin-top: 1rem;
+  border-radius: var(--r);
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  font-size: .83rem;
+}
+.output-area table { width: 100%; border-collapse: collapse; }
+.output-area th {
+  background: var(--navy);
+  color: #fff;
+  padding: .45rem .7rem;
+  text-align: left;
+  font-size: .76rem;
+  font-weight: 600;
+}
+.output-area td {
+  padding: .4rem .7rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.output-area tr:last-child td { border-bottom: none; }
+.output-area tr:nth-child(even) td { background: var(--surface-2); }
+.output-area .total td { background: var(--navy-soft); font-weight: 700; }
+.output-area .crit td { background: rgba(233,113,50,.08); font-weight: 600; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.pos { color: var(--red); font-weight: 600; }
+.zero { color: var(--green); }
 
-    .card-body { margin-bottom: var(--spacing-md); }
+/* ── RESULT BANNER ── */
+.result-banner {
+  background: var(--navy-soft);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: .75rem 1rem;
+  margin-top: .75rem;
+  font-size: .85rem;
+  display: none;
+}
+.result-banner.show { display: block; }
+.result-banner strong { color: var(--orange); }
 
-    .btn {
-      display: inline-block;
-      padding: var(--spacing-sm) var(--spacing-md);
-      border: none;
-      border-radius: var(--border-radius);
-      font-size: var(--font-size-base);
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
+/* ── SEQUENCING TABLE ── */
+.seq-table-wrap { overflow-x: auto; margin-top: .75rem; }
+.seq-table { width: 100%; border-collapse: collapse; font-size: .83rem; min-width: 480px; }
+.seq-table th {
+  background: var(--navy);
+  color: #fff;
+  padding: .4rem .65rem;
+  text-align: left;
+  font-size: .76rem;
+}
+.seq-table td { padding: .38rem .65rem; border-bottom: 1px solid var(--border); }
+.seq-table tr:last-child td { border-bottom: none; }
+.seq-table tr:nth-child(even) td { background: var(--surface-2); }
+.seq-table .late { color: var(--red); font-weight: 700; }
+.seq-table .ontime { color: var(--green); }
+.seq-table .highlight td { background: rgba(233,113,50,.1); }
 
-    .btn:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
+/* ── CPM DIAGRAM ── */
+.cpm-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: .5rem;
+  margin: .9rem 0;
+  align-items: center;
+}
+@media (max-width: 500px) { .cpm-grid { grid-template-columns: repeat(3, 1fr); } }
 
-    .btn-primary {
-      background-color: var(--unf-navy);
-      color: white;
-    }
+.cpm-node {
+  background: var(--surface-2);
+  border: 2px solid var(--border);
+  border-radius: var(--r);
+  padding: .55rem;
+  text-align: center;
+  font-size: .76rem;
+  cursor: pointer;
+  transition: all .15s;
+  position: relative;
+}
+.cpm-node:hover { border-color: var(--orange); }
+.cpm-node.critical { border-color: var(--orange); background: var(--orange-bg); }
+.cpm-node .act-name { font-weight: 700; font-size: .9rem; color: var(--navy); }
+.cpm-node .act-dur { color: var(--muted); font-size: .72rem; }
+.cpm-node .act-slack { font-size: .7rem; margin-top: .15rem; }
+.cpm-node .act-slack.zero { color: var(--green); font-weight: 700; }
+.cpm-node .act-slack.pos-slack { color: var(--purple); }
+.cpm-node .es-ef {
+  font-size: .68rem;
+  color: var(--text-mid);
+  margin-top: .15rem;
+}
+.cpm-arrow { text-align: center; color: var(--muted); font-size: 1rem; }
 
-    .btn-primary:hover:not(:disabled) {
-      background-color: #0d2033;
-      box-shadow: var(--shadow-md);
-    }
+/* ── QUIZ ── */
+.quiz-block { margin-bottom: 1.4rem; }
+.quiz-q {
+  font-weight: 600;
+  font-size: .9rem;
+  margin-bottom: .65rem;
+  line-height: 1.5;
+}
+.quiz-q .qnum {
+  display: inline-block;
+  background: var(--navy);
+  color: #fff;
+  border-radius: 99px;
+  width: 1.5rem;
+  height: 1.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+  font-size: .75rem;
+  font-weight: 700;
+  margin-right: .45rem;
+  flex-shrink: 0;
+}
+.quiz-options { display: flex; flex-direction: column; gap: .4rem; }
+.quiz-opt {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  padding: .55rem .8rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  cursor: pointer;
+  font-size: .85rem;
+  transition: border-color .12s, background .12s;
+  background: var(--surface-2);
+}
+.quiz-opt:hover { border-color: var(--orange); background: var(--orange-bg); }
+.quiz-opt input[type="radio"] { margin-top: .15rem; accent-color: var(--orange); flex-shrink: 0; }
+.quiz-opt.correct { border-color: var(--green); background: var(--green-bg); }
+.quiz-opt.incorrect { border-color: var(--red); background: var(--red-bg); }
+.quiz-fb {
+  margin-top: .55rem;
+  padding: .55rem .8rem;
+  border-radius: var(--r);
+  font-size: .82rem;
+  display: none;
+}
+.quiz-fb.show { display: block; }
+.quiz-fb.correct { background: var(--green-bg); color: var(--green); }
+.quiz-fb.incorrect { background: var(--red-bg); color: var(--red); }
+.check-btn {
+  margin-top: .7rem;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: var(--r);
+  padding: .45rem 1.1rem;
+  font-size: .82rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+.check-btn:hover { background: var(--navy-mid); }
 
-    .alert {
-      padding: var(--spacing-md);
-      border-radius: var(--border-radius);
-      margin-bottom: var(--spacing-lg);
-    }
+/* ── DIAGNOSTIC STEPS ── */
+.step-list { display: flex; flex-direction: column; gap: .75rem; margin: .75rem 0; }
+.step-item {
+  display: flex;
+  gap: .85rem;
+  align-items: flex-start;
+}
+.step-num {
+  background: var(--orange);
+  color: #fff;
+  border-radius: 50%;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: .05rem;
+}
+.step-body { flex: 1; font-size: .86rem; }
+.step-body strong { display: block; font-size: .88rem; margin-bottom: .2rem; }
 
-    .alert-info {
-      background-color: #cfe2ff;
-      color: #084298;
-      border: 1px solid #b6d4fe;
-    }
+/* ── CHECKLIST ── */
+.checklist { display: flex; flex-direction: column; gap: .5rem; margin: .75rem 0; }
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: .65rem;
+  padding: .6rem .85rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  font-size: .85rem;
+  cursor: pointer;
+  transition: background .12s;
+  background: var(--surface-2);
+  user-select: none;
+}
+.check-item:hover { background: var(--orange-bg); border-color: var(--orange); }
+.check-item input[type="checkbox"] { margin-top: .15rem; accent-color: var(--orange); flex-shrink: 0; }
+.check-item.checked { background: var(--green-bg); border-color: var(--green); text-decoration: line-through; color: var(--muted); }
 
-    .alert-success {
-      background-color: #d1e7dd;
-      color: #0f5132;
-      border: 1px solid #badbcc;
-    }
+/* ── PROGRESS ── */
+.progress-bar-wrap {
+  height: 6px;
+  background: var(--border);
+  border-radius: 99px;
+  margin: .5rem 0 .3rem;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 6px;
+  background: var(--orange);
+  border-radius: 99px;
+  transition: width .3s;
+}
 
-    .alert-warning {
-      background-color: #fff3cd;
-      color: #664d03;
-      border: 1px solid #ffecb5;
-    }
+/* ── WEEK THREAD STRIP ── */
+.thread-strip {
+  display: flex;
+  gap: .35rem;
+  flex-wrap: wrap;
+  margin: .65rem 0;
+}
+.thread-tag {
+  font-size: .72rem;
+  font-weight: 600;
+  padding: .2rem .55rem;
+  border-radius: 99px;
+  background: var(--purple-bg);
+  color: var(--purple);
+  border: 1px solid rgba(91,33,182,.2);
+}
+.thread-tag.w6 { background: var(--orange-bg); color: var(--orange-dim); border-color: rgba(233,113,50,.3); }
 
-    .alert-danger {
-      background-color: #f8d7da;
-      color: #842029;
-      border: 1px solid #f5c2c7;
-    }
+/* ── MRP TABLE ── */
+.mrp-table-wrap { overflow-x: auto; margin-top: .75rem; }
+.mrp-table { width: 100%; border-collapse: collapse; font-size: .8rem; min-width: 520px; }
+.mrp-table th {
+  background: var(--navy);
+  color: #fff;
+  padding: .4rem .6rem;
+  text-align: center;
+  font-size: .74rem;
+}
+.mrp-table th.row-hdr { text-align: left; }
+.mrp-table td { padding: .38rem .6rem; border-bottom: 1px solid var(--border); text-align: center; font-variant-numeric: tabular-nums; }
+.mrp-table td.row-hdr { text-align: left; font-weight: 600; background: var(--surface-2); }
+.mrp-table tr:last-child td { border-bottom: none; }
+.mrp-table .release td { background: rgba(233,113,50,.1); font-weight: 700; }
+.mrp-table .shortage td { color: var(--red); font-weight: 700; }
 
-    .phase-section { margin-bottom: var(--spacing-xl); }
-
-    .phase-badge {
-      display: inline-block;
-      background-color: var(--unf-orange);
-      color: white;
-      padding: var(--spacing-sm) var(--spacing-md);
-      border-radius: var(--border-radius);
-      font-weight: 600;
-      margin-bottom: var(--spacing-md);
-      font-size: var(--font-size-sm);
-    }
-
-    .scenario-input-group {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: var(--spacing-md);
-      margin: var(--spacing-lg) 0;
-    }
-
-    .bom-tree {
-      background-color: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius);
-      padding: var(--spacing-md);
-      margin: var(--spacing-lg) 0;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: var(--font-size-sm);
-    }
-
-    .bom-tree-item { margin: var(--spacing-sm) 0; }
-
-    .bom-tree-item.level-0 {
-      padding-left: 0;
-      font-weight: 600;
-      color: var(--unf-navy);
-    }
-
-    .bom-tree-item.level-1 { padding-left: var(--spacing-lg); }
-    .bom-tree-item.level-2 { padding-left: calc(var(--spacing-lg) * 2); }
-
-    .mrp-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: var(--spacing-lg) 0;
-      background-color: var(--bg-primary);
-    }
-
-    .mrp-table th,
-    .mrp-table td {
-      padding: var(--spacing-sm);
-      border: 1px solid var(--border-color);
-      text-align: right;
-      font-size: var(--font-size-sm);
-      vertical-align: top;
-    }
-
-    .mrp-table th {
-      background-color: var(--unf-navy);
-      color: white;
-      font-weight: 600;
-    }
-
-    .mrp-table td:first-child,
-    .mrp-table th:first-child {
-      text-align: left;
-    }
-
-    .mrp-table tbody tr:hover { background-color: var(--bg-secondary); }
-
-    .calculation-box {
-      background-color: #f0f4ff;
-      border-left: 4px solid var(--unf-navy);
-      padding: var(--spacing-md);
-      border-radius: var(--border-radius);
-      margin: var(--spacing-md) 0;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: var(--font-size-sm);
-    }
-
-    details { margin-bottom: var(--spacing-lg); }
-
-    summary {
-      cursor: pointer;
-      font-weight: 600;
-      padding: var(--spacing-md);
-      background-color: var(--bg-secondary);
-      border-radius: var(--border-radius);
-      user-select: none;
-    }
-
-    .details-body {
-      padding: var(--spacing-lg);
-      border: 1px solid var(--border-color);
-      border-top: none;
-      background-color: var(--bg-primary);
-    }
-
-    .mb-md { margin-bottom: var(--spacing-md); }
-    .mb-lg { margin-bottom: var(--spacing-lg); }
-    .mt-lg { margin-top: var(--spacing-lg); }
-    .d-flex { display: flex; }
-
-    @media (max-width: 768px) {
-      .container { padding: var(--spacing-md); }
-      .lab-header { padding: var(--spacing-lg) var(--spacing-md); }
-    }
-  </style>
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .lab-shell { padding: .85rem .6rem 3rem; }
+  .phase-header { flex-wrap: wrap; }
+  .phase-header .ph-time { margin-left: 0; }
+  .card { padding: 1rem; }
+}
+</style>
 </head>
 <body>
-  <div class="lab-header">
-    <h1>Week 6: Operations Planning</h1>
-    <p class="lab-subtitle">Aggregate Planning and Material Requirements Planning (MRP)</p>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <span class="course-tag">MAN 3504</span>
+  <h1>Week 6: Operations Planning</h1>
+  <span class="spacer"></span>
+  <span class="week-badge">W6 Lab</span>
+</header>
+
+<!-- ── PHASE NAV ── -->
+<nav class="phase-nav" role="tablist" aria-label="Lab phases">
+  <button class="phase-btn active" onclick="showPhase(0)" role="tab">① Live Session</button>
+  <button class="phase-btn" onclick="showPhase(1)" role="tab">② Reinforcement</button>
+  <button class="phase-btn" onclick="showPhase(2)" role="tab">③ Guided Diagnostic</button>
+  <button class="phase-btn" onclick="showPhase(3)" role="tab">④ Readiness</button>
+</nav>
+
+<main class="lab-shell">
+
+<!-- ════════════════════════════════════════════
+     PHASE 1 — LIVE SESSION
+     ════════════════════════════════════════════ -->
+<div class="phase-panel active" id="phase-0">
+
+  <!-- 1A: Aggregate Planning Explorer -->
+  <div class="phase-header">
+    <span class="ph-icon">📊</span>
+    <div>
+      <h2>Phase 1 — Live Session Explorer</h2>
+      <p>Three interactive tools covering the full Week 6 toolkit. Work through all three.</p>
+    </div>
+    <span class="ph-time">30–40 min</span>
   </div>
+  <div class="card">
 
-  <div class="container">
-    <section class="phase-section">
-      <div class="phase-badge">Phase 1: Live Session (30-40 min)</div>
-      <h2>Aggregate Planning and MRP Explorer</h2>
-      <p>
-        In this phase, you will explore how aggregate planning and MRP work by manipulating real Cowford scenarios.
-        Notice how changes in forecast pattern, production strategy, and lead times ripple through the supply chain.
-      </p>
+    <!-- ── TOOL 1: Aggregate Planning ── -->
+    <div class="card-section">
+      <div class="section-label">Tool 1 of 3 — Aggregate Planning: Cowford Brewery</div>
 
-      <div class="card">
-        <div class="card-header">
-          <h3>Aggregate Planning: Brewery Production Strategy</h3>
-        </div>
-        <p class="card-body">
-          The Brewery faces seasonal demand. Decide between chase, level, or hybrid production and compare the cost trade-offs.
-        </p>
-
-        <div class="scenario-input-group">
-          <div>
-            <label for="ap-demand">Demand Pattern:</label>
-            <select id="ap-demand">
-              <option value="stable">Stable (Medical Supply)</option>
-              <option value="seasonal" selected>Seasonal (Brewery)</option>
-              <option value="volatile">Volatile (Green Build)</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="ap-strategy">Production Strategy:</label>
-            <select id="ap-strategy">
-              <option value="chase">Chase Demand</option>
-              <option value="smooth" selected>Level Production</option>
-              <option value="hybrid">Hybrid (75/25)</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="ap-months">Planning Horizon (months):</label>
-            <input type="number" id="ap-months" value="12" min="6" max="12" step="1">
-          </div>
-        </div>
-
-        <div class="d-flex" style="gap: var(--spacing-md); margin-top: var(--spacing-lg);">
-          <button class="btn btn-primary" id="ap-btn">Calculate Aggregate Plan</button>
-        </div>
-
-        <div id="ap-results" style="margin-top: var(--spacing-lg);"></div>
+      <div class="thread-strip">
+        <span class="thread-tag">W3 Decisions under uncertainty</span>
+        <span class="thread-tag">W5 Demand forecasting</span>
+        <span class="thread-tag w6">W6 S&OP</span>
       </div>
 
-      <div class="card">
-        <div class="card-header">
-          <h3>Material Requirements Planning: Green Build Product</h3>
-        </div>
-        <p class="card-body">
-          Green Build launches a new product with multiple components. Enter the Bill of Materials assumptions and master schedule,
-          then watch the system explode requirements and calculate planned order releases.
-        </p>
-
-        <div>
-          <h4>Product BOM</h4>
-          <div class="bom-tree" id="bom-display">
-            <div class="bom-tree-item level-0">Finished Product (1 unit)</div>
-            <div class="bom-tree-item level-1">|- Component A (2 units)</div>
-            <div class="bom-tree-item level-1">|- Component B (1 unit)</div>
-            <div class="bom-tree-item level-2">|  `- Raw Material B1 (3 units per B)</div>
-            <div class="bom-tree-item level-1">`- Component C (1 unit)</div>
-          </div>
-        </div>
-
-        <div class="scenario-input-group">
-          <div>
-            <label for="mrp-demand-week">Finished Product Demand (Week 4):</label>
-            <input type="number" id="mrp-demand-week" value="100" min="10" max="500" step="10">
-          </div>
-
-          <div>
-            <label for="mrp-lead-a">Lead Time Component A (weeks):</label>
-            <input type="number" id="mrp-lead-a" value="2" min="1" max="8" step="1">
-          </div>
-
-          <div>
-            <label for="mrp-lead-b">Lead Time Component B (weeks):</label>
-            <input type="number" id="mrp-lead-b" value="3" min="1" max="8" step="1">
-          </div>
-
-          <div>
-            <label for="mrp-ss">Safety Stock (all items, units):</label>
-            <input type="number" id="mrp-ss" value="20" min="0" max="100" step="5">
-          </div>
-        </div>
-
-        <button class="btn btn-primary" id="mrp-calculate" style="margin-top: var(--spacing-lg);">Calculate MRP</button>
-        <div id="mrp-results" style="margin-top: var(--spacing-lg);"></div>
+      <div class="prior-week">
+        <strong>Building on W5 Forecasting:</strong> In Week 5 you generated a demand forecast using moving averages and tracked error with MAD and MAPE. This tool takes that forecast as a given and asks the next question — <em>how do you staff and produce against it?</em> The same Brewery demand swings you forecasted are now your planning input.
       </div>
-    </section>
 
-    <section class="phase-section">
-      <div class="phase-badge">Phase 2: Reinforcement Lab (15-20 min)</div>
-      <h2>Concept Check Quizzes</h2>
-      <p>Test your understanding with embedded quizzes. Immediate feedback helps you identify gaps before the formal assessments.</p>
-      <div id="quiz-container"></div>
-    </section>
+      <p style="font-size:.86rem;margin-bottom:1rem;">Cowford Brewery faces seasonal demand. Adjust the demand pattern and strategy, then calculate the full cost comparison. The math is yours to verify — the tool shows the work.</p>
 
-    <section class="phase-section">
-      <div class="phase-badge">Phase 3: Guided Diagnostic (10-15 min)</div>
-      <h2>Step-by-Step Walkthrough</h2>
-      <p>Follow this five-step framework to solve any aggregate planning or MRP problem you encounter on W6.D.</p>
-      <div id="diagnostic-container"></div>
-    </section>
-
-    <section class="phase-section">
-      <div class="phase-badge">Phase 4: Assignment Readiness</div>
-      <h2>Before You Start W6.C and W6.D</h2>
-      <p>Use this checklist to confirm you are ready for the formal assessments.</p>
-
-      <div class="card">
-        <div class="card-body">
-          <h3>Readiness Checklist</h3>
-          <form id="readiness-checklist">
-            <div class="mb-md">
-              <input type="checkbox" id="check-1"> <label for="check-1" style="display: inline; font-weight: 400;">I can explain the difference between chase and level production strategies</label>
-            </div>
-            <div class="mb-md">
-              <input type="checkbox" id="check-2"> <label for="check-2" style="display: inline; font-weight: 400;">I understand how to calculate holding costs and setup costs for each strategy</label>
-            </div>
-            <div class="mb-md">
-              <input type="checkbox" id="check-3"> <label for="check-3" style="display: inline; font-weight: 400;">I know how to read and interpret a Bill of Materials (BOM)</label>
-            </div>
-            <div class="mb-md">
-              <input type="checkbox" id="check-4"> <label for="check-4" style="display: inline; font-weight: 400;">I can explode gross requirements into planned order releases using MRP logic</label>
-            </div>
-            <div class="mb-md">
-              <input type="checkbox" id="check-5"> <label for="check-5" style="display: inline; font-weight: 400;">I understand lead time offsetting and why it matters in MRP</label>
-            </div>
-            <div class="mb-md">
-              <input type="checkbox" id="check-6"> <label for="check-6" style="display: inline; font-weight: 400;">I can explain how safety stock affects inventory costs and service levels</label>
-            </div>
-            <div class="mb-md">
-              <input type="checkbox" id="check-7"> <label for="check-7" style="display: inline; font-weight: 400;">I know the four inputs to MRP: demand forecast, BOM, lead times, and current inventory</label>
-            </div>
-            <div class="mb-lg">
-              <input type="checkbox" id="check-8"> <label for="check-8" style="display: inline; font-weight: 400;">I can apply these concepts to a Cowford Holdings scenario</label>
-            </div>
-
-            <div id="readiness-result" style="margin-top: var(--spacing-lg);"></div>
-          </form>
+      <div class="explorer-grid">
+        <div class="control-group">
+          <label for="ap-pattern">Demand Pattern (barrels/month)</label>
+          <select id="ap-pattern" onchange="updateAPPreset()">
+            <option value="seasonal">Seasonal Brewery — 600 / 1,000 / 800 / 400</option>
+            <option value="stable">Stable Medical Supply — 900 / 900 / 900 / 900</option>
+            <option value="volatile">Volatile Green Build — 300 / 1,200 / 500 / 800</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="ap-strategy">Planning Strategy</label>
+          <select id="ap-strategy">
+            <option value="chase">Chase — hire/lay off to match demand</option>
+            <option value="level">Level — stable workforce, absorb via inventory</option>
+            <option value="mixed">Mixed — stable core + limited overtime</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="ap-output">Output per worker (barrels/month)</label>
+          <input type="number" id="ap-output" value="100" min="50" max="200" step="10">
+        </div>
+        <div class="control-group">
+          <label for="ap-current">Current workforce (workers)</label>
+          <input type="number" id="ap-current" value="8" min="1" max="30" step="1">
+        </div>
+        <div class="control-group">
+          <label for="ap-hire">Hiring cost ($ per worker)</label>
+          <input type="number" id="ap-hire" value="1500" min="0" max="10000" step="100">
+        </div>
+        <div class="control-group">
+          <label for="ap-layoff">Layoff cost ($ per worker)</label>
+          <input type="number" id="ap-layoff" value="2000" min="0" max="10000" step="100">
+        </div>
+        <div class="control-group">
+          <label for="ap-hold">Holding cost ($ per barrel/month)</label>
+          <input type="number" id="ap-hold" value="8" min="0" max="50" step="1">
+        </div>
+        <div class="control-group">
+          <label for="ap-ot">Overtime premium ($ per extra barrel)</label>
+          <input type="number" id="ap-ot" value="15" min="0" max="50" step="1">
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header">
-          <h3>Next Steps</h3>
-        </div>
-        <div class="card-body">
-          <p><strong>W6.C - Concept Check:</strong> Canvas quiz on aggregate planning and MRP fundamentals (10 questions, 20 min)</p>
-          <p><strong>W6.D - Application Quiz:</strong> Real Cowford scenario requiring aggregate planning or MRP analysis (30 min)</p>
-          <p><strong>Tip:</strong> Revisit this lab if you miss more than two questions on W6.C.</p>
-        </div>
-      </div>
-    </section>
-  </div>
+      <button class="run-btn" onclick="runAP()">Calculate Plan →</button>
 
-  <script>
-    const MathUtils = {
-      formatCurrency(value) {
-        return new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-        }).format(value);
-      },
-    };
-
-    const CowfordSubsidiaries = {
-      medicalSupply: { name: "Medical Supply", color: "#4a90e2" },
-      brewery: { name: "Brewery", color: "#f5a623" },
-      greenBuild: { name: "Green Build", color: "#7ed321" },
-    };
-
-    class LabAnalytics {
-      constructor(labName) {
-        this.labName = labName;
-        this.events = [];
-        this.startTime = Date.now();
-      }
-
-      track(eventName, data = {}) {
-        this.events.push({
-          name: eventName,
-          timestamp: Date.now(),
-          data,
-          timeElapsed: Date.now() - this.startTime,
-        });
-      }
-    }
-
-    class QuizQuestion {
-      constructor(options = {}) {
-        this.id = options.id;
-        this.question = options.question;
-        this.options = options.options || [];
-        this.correctAnswer = options.correctAnswer;
-        this.explanation = options.explanation || "";
-        this.onAnswer = options.onAnswer || function noop() {};
-        this.selectedAnswer = null;
-        this.render();
-      }
-
-      render() {
-        this.container = document.createElement("div");
-        this.container.className = "card";
-
-        const questionEl = document.createElement("h4");
-        questionEl.className = "card-header mb-lg";
-        questionEl.innerHTML = `Q: ${this.question}`;
-        this.container.appendChild(questionEl);
-
-        this.options.forEach((option, index) => {
-          const wrapper = document.createElement("div");
-          wrapper.className = "mb-md";
-
-          const radio = document.createElement("input");
-          radio.type = "radio";
-          radio.id = `${this.id}-${index}`;
-          radio.name = this.id;
-          radio.value = index;
-          radio.style.marginRight = "8px";
-          radio.addEventListener("change", () => {
-            this.selectedAnswer = index;
-          });
-
-          const label = document.createElement("label");
-          label.htmlFor = `${this.id}-${index}`;
-          label.style.cssText = "display: inline; font-weight: 400; margin: 0;";
-          label.textContent = option;
-
-          wrapper.appendChild(radio);
-          wrapper.appendChild(label);
-          this.container.appendChild(wrapper);
-        });
-
-        this.submitBtn = document.createElement("button");
-        this.submitBtn.className = "btn btn-primary mt-lg";
-        this.submitBtn.type = "button";
-        this.submitBtn.textContent = "Submit Answer";
-        this.submitBtn.addEventListener("click", () => this.check());
-        this.container.appendChild(this.submitBtn);
-
-        this.feedbackContainer = document.createElement("div");
-        this.feedbackContainer.className = "mt-lg";
-        this.container.appendChild(this.feedbackContainer);
-      }
-
-      check() {
-        if (this.selectedAnswer === null) {
-          this.showFeedback("Please select an answer.", "warning");
-          return;
-        }
-
-        const isCorrect = this.selectedAnswer === this.correctAnswer;
-        if (isCorrect) {
-          this.showFeedback("Correct.", "success");
-          this.submitBtn.disabled = true;
-        } else {
-          this.showFeedback(
-            `Incorrect. The correct answer is: ${this.options[this.correctAnswer]}.${this.explanation ? " " + this.explanation : ""}`,
-            "danger"
-          );
-        }
-
-        this.onAnswer({
-          question: this.question,
-          selected: this.options[this.selectedAnswer],
-          correct: isCorrect,
-        });
-      }
-
-      showFeedback(message, type) {
-        this.feedbackContainer.innerHTML = "";
-        const alert = document.createElement("div");
-        alert.className = `alert alert-${type}`;
-        alert.textContent = message;
-        this.feedbackContainer.appendChild(alert);
-      }
-
-      getElement() {
-        return this.container;
-      }
-    }
-
-    const analytics = new LabAnalytics("w6-mrp");
-
-    const aggregatePlanningData = {
-      stable: {
-        cowford: "Medical Supply",
-        color: CowfordSubsidiaries.medicalSupply.color,
-        monthlyDemand: [500, 510, 495, 505, 515, 490, 500, 510, 495, 505, 515, 500],
-        costPerUnit: 50,
-        holdingCostPerUnit: 2,
-        setupCostPerMonth: 3000,
-      },
-      seasonal: {
-        cowford: "Brewery",
-        color: CowfordSubsidiaries.brewery.color,
-        monthlyDemand: [300, 350, 400, 600, 700, 800, 900, 800, 600, 400, 350, 300],
-        costPerUnit: 35,
-        holdingCostPerUnit: 3,
-        setupCostPerMonth: 5000,
-      },
-      volatile: {
-        cowford: "Green Build",
-        color: CowfordSubsidiaries.greenBuild.color,
-        monthlyDemand: [200, 150, 500, 300, 400, 200, 600, 100, 450, 350, 280, 320],
-        costPerUnit: 60,
-        holdingCostPerUnit: 4,
-        setupCostPerMonth: 6000,
-      },
-    };
-
-    function calculateAggregatePlan(demandPattern, strategy, horizonMonths) {
-      const data = aggregatePlanningData[demandPattern];
-      const demand = data.monthlyDemand.slice(0, horizonMonths);
-      const avgDemand = demand.reduce((a, b) => a + b, 0) / demand.length;
-      const production = [];
-      const inventory = [];
-      let endingInventory = 0;
-      let totalCost = 0;
-
-      demand.forEach((periodDemand) => {
-        let producedAmount;
-
-        if (strategy === "chase") {
-          producedAmount = periodDemand;
-        } else if (strategy === "smooth") {
-          producedAmount = Math.ceil(avgDemand);
-        } else {
-          producedAmount = Math.ceil(avgDemand * 0.75 + periodDemand * 0.25);
-        }
-
-        endingInventory = Math.max(0, endingInventory + producedAmount - periodDemand);
-        production.push(producedAmount);
-        inventory.push(endingInventory);
-        totalCost += data.setupCostPerMonth + endingInventory * data.holdingCostPerUnit;
-      });
-
-      return {
-        demand,
-        production,
-        inventory,
-        totalCost,
-        avgCost: totalCost / horizonMonths,
-        cowford: data.cowford,
-        color: data.color,
-      };
-    }
-
-    function calculateMRP(masterSchedule, leadTimes, safetyStock) {
-      const periods = 8;
-      const masterWeekIndex = 3;
-      const levels = {
-        finished: {
-          name: "Finished Product",
-          leadTime: 0,
-          multiplier: 1,
-          parent: null,
-          grossReqs: Array(periods).fill(0),
-          availableInventory: Array(periods).fill(0),
-          netReqs: Array(periods).fill(0),
-          plannedReceipts: Array(periods).fill(0),
-          plannedReleases: Array(periods).fill(0),
-        },
-        a: {
-          name: "Component A (qty 2)",
-          leadTime: leadTimes.a || 2,
-          multiplier: 2,
-          parent: "finished",
-          grossReqs: Array(periods).fill(0),
-          availableInventory: Array(periods).fill(0),
-          netReqs: Array(periods).fill(0),
-          plannedReceipts: Array(periods).fill(0),
-          plannedReleases: Array(periods).fill(0),
-        },
-        b: {
-          name: "Component B (qty 1)",
-          leadTime: leadTimes.b || 3,
-          multiplier: 1,
-          parent: "finished",
-          grossReqs: Array(periods).fill(0),
-          availableInventory: Array(periods).fill(0),
-          netReqs: Array(periods).fill(0),
-          plannedReceipts: Array(periods).fill(0),
-          plannedReleases: Array(periods).fill(0),
-        },
-        b1: {
-          name: "Raw Material B1 (qty 3 per B)",
-          leadTime: 1,
-          multiplier: 3,
-          parent: "b",
-          grossReqs: Array(periods).fill(0),
-          availableInventory: Array(periods).fill(0),
-          netReqs: Array(periods).fill(0),
-          plannedReceipts: Array(periods).fill(0),
-          plannedReleases: Array(periods).fill(0),
-        },
-        c: {
-          name: "Component C (qty 1)",
-          leadTime: leadTimes.c || 2,
-          multiplier: 1,
-          parent: "finished",
-          grossReqs: Array(periods).fill(0),
-          availableInventory: Array(periods).fill(0),
-          netReqs: Array(periods).fill(0),
-          plannedReceipts: Array(periods).fill(0),
-          plannedReleases: Array(periods).fill(0),
-        },
-      };
-
-      levels.finished.grossReqs[masterWeekIndex] = masterSchedule;
-
-      function calculateLevel(level) {
-        let available = 0;
-        for (let i = 0; i < periods; i += 1) {
-          const gross = level.grossReqs[i];
-          const netReq = Math.max(0, gross + safetyStock - available);
-          level.netReqs[i] = netReq;
-          level.plannedReceipts[i] = netReq;
-
-          if (netReq > 0) {
-            const releaseIndex = Math.max(0, i - level.leadTime);
-            level.plannedReleases[releaseIndex] += netReq;
-            available = Math.max(0, available + netReq - gross);
-          } else {
-            available = Math.max(0, available - gross);
-          }
-
-          level.availableInventory[i] = available;
-        }
-      }
-
-      ["finished", "a", "b", "b1", "c"].forEach((key) => {
-        const level = levels[key];
-        if (level.parent) {
-          levels[level.parent].plannedReleases.forEach((releaseQty, period) => {
-            level.grossReqs[period] += releaseQty * level.multiplier;
-          });
-        }
-        calculateLevel(level);
-      });
-
-      return levels;
-    }
-
-    function displayAggregatePlanResults(result) {
-      const container = document.getElementById("ap-results");
-      let tableHTML = `
-        <div class="alert alert-info">
-          <strong>${result.cowford}</strong> planning result for the selected horizon
-        </div>
-        <table class="mrp-table">
-          <thead>
-            <tr>
-              <th>Month</th>
-              <th>Demand</th>
-              <th>Production</th>
-              <th>Ending Inventory</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
-
-      result.demand.forEach((demand, index) => {
-        tableHTML += `
-          <tr>
-            <td>${index + 1}</td>
-            <td>${demand}</td>
-            <td>${result.production[index]}</td>
-            <td>${result.inventory[index]}</td>
-          </tr>
-        `;
-      });
-
-      tableHTML += `
-          </tbody>
+      <div class="output-area" id="ap-output-area" style="display:none;margin-top:1rem;">
+        <table>
+          <thead id="ap-thead"></thead>
+          <tbody id="ap-tbody"></tbody>
         </table>
-        <div class="calculation-box">
-          Total planning cost: <strong>${MathUtils.formatCurrency(result.totalCost)}</strong><br>
-          Average monthly cost: <strong>${MathUtils.formatCurrency(result.avgCost)}</strong>
+      </div>
+      <div class="result-banner" id="ap-result"></div>
+    </div>
+
+    <!-- ── TOOL 2: Job Sequencing ── -->
+    <div class="card-section">
+      <div class="section-label">Tool 2 of 3 — Job Sequencing: Cowford Bakery</div>
+
+      <div class="thread-strip">
+        <span class="thread-tag">W2 Process flow & bottlenecks</span>
+        <span class="thread-tag">W3 Constraint management</span>
+        <span class="thread-tag w6">W6 Priority rules</span>
+      </div>
+
+      <div class="prior-week">
+        <strong>Building on W2 &amp; W3:</strong> In Week 2 you identified the bottleneck workstation as the constraint limiting throughput. In Week 3, TOC told you to <em>subordinate everything to the constraint</em>. Job sequencing is how you execute that subordination — deciding the order jobs enter the constraint so the bottleneck processes work that matters most, first.
+      </div>
+
+      <p style="font-size:.86rem;margin-bottom:.9rem;">Six custom orders are queued for the Bakery oven. Compare SPT and EDD — see how average flow time and lateness change, and which orders each rule fails.</p>
+
+      <div id="seq-jobs-table"></div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:.75rem 0;">
+        <button class="run-btn" onclick="runSeq('fcfs')">FCFS</button>
+        <button class="run-btn" onclick="runSeq('spt')">SPT</button>
+        <button class="run-btn" onclick="runSeq('edd')">EDD</button>
+        <button class="run-btn" onclick="runSeq('cr')">Critical Ratio</button>
+      </div>
+      <div id="seq-result"></div>
+    </div>
+
+    <!-- ── TOOL 3: MRP Explorer ── -->
+    <div class="card-section">
+      <div class="section-label">Tool 3 of 3 — MRP: Cowford Medical Supply</div>
+
+      <div class="thread-strip">
+        <span class="thread-tag">W3 Dependent vs. independent demand</span>
+        <span class="thread-tag">W5 Lead time & order timing</span>
+        <span class="thread-tag w6">W6 MRP explosion</span>
+      </div>
+
+      <div class="prior-week">
+        <strong>Building on W3 &amp; W5:</strong> In Week 3 you distinguished independent demand (driven by customers) from dependent demand (derived from the production plan). In Week 5 you saw how forecast error compounds over longer horizons. MRP closes the loop: it uses the forecast-derived MPS and the BOM to calculate <em>exactly</em> when to order each component — and the longer the lead time, the earlier that order release must happen.
+      </div>
+
+      <p style="font-size:.86rem;margin-bottom:.9rem;">Medical Supply's MPS calls for sterile kits. Adjust inputs and calculate net requirements + planned order releases for sterile liners.</p>
+
+      <div class="explorer-grid">
+        <div class="control-group">
+          <label for="mrp-kits">MPS — Kits needed (Week 3)</label>
+          <input type="number" id="mrp-kits" value="500" min="100" max="1000" step="50">
         </div>
-      `;
+        <div class="control-group">
+          <label for="mrp-per">Liners per kit (from BOM)</label>
+          <input type="number" id="mrp-per" value="2" min="1" max="5" step="1">
+        </div>
+        <div class="control-group">
+          <label for="mrp-oh">On-hand liner inventory</label>
+          <input type="number" id="mrp-oh" value="150" min="0" max="500" step="10">
+        </div>
+        <div class="control-group">
+          <label for="mrp-sr">Scheduled receipt (Week 2)</label>
+          <input type="number" id="mrp-sr" value="80" min="0" max="400" step="10">
+        </div>
+        <div class="control-group">
+          <label for="mrp-ss">Safety stock (liners)</label>
+          <input type="number" id="mrp-ss" value="50" min="0" max="200" step="10">
+        </div>
+        <div class="control-group">
+          <label for="mrp-lt">Lead time (weeks)</label>
+          <input type="number" id="mrp-lt" value="1" min="1" max="4" step="1">
+        </div>
+      </div>
 
-      container.innerHTML = tableHTML;
+      <button class="run-btn" onclick="runMRP()">Explode MRP →</button>
+      <div class="mrp-table-wrap" id="mrp-output" style="display:none;"></div>
+      <div class="result-banner" id="mrp-result"></div>
+    </div>
+
+    <!-- ── TOOL 4: CPM Explorer ── -->
+    <div class="card-section">
+      <div class="section-label">Tool 4 — CPM: Cowford Green Build</div>
+
+      <div class="thread-strip">
+        <span class="thread-tag">W2 Dependency & sequencing</span>
+        <span class="thread-tag">W3 Bottleneck = critical path</span>
+        <span class="thread-tag w6">W6 CPM / PERT</span>
+      </div>
+
+      <div class="prior-week">
+        <strong>Building on W2 &amp; W3:</strong> In Week 2 you mapped process flows and identified where work had to wait. In Week 3, the Theory of Constraints said the bottleneck determines system throughput. CPM is the project-level version of that same logic: the critical path is the bottleneck of the project — it determines minimum completion time, and any delay on it propagates directly to the project finish date.
+      </div>
+
+      <p style="font-size:.86rem;margin-bottom:.9rem;">Click any activity node to see its ES, EF, LS, LF, and slack. Orange nodes are on the critical path. Change a duration and recalculate.</p>
+
+      <div id="cpm-inputs" style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.75rem;">
+        <div class="control-group" style="flex:0 0 120px;">
+          <label>A — Site Prep (days)</label>
+          <input type="number" id="cpm-A" value="4" min="1" max="10" onchange="runCPM()">
+        </div>
+        <div class="control-group" style="flex:0 0 120px;">
+          <label>B — Foundation</label>
+          <input type="number" id="cpm-B" value="6" min="1" max="12" onchange="runCPM()">
+        </div>
+        <div class="control-group" style="flex:0 0 120px;">
+          <label>C — Module Delivery</label>
+          <input type="number" id="cpm-C" value="3" min="1" max="10" onchange="runCPM()">
+        </div>
+        <div class="control-group" style="flex:0 0 120px;">
+          <label>D — Installation</label>
+          <input type="number" id="cpm-D" value="5" min="1" max="10" onchange="runCPM()">
+        </div>
+        <div class="control-group" style="flex:0 0 120px;">
+          <label>E — Elec & Plumbing</label>
+          <input type="number" id="cpm-E" value="7" min="1" max="14" onchange="runCPM()">
+        </div>
+        <div class="control-group" style="flex:0 0 120px;">
+          <label>F — Interior Finish</label>
+          <input type="number" id="cpm-F" value="4" min="1" max="10" onchange="runCPM()">
+        </div>
+        <div class="control-group" style="flex:0 0 120px;">
+          <label>G — Inspection</label>
+          <input type="number" id="cpm-G" value="2" min="1" max="6" onchange="runCPM()">
+        </div>
+      </div>
+
+      <div id="cpm-diagram"></div>
+      <div class="result-banner show" id="cpm-result" style="margin-top:.75rem;"></div>
+    </div>
+
+  </div><!-- /card -->
+</div><!-- /phase-0 -->
+
+
+<!-- ════════════════════════════════════════════
+     PHASE 2 — REINFORCEMENT
+     ════════════════════════════════════════════ -->
+<div class="phase-panel" id="phase-1">
+
+  <div class="phase-header">
+    <span class="ph-icon">🧠</span>
+    <div>
+      <h2>Phase 2 — Reinforcement Quiz</h2>
+      <p>10 questions across all W6 topics, plus two prior-week integration questions. Immediate feedback.</p>
+    </div>
+    <span class="ph-time">15–20 min</span>
+  </div>
+  <div class="card" id="quiz-card">
+    <div class="section-label">Questions 1–12 · Select an answer, then check it</div>
+    <div id="quiz-container"></div>
+    <div style="margin-top:1.25rem;">
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="quiz-progress" style="width:0%"></div></div>
+      <div style="font-size:.78rem;color:var(--muted);margin-top:.25rem;" id="quiz-score-label">0 of 12 answered</div>
+    </div>
+  </div>
+
+</div><!-- /phase-1 -->
+
+
+<!-- ════════════════════════════════════════════
+     PHASE 3 — GUIDED DIAGNOSTIC
+     ════════════════════════════════════════════ -->
+<div class="phase-panel" id="phase-2">
+
+  <div class="phase-header">
+    <span class="ph-icon">🔬</span>
+    <div>
+      <h2>Phase 3 — Guided Diagnostic</h2>
+      <p>Step-by-step frameworks for each problem type you'll encounter on W6.C and W6.D.</p>
+    </div>
+    <span class="ph-time">10–15 min</span>
+  </div>
+  <div class="card">
+
+    <div class="card-section">
+      <div class="section-label">Framework A — Aggregate Planning Cost Comparison</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body"><strong>Convert demand to workforce</strong> Divide each period's demand by output per worker. Round up — you can't have a fraction of a worker. Write the required workforce for each period.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-body"><strong>Calculate period-to-period changes</strong> Compare each period's workforce to the prior period. Positive delta = hires; negative delta = layoffs. First period compares to current workforce.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-body"><strong>Multiply changes by their unit costs</strong> Hires × hiring cost per worker + Layoffs × layoff cost per worker = chase strategy total.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-body"><strong>For level strategy: track ending inventory</strong> Each period: Ending Inv = Prior Ending Inv + Production − Demand. If any period goes negative, the plan is infeasible as written.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-body"><strong>Sum holding costs</strong> Multiply each period's ending inventory by the holding cost per unit. Sum across all periods. Compare to chase cost — the lower number wins unless other constraints (shelf life, labor relations) disqualify it.</div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <span class="callout-icon">✅</span>
+        <div><strong>Prior-week connection (W5):</strong> The demand figures you're planning against came from a forecast. A higher MAD on that forecast means your ending inventory buffers should be larger — under-forecasting in Month 2 leaves you short even with a good level plan.</div>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <div class="section-label">Framework B — Job Sequencing</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body"><strong>Sort by the chosen rule</strong> SPT: ascending processing time. EDD: ascending due date. FCFS: arrival order. CR: ascending (time remaining ÷ work remaining); recalculate each period.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-body"><strong>Compute cumulative completion times</strong> Job 1 completes at its own processing time. Each subsequent job completes at the prior cumulative time + its own processing time.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-body"><strong>Calculate lateness for each job</strong> Lateness = Completion Time − Due Date. If this is negative (early), record 0. Never record a negative lateness.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-body"><strong>Average flow time</strong> Sum all completion times, divide by number of jobs. Lower is better for throughput and WIP.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-body"><strong>Make the business judgment</strong> SPT minimizes average flow time but may let a high-value job run late. EDD minimizes maximum lateness. Choose the rule that protects what your specific business values most.</div>
+        </div>
+      </div>
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div><strong>Prior-week connection (W3 TOC):</strong> The sequencing rule only matters at the bottleneck. Non-bottleneck workstations have slack; you can't optimize the whole system by sequencing a non-constraint. Ask: <em>is this the bottleneck?</em> before applying a priority rule.</div>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <div class="section-label">Framework C — MRP Net Requirements</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body"><strong>Identify gross requirements from the MPS × BOM</strong> Gross requirement = MPS quantity × number of that component per finished unit (from the bill of materials).</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-body"><strong>Identify all available supply</strong> Available = On-hand inventory + Scheduled receipts arriving before the requirement is needed. Subtract nothing yet.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-body"><strong>Calculate net requirement</strong> Net Req = Gross Req − Available. If this is negative or zero, no order is needed. If positive, you must order.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-body"><strong>Add safety stock</strong> Order Quantity = Net Req + Safety Stock. Safety stock protects against demand spikes and supplier delays — it's the MRP-level answer to forecast error (W5 connection).</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-body"><strong>Offset for lead time</strong> Planned Order Release Period = Requirement Period − Lead Time. If the requirement is in Week 4 and lead time is 2 weeks, the order goes in Week 2. Subtracting lead time, never adding it.</div>
+        </div>
+      </div>
+      <div class="callout danger">
+        <span class="callout-icon">🚫</span>
+        <div><strong>Most common error:</strong> Students add the lead time instead of subtracting it. The order release goes <em>before</em> the requirement, not after. If the requirement is Week 5 and lead time is 2 weeks → release Week 3, not Week 7.</div>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <div class="section-label">Framework D — CPM Forward & Backward Pass</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body"><strong>Forward pass — compute ES and EF for every activity</strong> Start at the beginning: ES of the first activity = 0. EF = ES + Duration. For any activity with multiple predecessors, ES = max(EF of all predecessors).</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-body"><strong>Project duration</strong> The project's earliest completion = max(EF of all final activities). This is the critical path length.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-body"><strong>Backward pass — compute LF and LS</strong> Start at the end: LF of the last activity = Project Duration. LS = LF − Duration. For any activity with multiple successors, LF = min(LS of all successors).</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-body"><strong>Calculate slack</strong> Slack = LS − ES (equivalently: LF − EF). Zero slack = critical path. Positive slack = the activity can be delayed that many periods without affecting project completion.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-body"><strong>Crashing decision</strong> Only crash critical-path activities — crashing a non-critical activity wastes money without shortening the project. If two paths tie for critical after a crash, both must be crashed simultaneously to compress further.</div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <span class="callout-icon">✅</span>
+        <div><strong>Prior-week connection (W4 Quality):</strong> In Week 4 you saw that rework is one of the most expensive forms of waste (cost of poor quality). Crashing a project activity by adding resources also risks quality defects if the crew is rushed — the same cost-of-quality logic applies. Speed and quality trade off; CPM gives you the schedule impact, but the quality risk is a separate judgment.</div>
+      </div>
+    </div>
+
+  </div><!-- /card -->
+</div><!-- /phase-2 -->
+
+
+<!-- ════════════════════════════════════════════
+     PHASE 4 — READINESS
+     ════════════════════════════════════════════ -->
+<div class="phase-panel" id="phase-3">
+
+  <div class="phase-header">
+    <span class="ph-icon">✅</span>
+    <div>
+      <h2>Phase 4 — Assignment Readiness</h2>
+      <p>Self-assess before W6.C and W6.D. Check every box you can honestly claim.</p>
+    </div>
+    <span class="ph-time">5 min</span>
+  </div>
+  <div class="card">
+
+    <div class="card-section">
+      <div class="section-label">Aggregate Planning</div>
+      <div class="checklist" id="cl-ap"></div>
+    </div>
+
+    <div class="card-section">
+      <div class="section-label">Job Sequencing</div>
+      <div class="checklist" id="cl-seq"></div>
+    </div>
+
+    <div class="card-section">
+      <div class="section-label">MRP</div>
+      <div class="checklist" id="cl-mrp"></div>
+    </div>
+
+    <div class="card-section">
+      <div class="section-label">CPM / Project Management</div>
+      <div class="checklist" id="cl-cpm"></div>
+    </div>
+
+    <div class="card-section">
+      <div class="section-label">Cross-Week Connections</div>
+      <div class="checklist" id="cl-cross"></div>
+    </div>
+
+    <div class="card-section">
+      <div class="progress-bar-wrap" style="height:10px;">
+        <div class="progress-bar-fill" id="ready-progress" style="width:0%;height:10px;"></div>
+      </div>
+      <div style="font-size:.82rem;color:var(--muted);margin-top:.35rem;" id="ready-label">0 of 15 items checked</div>
+
+      <div class="callout info" style="margin-top:1rem;">
+        <span class="callout-icon">ℹ️</span>
+        <div>
+          <strong>W6.C — Concept Check:</strong> 15 questions · 25 points · 35 minutes · One attempt.<br>
+          <strong>W6.D — Cowford Application Quiz:</strong> Applied scenario requiring calculation and judgment · 30 minutes.
+        </div>
+      </div>
+
+      <div class="callout warn" style="margin-top:.5rem;">
+        <span class="callout-icon">⚠️</span>
+        <div>If you have more than 3 items unchecked in any single section, return to Phase 1 for that tool or Phase 3 for that framework before opening W6.C. The concept check is timed and does not allow revisiting questions.</div>
+      </div>
+    </div>
+
+  </div><!-- /card -->
+</div><!-- /phase-3 -->
+
+</main>
+
+<!-- ════════════ JAVASCRIPT ════════════ -->
+<script>
+
+/* ── PHASE NAV ── */
+function showPhase(n) {
+  document.querySelectorAll('.phase-panel').forEach((p,i) => p.classList.toggle('active', i===n));
+  document.querySelectorAll('.phase-btn').forEach((b,i) => b.classList.toggle('active', i===n));
+}
+
+/* ══════════════════════════════════════
+   AGGREGATE PLANNING
+══════════════════════════════════════ */
+const AP_PRESETS = {
+  seasonal: [600,1000,800,400],
+  stable:   [900,900,900,900],
+  volatile: [300,1200,500,800]
+};
+
+function updateAPPreset() {
+  // no-op for now; pattern label informs user
+}
+
+function runAP() {
+  const pattern  = document.getElementById('ap-pattern').value;
+  const strategy = document.getElementById('ap-strategy').value;
+  const output   = +document.getElementById('ap-output').value;
+  const current  = +document.getElementById('ap-current').value;
+  const hireCost = +document.getElementById('ap-hire').value;
+  const layCost  = +document.getElementById('ap-layoff').value;
+  const holdCost = +document.getElementById('ap-hold').value;
+  const otCost   = +document.getElementById('ap-ot').value;
+
+  const demand = AP_PRESETS[pattern];
+  const months = ['Month 1','Month 2','Month 3','Month 4'];
+  let rows = [];
+  let totalHireCost=0, totalLayCost=0, totalHoldCost=0, totalOTCost=0;
+  let prevWorkers = current;
+  let prevInv = 0;
+
+  // Determine level workforce (total demand / periods, round up)
+  const totalDemand = demand.reduce((a,b)=>a+b,0);
+  const avgDemand   = totalDemand / demand.length;
+  const levelWF     = Math.ceil(avgDemand / output);
+
+  for(let i=0;i<4;i++){
+    let workers, hires=0, layoffs=0, inventory=0, ot=0;
+    let hireCostP=0, layCostP=0, holdCostP=0, otCostP=0;
+
+    if(strategy==='chase'){
+      workers = Math.ceil(demand[i]/output);
+      const delta = workers - prevWorkers;
+      if(delta>0) hires=delta; else layoffs=Math.abs(delta);
+      hireCostP = hires*hireCost;
+      layCostP  = layoffs*layCost;
+    } else if(strategy==='level'){
+      workers = levelWF;
+      if(i===0){
+        const delta=workers-current;
+        if(delta>0) hires=delta; else layoffs=Math.abs(delta);
+        hireCostP=hires*hireCost; layCostP=layoffs*layCost;
+      }
+      inventory = prevInv + workers*output - demand[i];
+      holdCostP = Math.max(inventory,0)*holdCost;
+    } else { // mixed: stable at ceil(avg)+1, with limited overtime for peaks
+      workers = Math.min(current, Math.ceil(avgDemand/output)+1);
+      if(i===0){
+        const delta=workers-current;
+        if(delta>0) hires=delta; else layoffs=Math.abs(delta);
+        hireCostP=hires*hireCost; layCostP=layoffs*layCost;
+      }
+      const regularProd = workers*output;
+      if(demand[i]>regularProd){
+        ot = demand[i]-regularProd;
+        otCostP = ot*otCost;
+      }
+      inventory = Math.max(prevInv + regularProd + ot - demand[i], 0);
+      holdCostP = inventory*holdCost;
     }
 
-    function displayMRPResults(levels) {
-      const container = document.getElementById("mrp-results");
-      let html = '<div class="alert alert-info">MRP planned order schedule. Planned releases show when the order should be placed.</div>';
+    const periodCost = hireCostP+layCostP+holdCostP+otCostP;
+    totalHireCost+=hireCostP; totalLayCost+=layCostP;
+    totalHoldCost+=holdCostP; totalOTCost+=otCostP;
 
-      Object.entries(levels).forEach(([, level]) => {
-        html += `
-          <div class="card" style="border-top: 4px solid var(--unf-navy);">
-            <h4 style="margin-top: 0;">${level.name}</h4>
-            <table class="mrp-table">
-              <thead>
-                <tr>
-                  <th>Period</th>
-                  <th>Gross Req.</th>
-                  <th>Avail. Inv.</th>
-                  <th>Net Req.</th>
-                  <th>Planned Receipt</th>
-                  <th>Planned Release</th>
-                </tr>
-              </thead>
-              <tbody>
-        `;
+    rows.push({month:months[i],demand:demand[i],workers,hires,layoffs,ot,inventory:Math.max(inventory,0),
+      hireCostP,layCostP,holdCostP,otCostP,periodCost,feasible:inventory>=0||strategy==='chase'});
 
-        for (let i = 0; i < 8; i += 1) {
-          html += `
-            <tr>
-              <td>${i + 1}</td>
-              <td>${level.grossReqs[i]}</td>
-              <td>${level.availableInventory[i]}</td>
-              <td>${level.netReqs[i]}</td>
-              <td>${level.plannedReceipts[i]}</td>
-              <td><strong>${level.plannedReleases[i]}</strong></td>
-            </tr>
-          `;
-        }
+    prevWorkers=workers;
+    prevInv=Math.max(inventory,0);
+  }
 
-        html += "</tbody></table></div>";
-      });
+  const totalCost = totalHireCost+totalLayCost+totalHoldCost+totalOTCost;
+  const isChase = strategy==='chase';
 
-      container.innerHTML = html;
+  // Build table
+  const colsChase  = ['Month','Demand','Workers Needed','Hires','Layoffs','Hiring Cost','Layoff Cost','Period Cost'];
+  const colsLevel  = ['Month','Demand','Workers','Ending Inventory','Holding Cost','Hire/Layoff Cost','Period Cost'];
+  const colsMixed  = ['Month','Demand','Workers','OT Barrels','Ending Inventory','OT Cost','Hold Cost','Period Cost'];
+
+  let thead='<tr>';
+  let cols = isChase ? colsChase : strategy==='level' ? colsLevel : colsMixed;
+  cols.forEach(c=>{ thead+=`<th>${c}</th>`; });
+  thead+='</tr>';
+
+  let tbody='';
+  rows.forEach(r=>{
+    const inf = !r.feasible ? ' class="shortage"' : '';
+    if(isChase){
+      tbody+=`<tr${inf}><td>${r.month}</td><td class="num">${r.demand}</td>
+        <td class="num">${r.workers}</td><td class="num">${r.hires}</td><td class="num">${r.layoffs}</td>
+        <td class="num">$${r.hireCostP.toLocaleString()}</td><td class="num">$${r.layCostP.toLocaleString()}</td>
+        <td class="num">$${r.periodCost.toLocaleString()}</td></tr>`;
+    } else if(strategy==='level'){
+      const invClass = r.inventory<0?' class="pos"':r.inventory===0?' class="zero"':'';
+      tbody+=`<tr${inf}><td>${r.month}</td><td class="num">${r.demand}</td>
+        <td class="num">${r.workers}</td>
+        <td class="num"${invClass}>${r.inventory<0?'⚠️ '+r.inventory:r.inventory}</td>
+        <td class="num">$${r.holdCostP.toLocaleString()}</td>
+        <td class="num">$${(r.hireCostP+r.layCostP).toLocaleString()}</td>
+        <td class="num">$${r.periodCost.toLocaleString()}</td></tr>`;
+    } else {
+      tbody+=`<tr><td>${r.month}</td><td class="num">${r.demand}</td>
+        <td class="num">${r.workers}</td><td class="num">${r.ot}</td>
+        <td class="num">${r.inventory}</td>
+        <td class="num">$${r.otCostP.toLocaleString()}</td>
+        <td class="num">$${r.holdCostP.toLocaleString()}</td>
+        <td class="num">$${r.periodCost.toLocaleString()}</td></tr>`;
     }
+  });
 
-    function initializeQuizzes() {
-      const quizzes = [
-        {
-          id: "q1",
-          question: "In a <strong>chase production strategy</strong>, what typically increases?",
-          options: ["Holding costs (inventory)", "Setup and workforce adjustment costs", "Lead time", "Demand variability"],
-          correctAnswer: 1,
-          explanation: "Chase strategy follows demand closely, which usually requires frequent staffing or production changes.",
-        },
-        {
-          id: "q2",
-          question: "A level production strategy works best when:",
-          options: ["Demand is stable and predictable", "Holding costs are very high", "Demand is highly seasonal", "Setup costs are zero"],
-          correctAnswer: 0,
-          explanation: "Level production spreads output evenly; it works best with stable demand or inventory that can buffer changes.",
-        },
-        {
-          id: "q3",
-          question: "The <strong>Bill of Materials (BOM)</strong> tells you:",
-          options: ["The cost of each component", "How many of each component are needed per finished product", "The lead time for delivery", "The supplier for each part"],
-          correctAnswer: 1,
-          explanation: "A BOM is a structured list showing component quantities needed per unit of finished product.",
-        },
-        {
-          id: "q4",
-          question: "If Component A has a 2-week lead time and we need it in Week 4, when should we place the order?",
-          options: ["Week 1", "Week 2", "Week 3", "Week 4"],
-          correctAnswer: 1,
-          explanation: "Lead time offsetting means order release = need date - lead time, so Week 4 - 2 = Week 2.",
-        },
-      ];
+  // Total row
+  if(isChase){
+    tbody+=`<tr class="total"><td colspan="5">Total</td>
+      <td class="num">$${totalHireCost.toLocaleString()}</td>
+      <td class="num">$${totalLayCost.toLocaleString()}</td>
+      <td class="num">$${totalCost.toLocaleString()}</td></tr>`;
+  } else if(strategy==='level'){
+    tbody+=`<tr class="total"><td colspan="5">Total</td>
+      <td class="num">$${totalHoldCost.toLocaleString()}</td>
+      <td class="num">$${(totalHireCost+totalLayCost).toLocaleString()}</td>
+      <td class="num">$${totalCost.toLocaleString()}</td></tr>`;
+  } else {
+    tbody+=`<tr class="total"><td colspan="6">Total</td>
+      <td class="num">$${totalOTCost.toLocaleString()}</td>
+      <td class="num">$${totalHoldCost.toLocaleString()}</td>
+      <td class="num">$${totalCost.toLocaleString()}</td></tr>`;
+  }
 
-      const container = document.getElementById("quiz-container");
-      quizzes.forEach((quizData) => {
-        const quiz = new QuizQuestion({
-          ...quizData,
-          onAnswer: (data) => analytics.track("quiz_answered", data),
-        });
-        container.appendChild(quiz.getElement());
-      });
-    }
+  const area = document.getElementById('ap-output-area');
+  area.style.display='block';
+  document.getElementById('ap-thead').innerHTML=thead;
+  document.getElementById('ap-tbody').innerHTML=tbody;
 
-    function initializeDiagnostic() {
-      const container = document.getElementById("diagnostic-container");
-      const steps = [
-        {
-          title: "Step 1: Assess Your Demand",
-          content: `
-            <p>Is your demand stable, seasonal, or volatile?</p>
-            <ul>
-              <li><strong>Stable:</strong> Use level production or simple forecasting.</li>
-              <li><strong>Seasonal:</strong> Consider hybrid strategy or safety stock.</li>
-              <li><strong>Volatile:</strong> May need higher safety stock or flexible capacity.</li>
-            </ul>
-            <div class="calculation-box">
-              Example: Brewery demand ranges from 300 to 900 units/month, so it is seasonal.
-            </div>
-          `,
-        },
-        {
-          title: "Step 2: Determine Your Constraints",
-          content: `
-            <p>What are your resource and cost constraints?</p>
-            <ul>
-              <li>What is your production capacity per month?</li>
-              <li>What is your holding cost per unit?</li>
-              <li>What is your setup or workforce adjustment cost?</li>
-              <li>What is your supplier lead time?</li>
-            </ul>
-          `,
-        },
-        {
-          title: "Step 3: Choose Your Aggregate Planning Strategy",
-          content: `
-            <table class="mrp-table">
-              <tr><th>Strategy</th><th>Best For</th><th>Primary Trade-Off</th></tr>
-              <tr><td>Chase</td><td>Variable demand, low adjustment cost</td><td>Workforce or setup instability</td></tr>
-              <tr><td>Level</td><td>Stable demand or storable products</td><td>Inventory holding cost</td></tr>
-              <tr><td>Hybrid</td><td>Moderate seasonal demand</td><td>Balanced complexity</td></tr>
-            </table>
-          `,
-        },
-        {
-          title: "Step 4: Build Your Master Schedule and Explode the BOM",
-          content: `
-            <ol>
-              <li>Start with the Master Production Schedule.</li>
-              <li>Use the Bill of Materials to identify component quantities.</li>
-              <li>Explode gross requirements: MPS quantity times BOM quantity.</li>
-              <li>Offset orders by lead time.</li>
-              <li>Calculate planned order releases.</li>
-            </ol>
-            <div class="calculation-box">
-              Need 100 finished products in Week 4. Each uses 2 units of Component A.
-              Gross requirement for A = 100 x 2 = 200 units. With a 2-week lead time, release in Week 2.
-            </div>
-          `,
-        },
-        {
-          title: "Step 5: Document Your Assumptions and Decisions",
-          content: `
-            <p>For W6.D, clearly state the demand pattern, chosen strategy, relevant costs, and what would change if demand, lead time, or capacity changed.</p>
-            <div class="alert alert-info">
-              Template: For [Cowford subsidiary], I chose [strategy] because [reason]. This changes cost, stability, or service level by [evidence].
-            </div>
-          `,
-        },
-      ];
+  const hasShortfall = rows.some(r=>r.inventory<0);
+  const stratLabel = {chase:'Chase',level:'Level',mixed:'Mixed'}[strategy];
+  let msg = `<strong>${stratLabel} strategy total cost: $${totalCost.toLocaleString()}</strong>`;
+  if(hasShortfall) msg += ' — ⚠️ One or more periods show a production shortfall. This plan is infeasible as written — consider raising the workforce level or adding a subcontracting buffer.';
+  else msg += ' — Plan is feasible. Try a different strategy to compare total costs.';
 
-      container.innerHTML = steps.map((step) => `
-        <details>
-          <summary>${step.title}</summary>
-          <div class="details-body">${step.content}</div>
-        </details>
-      `).join("");
-    }
+  const res = document.getElementById('ap-result');
+  res.innerHTML=msg; res.classList.add('show');
+}
 
-    document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("ap-btn").addEventListener("click", () => {
-        const pattern = document.getElementById("ap-demand").value;
-        const strategy = document.getElementById("ap-strategy").value;
-        const months = parseInt(document.getElementById("ap-months").value, 10);
-        const result = calculateAggregatePlan(pattern, strategy, months);
-        displayAggregatePlanResults(result);
-        analytics.track("ap_calculated", { pattern, strategy, months, totalCost: result.totalCost });
-      });
 
-      document.getElementById("mrp-calculate").addEventListener("click", () => {
-        const demand = parseInt(document.getElementById("mrp-demand-week").value, 10);
-        const leadTimes = {
-          a: parseInt(document.getElementById("mrp-lead-a").value, 10),
-          b: parseInt(document.getElementById("mrp-lead-b").value, 10),
-          c: 2,
-        };
-        const safetyStock = parseInt(document.getElementById("mrp-ss").value, 10);
-        const result = calculateMRP(demand, leadTimes, safetyStock);
-        displayMRPResults(result);
-        analytics.track("mrp_calculated", { demand, leadTimes, safetyStock });
-      });
+/* ══════════════════════════════════════
+   JOB SEQUENCING
+══════════════════════════════════════ */
+const JOBS = [
+  {id:'A', name:'Smith Wedding Cake',     pt:5, due:10, revenue:450},
+  {id:'B', name:'Corporate Event Trays',  pt:7, due:15, revenue:120},
+  {id:'C', name:'Custom Catering Order',  pt:2, due:5,  revenue:280},
+  {id:'D', name:'Regular Customer #1',    pt:5, due:12, revenue:180},
+  {id:'E', name:'Regular Customer #2',    pt:4, due:9,  revenue:200},
+  {id:'F', name:'Catering Firm Order',    pt:6, due:18, revenue:350},
+];
 
-      initializeQuizzes();
-      initializeDiagnostic();
+(function initSeqTable(){
+  let h='<div class="seq-table-wrap"><table class="seq-table"><thead><tr>';
+  ['Job','Description','Proc. Time (hrs)','Due (hrs)','Revenue'].forEach(c=>h+=`<th>${c}</th>`);
+  h+='</tr></thead><tbody>';
+  JOBS.forEach(j=>{
+    h+=`<tr><td><strong>${j.id}</strong></td><td>${j.name}</td>
+      <td class="num">${j.pt}</td><td class="num">${j.due}</td>
+      <td class="num">$${j.revenue}</td></tr>`;
+  });
+  h+='</tbody></table></div>';
+  document.getElementById('seq-jobs-table').innerHTML=h;
+})();
 
-      const checkboxes = document.querySelectorAll('#readiness-checklist input[type="checkbox"]');
-      checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener("change", () => {
-          const checked = Array.from(checkboxes).filter((item) => item.checked).length;
-          const result = document.getElementById("readiness-result");
+function runSeq(rule){
+  let seq = [...JOBS];
+  const label = {fcfs:'FCFS (Arrival Order)',spt:'SPT (Shortest Processing Time)',
+                 edd:'EDD (Earliest Due Date)',cr:'Critical Ratio'}[rule];
 
-          if (checked === checkboxes.length) {
-            result.innerHTML = '<div class="alert alert-success">You are ready. Proceed to W6.C and W6.D.</div>';
-          } else if (checked >= 6) {
-            result.innerHTML = `<div class="alert alert-warning">You have completed ${checked}/${checkboxes.length} items. Review the unchecked items before proceeding.</div>`;
-          } else {
-            result.innerHTML = "";
-          }
-        });
-      });
+  if(rule==='spt') seq.sort((a,b)=>a.pt-b.pt);
+  else if(rule==='edd') seq.sort((a,b)=>a.due-b.due);
+  else if(rule==='cr'){
+    // CR at time 0: due/pt
+    seq.sort((a,b)=>(a.due/a.pt)-(b.due/b.pt));
+  }
+  // FCFS: arrival order (as defined)
+
+  let ct=0, totalCT=0, lateCount=0, totalRevLate=0;
+  let rows=[];
+  seq.forEach(j=>{
+    ct+=j.pt;
+    const late=Math.max(ct-j.due,0);
+    if(late>0){ lateCount++; totalRevLate+=j.revenue; }
+    totalCT+=ct;
+    rows.push({...j,ct,late});
+  });
+  const avgFT=(totalCT/seq.length).toFixed(1);
+
+  let h=`<div style="margin-top:.75rem;">
+    <div class="section-label">${label} — Results</div>
+    <div class="seq-table-wrap"><table class="seq-table"><thead><tr>`;
+  ['Order','Job','Description','Proc.','Completion','Due','Lateness'].forEach(c=>h+=`<th>${c}</th>`);
+  h+='</tr></thead><tbody>';
+  rows.forEach((r,i)=>{
+    const lateClass = r.late>0?'late':'ontime';
+    const hl = r.id==='A'?' class="highlight"':''; // highlight the wedding cake
+    h+=`<tr${hl}><td>${i+1}</td><td><strong>${r.id}</strong></td><td>${r.name}</td>
+      <td class="num">${r.pt}</td><td class="num">${r.ct}</td>
+      <td class="num">${r.due}</td>
+      <td class="num ${lateClass}">${r.late>0?'+'+r.late+' ★':'On time'}</td></tr>`;
+  });
+  h+='</tbody></table></div>';
+  h+=`<div class="result-banner show" style="margin-top:.65rem;">
+    <strong>Avg flow time: ${avgFT} hrs</strong> &nbsp;·&nbsp;
+    Jobs late: ${lateCount} &nbsp;·&nbsp;
+    Revenue at risk from late jobs: $${totalRevLate.toLocaleString()}
+    ${lateCount===0?' — 🎉 All jobs on time!':lateCount===1&&rows.find(r=>r.id==='A'&&r.late>0)?
+    ' — ⚠️ The $450 wedding cake (Job A) is late under this rule. Try EDD or consider manual override for deadline-sensitive orders.':''}
+  </div></div>`;
+
+  document.getElementById('seq-result').innerHTML=h;
+}
+
+
+/* ══════════════════════════════════════
+   MRP
+══════════════════════════════════════ */
+function runMRP(){
+  const kits  = +document.getElementById('mrp-kits').value;
+  const per   = +document.getElementById('mrp-per').value;
+  const oh    = +document.getElementById('mrp-oh').value;
+  const sr    = +document.getElementById('mrp-sr').value;
+  const ss    = +document.getElementById('mrp-ss').value;
+  const lt    = +document.getElementById('mrp-lt').value;
+
+  const grossReq = kits * per;
+  const available = oh + sr;
+  const netReq = Math.max(grossReq - available, 0);
+  const orderQty = netReq + ss;
+  const releaseWeek = 3 - lt; // requirement week 3
+  const feasible = releaseWeek >= 1;
+
+  // Build MRP record table — 5 weeks
+  const weeks = [1,2,3,4,5];
+  let rows_data = weeks.map(w=>({
+    w,
+    gross: w===3 ? grossReq : 0,
+    sr: w===2 ? sr : 0,
+    oh_beg: w===1 ? oh : null,
+    net: w===3 ? netReq : 0,
+    receipt: w===3 ? (netReq>0 ? orderQty : 0) : 0,
+    release: (w===releaseWeek && netReq>0) ? orderQty : 0
+  }));
+
+  // compute projected OH per week
+  let projOH = oh;
+  rows_data.forEach(r=>{
+    r.oh_beg = projOH;
+    projOH = projOH + r.sr + r.receipt - r.gross;
+    r.oh_end = projOH;
+  });
+
+  let h='<div class="mrp-table-wrap"><table class="mrp-table"><thead><tr>';
+  h+='<th class="row-hdr">MRP Record — Sterile Liners</th>';
+  weeks.forEach(w=>h+=`<th>Wk ${w}</th>`);
+  h+='</tr></thead><tbody>';
+
+  const rowDefs=[
+    {label:'Gross Requirements',     key:'gross'},
+    {label:'Scheduled Receipts',     key:'sr'},
+    {label:'Projected On-Hand (end)',key:'oh_end'},
+    {label:'Net Requirements',       key:'net'},
+    {label:'Planned Receipts',       key:'receipt'},
+    {label:'Planned Order Releases', key:'release', cls:'release'},
+  ];
+
+  rowDefs.forEach(rd=>{
+    const cls = rd.cls ? ` class="${rd.cls}"` : '';
+    h+=`<tr${cls}><td class="row-hdr">${rd.label}</td>`;
+    rows_data.forEach(r=>{
+      const v = r[rd.key];
+      h+=`<td>${v>0 ? v : (v===0 ? '—' : '—')}</td>`;
     });
-  </script>
+    h+='</tr>';
+  });
+
+  h+='</tbody></table></div>';
+  const out = document.getElementById('mrp-output');
+  out.innerHTML=h; out.style.display='block';
+
+  let msg='';
+  if(!feasible){
+    msg=`<strong>⚠️ Infeasible as planned.</strong> With a ${lt}-week lead time, the order release falls in Week ${releaseWeek}, which is in the past. The requirement cannot be met on time without expediting or reducing lead time.`;
+  } else if(netReq===0){
+    msg=`<strong>No order needed.</strong> Available supply (${available} liners) covers the gross requirement of ${grossReq} liners. Ending inventory after fulfillment: ${available-grossReq} liners (above safety stock of ${ss}).`;
+  } else {
+    msg=`<strong>Order ${orderQty} liners in Week ${releaseWeek}</strong> (${netReq} net + ${ss} safety stock). Gross requirement: ${grossReq} liners in Week 3. Available: ${oh} on-hand + ${sr} scheduled receipt = ${available}. Net: ${grossReq} − ${available} = ${netReq}.`;
+  }
+  const res=document.getElementById('mrp-result');
+  res.innerHTML=msg; res.classList.add('show');
+}
+
+
+/* ══════════════════════════════════════
+   CPM
+══════════════════════════════════════ */
+// Network: A→B→D→E→F→G, A→C→D
+function runCPM(){
+  const dur={
+    A:+document.getElementById('cpm-A').value,
+    B:+document.getElementById('cpm-B').value,
+    C:+document.getElementById('cpm-C').value,
+    D:+document.getElementById('cpm-D').value,
+    E:+document.getElementById('cpm-E').value,
+    F:+document.getElementById('cpm-F').value,
+    G:+document.getElementById('cpm-G').value,
+  };
+
+  // Forward pass
+  const es={A:0};
+  const ef={A:dur.A};
+  es.B=ef.A; ef.B=es.B+dur.B;
+  es.C=ef.A; ef.C=es.C+dur.C;
+  es.D=Math.max(ef.B,ef.C); ef.D=es.D+dur.D;
+  es.E=ef.D; ef.E=es.E+dur.E;
+  es.F=ef.E; ef.F=es.F+dur.F;
+  es.G=ef.F; ef.G=es.G+dur.G;
+
+  const projDur=ef.G;
+
+  // Backward pass
+  const lf={G:projDur};
+  const ls={G:lf.G-dur.G};
+  lf.F=ls.G; ls.F=lf.F-dur.F;
+  lf.E=ls.F; ls.E=lf.E-dur.E;
+  lf.D=ls.E; ls.D=lf.D-dur.D;
+  lf.B=ls.D; ls.B=lf.B-dur.B;
+  lf.C=ls.D; ls.C=lf.C-dur.C;
+  lf.A=Math.min(ls.B,ls.C); ls.A=lf.A-dur.A;
+
+  const slack={};
+  ['A','B','C','D','E','F','G'].forEach(k=>{ slack[k]=ls[k]-es[k]; });
+  const critical=k=>slack[k]===0;
+
+  const LABELS={A:'A — Site Prep',B:'B — Foundation',C:'C — Module Delivery',
+    D:'D — Installation',E:'E — Elec & Plumbing',F:'F — Interior Finish',G:'G — Inspection'};
+
+  // Render as two rows: A | arrows | B+C | arrow | D | ... 
+  // Simplified linear+branch visual
+  const nodes = ['A','B','C','D','E','F','G'];
+  let html='<div style="overflow-x:auto;"><div style="display:flex;flex-direction:column;gap:.5rem;min-width:480px;">';
+
+  // Row 1: A → B → (converge at D)
+  // Row 2: A → C → (converge at D)
+  // Then D → E → F → G
+
+  const nd=(k)=>`<div class="cpm-node${critical(k)?' critical':''}" title="${LABELS[k]}">
+    <div class="act-name">${k}</div>
+    <div class="act-dur">${dur[k]}d</div>
+    <div class="act-slack ${slack[k]===0?'zero':'pos-slack'}">Slack: ${slack[k]}d</div>
+    <div class="es-ef">ES${es[k]} EF${ef[k]}</div>
+  </div>`;
+  const arr=(double=false)=>`<div style="display:flex;align-items:center;justify-content:center;padding:0 .25rem;font-size:1.1rem;color:var(--muted);">${double?'⇣':'→'}</div>`;
+
+  html+=`<div style="display:flex;align-items:center;gap:.2rem;">
+    ${nd('A')} ${arr()} ${nd('B')} ${arr()} <div style="opacity:.3;font-size:.7rem;padding:0 .2rem;">⤵ D</div>
+  </div>`;
+  html+=`<div style="display:flex;align-items:center;gap:.2rem;margin-left:calc(100px + 1.2rem);">
+    ${nd('C')} ${arr()} <div style="opacity:.3;font-size:.7rem;padding:0 .2rem;">⤵ D</div>
+  </div>`;
+  html+=`<div style="display:flex;align-items:center;gap:.2rem;">
+    ${nd('D')} ${arr()} ${nd('E')} ${arr()} ${nd('F')} ${arr()} ${nd('G')}
+  </div>`;
+  html+='</div></div>';
+
+  document.getElementById('cpm-diagram').innerHTML=html;
+
+  const critPath='A → B → D → E → F → G';
+  const altPath=`A → C → D → E → F → G`;
+  document.getElementById('cpm-result').innerHTML=
+    `<strong>Project duration: ${projDur} days.</strong> 
+    Critical path: ${critPath} (${dur.A}+${dur.B}+${dur.D}+${dur.E}+${dur.F}+${dur.G} = ${dur.A+dur.B+dur.D+dur.E+dur.F+dur.G} days). 
+    Activity C has <strong>${slack.C} day${slack.C!==1?'s':''} of slack</strong> — it can slip that far without delaying the project. 
+    Activity B has <strong>${slack.B} day${slack.B!==1?'s':''} of slack</strong>. 
+    Try increasing a critical-path activity's duration — watch the project extend immediately.`;
+}
+
+/* ══════════════════════════════════════
+   QUIZ DATA & LOGIC
+══════════════════════════════════════ */
+const QUESTIONS=[
+  // W6 Aggregate Planning
+  {
+    week:'W6',topic:'Aggregate Planning',
+    q:'A pure level strategy at Cowford Brewery sets production at the average monthly demand. In Month 2, demand spikes 40% above average. What is the most likely outcome?',
+    opts:['Workers are immediately laid off to cut costs',
+          'Inventory built in Month 1 absorbs the spike — if the shelf life permits',
+          'The MRP system automatically adjusts the workforce',
+          'The critical path is extended by one period'],
+    ans:1,
+    fb:'Level strategies absorb demand peaks by drawing down inventory built during low-demand periods. The catch for Cowford Brewery is shelf life — if beer expires before Month 2, there is no buffer to draw from.'
+  },
+  {
+    week:'W6',topic:'Aggregate Planning',
+    q:'Cowford Medical Supply runs a level strategy with 9 workers producing 1,000 units/month. Month 3 demand jumps to 1,400 units due to a new hospital contract. Which lever is least disruptive?',
+    opts:['Lay off 4 workers and reduce output','Authorize limited overtime for Month 3 only',
+          'Ignore the contract and produce 1,000 units','Revise the BOM immediately'],
+    ans:1,
+    fb:'Overtime is the mixed-strategy lever that maintains workforce stability while temporarily exceeding regular-time output. Layoffs (A) destroy the level strategy. Ignoring the contract (C) damages a key relationship. The BOM (D) is unrelated to capacity decisions.'
+  },
+  // W6 Sequencing
+  {
+    week:'W6',topic:'Job Sequencing',
+    q:'Under SPT, Cowford Bakery sequences jobs C→A→E→D→F→B. Which metric does SPT definitively minimize compared to EDD?',
+    opts:['Maximum lateness','Number of late jobs','Average flow time / WIP',
+          'Revenue from on-time orders'],
+    ans:2,
+    fb:'SPT minimizes average flow time and WIP. EDD minimizes maximum lateness. Neither rule guarantees minimizing the number of late jobs or maximizing revenue — those require a more sophisticated priority scheme.'
+  },
+  {
+    week:'W6',topic:'Job Sequencing',
+    q:'Job B (7 hrs processing, due in 15 hrs) runs late under both SPT and EDD in the Bakery queue. What does this tell you?',
+    opts:['The sequencing rules are broken','The oven has insufficient capacity for the day\'s queue',
+          'Job B is inherently tight — no rule can make it on time unless it is processed first',
+          'Job B should be cancelled'],
+    ans:2,
+    fb:'When a job is late under every sequencing rule, it signals a capacity or timing problem, not a priority problem. Job B cannot finish on time unless it is processed first — which would worsen outcomes for shorter, more time-sensitive jobs. The real solution is either more capacity or renegotiating the due date.'
+  },
+  // W6 MRP
+  {
+    week:'W6',topic:'MRP',
+    q:'Cowford Medical Supply\'s MPS calls for 600 kits in Week 4. Each kit uses 2 liners. On-hand: 200. Scheduled receipt in Week 3: 100. Safety stock: 50. Lead time: 1 week. What is the planned order release week?',
+    opts:['Week 2','Week 3','Week 4','Week 5'],
+    ans:1,
+    fb:'Gross requirement = 1,200. Available = 200+100 = 300. Net = 900. Order qty = 950 (with SS). Lead time = 1 week. Requirement in Week 4 → release in Week 3. Never add lead time — always subtract it from the requirement week.'
+  },
+  {
+    week:'W6',topic:'MRP',
+    q:'The MRP system shows a planned order release for liners that falls in the past (Week 0). What does this mean operationally?',
+    opts:['The BOM needs to be updated','The order should have been placed already — expediting or rescheduling is required',
+          'Safety stock is too high','The MPS can be ignored for this item'],
+    ans:1,
+    fb:'A planned order release in the past signals that the order should already be in transit. The planner\'s immediate action is to either expedite the supplier (rush order) or revise the MPS to push the requirement out — not to ignore the signal.'
+  },
+  // W6 CPM
+  {
+    week:'W6',topic:'CPM',
+    q:'In the Cowford Green Build network, Activity C (prefab module delivery, 3 days) has 6 days of slack. If Activity C is delayed by 4 days, what happens to the project?',
+    opts:['The project extends by 4 days','The project extends by 1 day',
+          'The project completion date does not change','Activity D must be crashed to compensate'],
+    ans:2,
+    fb:'Activity C has 6 days of slack. A 4-day delay consumes 4 of those 6 days, leaving 2 days of remaining slack. D\'s start is still constrained by Activity B (which finishes later), so the project end date is unchanged.'
+  },
+  {
+    week:'W6',topic:'CPM',
+    q:'Management wants to compress the Green Build project by 2 days. Activities B, D, E, and F are all on the critical path. B can be crashed for $800/day; E for $1,200/day. Which activity should be crashed first, and why?',
+    opts:['E, because it has the longest duration','B, because it is earlier in the project',
+          'B, because it is the cheapest critical-path activity to crash',
+          'D, because it has the most predecessors'],
+    ans:2,
+    fb:'The crashing rule is always: crash the cheapest critical-path activity first. B at $800/day is less expensive than E at $1,200/day. Duration and position in the network are irrelevant to the cost-priority of crashing decisions.'
+  },
+  // Cross-week integration
+  {
+    week:'W3→W6',topic:'Prior-week connection',
+    q:'In Week 3, TOC identified a bottleneck workstation at Cowford Bakery\'s oven. In Week 6, you applied SPT sequencing to that same oven. How do these two frameworks reinforce each other?',
+    opts:['They don\'t — TOC and job sequencing address completely different problems',
+          'TOC identifies which workstation deserves a priority sequencing rule; sequencing then decides the order work enters that bottleneck',
+          'TOC eliminates the need for sequencing by removing the bottleneck',
+          'Sequencing is used to find the bottleneck; TOC is used after sequencing is set'],
+    ans:1,
+    fb:'TOC says: protect and subordinate to the bottleneck. Job sequencing is the operational mechanism for doing so — it determines the order in which work enters the constraint. Together, they form a complete capacity-and-priority picture. TOC finds the bottleneck; sequencing optimizes what goes through it.'
+  },
+  {
+    week:'W5→W6',topic:'Prior-week connection',
+    q:'In Week 5, Cowford Brewery\'s 3-month moving average forecast for summer had a MAPE of 18%. How does this forecast accuracy figure directly affect the Week 6 aggregate plan?',
+    opts:['It doesn\'t — aggregate plans use actual demand, not forecasts',
+          'Higher MAPE means larger safety stock buffers are needed to absorb the error',
+          'Higher MAPE means the chase strategy is always preferable',
+          'MAPE only affects MRP, not aggregate planning'],
+    ans:1,
+    fb:'Forecast error (MAPE) translates directly into planning risk. An 18% MAPE on summer demand means the actual peak could be 18% higher than planned — which would leave the level strategy short if inventory buffers aren\'t sized to absorb that error. This is why safety stock in MRP and buffer inventory in aggregate planning both exist: to insulate execution from forecast imprecision.'
+  },
+  {
+    week:'W4→W6',topic:'Prior-week connection',
+    q:'In Week 4, Cowford Medical Supply measured a high Cost of Poor Quality (COPQ) from defective sterile kits. How does this relate to the MRP safety stock decision in Week 6?',
+    opts:['COPQ is a manufacturing metric with no connection to inventory planning',
+          'Higher defect rates reduce effective yield, meaning gross requirements must be inflated to account for expected scrap — which increases the planned order release quantity',
+          'Safety stock should be reduced to offset the cost of poor quality',
+          'MRP automatically adjusts for defect rates through the BOM'],
+    ans:1,
+    fb:'If 5% of kits are defective, you need to produce 105 kits to ship 100. That yield loss inflates the gross requirement, which increases the net requirement and planned order quantity. Quality and planning are not separate — defect rates belong in the MRP input assumptions.'
+  },
+  {
+    week:'W2→W6',topic:'Prior-week connection',
+    q:'In Week 2, Cowford Green Build\'s modular construction process was analyzed for flow and bottlenecks. In Week 6, CPM replaced flow analysis for scheduling. What makes CPM more appropriate than a flow diagram for Green Build projects?',
+    opts:['CPM is cheaper to implement than flow diagrams',
+          'Green Build projects are unique, dependency-driven, and time-bounded — unlike repeatable manufacturing flows, they have no interchangeable "jobs" to sequence; every activity is distinct and must be scheduled against its predecessors',
+          'Flow diagrams cannot handle multiple workstations',
+          'CPM eliminates resource constraints entirely'],
+    ans:1,
+    fb:'Flow diagrams and priority sequencing rules apply to repetitive processes with interchangeable jobs. Green Build\'s modular construction projects are unique (each site is different), bounded in time, and dependency-driven (you cannot install before you lay the foundation). CPM — with its network of activities and precedence relationships — is the right tool for this category of work. That\'s exactly why Week 6 treats sequencing and CPM as two separate, context-dependent answers to the same underlying question.'
+  }
+];
+
+let answered={};
+
+function buildQuiz(){
+  let h='';
+  QUESTIONS.forEach((q,i)=>{
+    const wBadge=q.week.includes('→')?
+      `<span class="thread-tag">${q.week} Integration</span>`:
+      `<span class="thread-tag w6">${q.week} — ${q.topic}</span>`;
+    h+=`<div class="quiz-block" id="qb-${i}">
+      <div style="margin-bottom:.5rem;">${wBadge}</div>
+      <div class="quiz-q"><span class="qnum">${i+1}</span>${q.q}</div>
+      <div class="quiz-options">`;
+    q.opts.forEach((opt,j)=>{
+      h+=`<label class="quiz-opt" id="qo-${i}-${j}">
+        <input type="radio" name="q${i}" value="${j}" onchange="markAnswered(${i},${j})">
+        ${opt}
+      </label>`;
+    });
+    h+=`</div>
+      <button class="check-btn" onclick="checkAnswer(${i})">Check answer</button>
+      <div class="quiz-fb" id="qfb-${i}"></div>
+    </div>`;
+  });
+  document.getElementById('quiz-container').innerHTML=h;
+}
+
+function markAnswered(qi, val){
+  answered[qi]=val;
+  updateQuizProgress();
+}
+
+function updateQuizProgress(){
+  const n=Object.keys(answered).length;
+  const pct=Math.round(n/QUESTIONS.length*100);
+  document.getElementById('quiz-progress').style.width=pct+'%';
+  document.getElementById('quiz-score-label').textContent=`${n} of ${QUESTIONS.length} answered`;
+}
+
+function checkAnswer(qi){
+  const q=QUESTIONS[qi];
+  const selected=answered[qi];
+  if(selected===undefined){
+    alert('Please select an answer first.'); return;
+  }
+  const fb=document.getElementById(`qfb-${qi}`);
+  const correct=selected===q.ans;
+  // Style options
+  q.opts.forEach((_,j)=>{
+    const el=document.getElementById(`qo-${qi}-${j}`);
+    el.classList.remove('correct','incorrect');
+    if(j===q.ans) el.classList.add('correct');
+    else if(j===selected) el.classList.add('incorrect');
+  });
+  fb.className=`quiz-fb show ${correct?'correct':'incorrect'}`;
+  fb.innerHTML=(correct?'✅ Correct — ':'❌ Not quite — ')+q.fb;
+  // Disable radio buttons
+  document.querySelectorAll(`input[name="q${qi}"]`).forEach(r=>r.disabled=true);
+}
+
+buildQuiz();
+
+
+/* ══════════════════════════════════════
+   READINESS CHECKLIST
+══════════════════════════════════════ */
+const CL={
+  'cl-ap':[
+    'I can calculate workforce per period from a demand forecast and output-per-worker rate',
+    'I can compute total chase strategy cost (hiring + layoff costs across all periods)',
+    'I can build a level strategy inventory schedule and spot infeasible periods (negative ending inventory)',
+    'I can identify when a mixed strategy is preferable and name at least two levers it uses',
+    'I can explain which Cowford subsidiary best illustrates each strategy and why',
+  ],
+  'cl-seq':[
+    'I can sort a job queue under SPT, EDD, and FCFS and compute completion times',
+    'I can calculate average flow time and per-job lateness (never negative) for any sequence',
+    'I can explain what each rule optimizes and under what business conditions you would choose it',
+    'I know where job sequencing rules do NOT apply (project-based operations like Green Build)',
+  ],
+  'cl-mrp':[
+    'I can state the planning hierarchy: Aggregate Plan → MPS → MRP → shop floor / purchasing',
+    'I can distinguish independent demand (customer-driven) from dependent demand (MPS-driven)',
+    'I can calculate net requirements: Gross − On-Hand − Scheduled Receipts, then add safety stock',
+    'I can determine the planned order release week by subtracting lead time from the requirement week',
+  ],
+  'cl-cpm':[
+    'I can perform a CPM forward pass (ES, EF) for a network with parallel activities',
+    'I can perform a CPM backward pass (LS, LF) and calculate slack for every activity',
+    'I can identify the critical path and explain why a non-critical delay does not affect project duration',
+    'I can explain the crashing rule: crash the cheapest critical-path activity first',
+  ],
+  'cl-cross':[
+    'I can explain how W5 forecast error (MAPE) affects the safety stock decision in MRP (W6)',
+    'I can connect W3 TOC bottleneck logic to W6 job sequencing at the constraint workstation',
+    'I can explain why W4 defect rates inflate MRP gross requirements through yield-adjusted BOMs',
+  ]
+};
+
+let clTotal=0, clChecked=0;
+
+function buildChecklist(){
+  Object.entries(CL).forEach(([id,items])=>{
+    const el=document.getElementById(id);
+    let h='';
+    items.forEach((item,i)=>{
+      clTotal++;
+      h+=`<label class="check-item" id="cli-${id}-${i}" onclick="toggleCheck(this,'${id}',${i})">
+        <input type="checkbox" onclick="event.stopPropagation()"> ${item}
+      </label>`;
+    });
+    el.innerHTML=h;
+  });
+  updateReadyProgress();
+}
+
+function toggleCheck(el,id,i){
+  const cb=el.querySelector('input');
+  cb.checked=!cb.checked;
+  el.classList.toggle('checked',cb.checked);
+  clChecked=document.querySelectorAll('.check-item.checked').length;
+  updateReadyProgress();
+}
+
+function updateReadyProgress(){
+  const pct=Math.round(clChecked/clTotal*100);
+  document.getElementById('ready-progress').style.width=pct+'%';
+  document.getElementById('ready-label').textContent=
+    `${clChecked} of ${clTotal} items checked — ${pct}% ready`;
+}
+
+buildChecklist();
+
+/* ── init CPM on load ── */
+runCPM();
+</script>
 </body>
 </html>
