@@ -555,7 +555,7 @@ select:focus, input[type="number"]:focus {
     <span class="ph-icon">📊</span>
     <div>
       <h2>Phase 1 — Live Session Explorer</h2>
-      <p>Three interactive tools covering the full Week 6 toolkit. Work through all three.</p>
+      <p>Four interactive tools covering the full Week 6 toolkit. Work through all four.</p>
     </div>
     <span class="ph-time">30–40 min</span>
   </div>
@@ -563,7 +563,7 @@ select:focus, input[type="number"]:focus {
 
     <!-- ── TOOL 1: Aggregate Planning ── -->
     <div class="card-section">
-      <div class="section-label">Tool 1 of 3 — Aggregate Planning: Cowford Brewery</div>
+      <div class="section-label">Tool 1 of 4 — Aggregate Planning: Cowford Brewery</div>
 
       <div class="thread-strip">
         <span class="thread-tag">W3 Decisions under uncertainty</span>
@@ -633,7 +633,7 @@ select:focus, input[type="number"]:focus {
 
     <!-- ── TOOL 2: Job Sequencing ── -->
     <div class="card-section">
-      <div class="section-label">Tool 2 of 3 — Job Sequencing: Cowford Bakery</div>
+      <div class="section-label">Tool 2 of 4 — Job Sequencing: Cowford Bakery</div>
 
       <div class="thread-strip">
         <span class="thread-tag">W2 Process flow & bottlenecks</span>
@@ -659,7 +659,7 @@ select:focus, input[type="number"]:focus {
 
     <!-- ── TOOL 3: MRP Explorer ── -->
     <div class="card-section">
-      <div class="section-label">Tool 3 of 3 — MRP: Cowford Medical Supply</div>
+      <div class="section-label">Tool 3 of 4 — MRP: Cowford Medical Supply</div>
 
       <div class="thread-strip">
         <span class="thread-tag">W3 Dependent vs. independent demand</span>
@@ -707,7 +707,7 @@ select:focus, input[type="number"]:focus {
 
     <!-- ── TOOL 4: CPM Explorer ── -->
     <div class="card-section">
-      <div class="section-label">Tool 4 — CPM: Cowford Green Build</div>
+      <div class="section-label">Tool 4 of 4 — CPM: Cowford Green Build</div>
 
       <div class="thread-strip">
         <span class="thread-tag">W2 Dependency & sequencing</span>
@@ -719,7 +719,7 @@ select:focus, input[type="number"]:focus {
         <strong>Building on W2 &amp; W3:</strong> In Week 2 you mapped process flows and identified where work had to wait. In Week 3, the Theory of Constraints said the bottleneck determines system throughput. CPM is the project-level version of that same logic: the critical path is the bottleneck of the project — it determines minimum completion time, and any delay on it propagates directly to the project finish date.
       </div>
 
-      <p style="font-size:.86rem;margin-bottom:.9rem;">Click any activity node to see its ES, EF, LS, LF, and slack. Orange nodes are on the critical path. Change a duration and recalculate.</p>
+      <p style="font-size:.86rem;margin-bottom:.9rem;">Each activity node shows its ES, EF, LS, LF, and slack. Orange nodes are on the critical path. Change a duration and the network recalculates automatically.</p>
 
       <div id="cpm-inputs" style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.75rem;">
         <div class="control-group" style="flex:0 0 120px;">
@@ -769,7 +769,7 @@ select:focus, input[type="number"]:focus {
     <span class="ph-icon">🧠</span>
     <div>
       <h2>Phase 2 — Reinforcement Quiz</h2>
-      <p>10 questions across all W6 topics, plus two prior-week integration questions. Immediate feedback.</p>
+      <p>Eight questions across the four W6 topics, plus four prior-week integration questions. Immediate feedback.</p>
     </div>
     <span class="ph-time">15–20 min</span>
   </div>
@@ -826,7 +826,7 @@ select:focus, input[type="number"]:focus {
       </div>
       <div class="callout tip">
         <span class="callout-icon">✅</span>
-        <div><strong>Prior-week connection (W5):</strong> The demand figures you're planning against came from a forecast. A higher MAD on that forecast means your ending inventory buffers should be larger — under-forecasting in Month 2 leaves you short even with a good level plan.</div>
+        <div><strong>Prior-week connection (W5):</strong> The demand figures you're planning against came from a forecast. A higher MAD signals greater forecast uncertainty and may justify more inventory, capacity flexibility, or another buffer after considering service and cost trade-offs.</div>
       </div>
     </div>
 
@@ -835,7 +835,7 @@ select:focus, input[type="number"]:focus {
       <div class="step-list">
         <div class="step-item">
           <div class="step-num">1</div>
-          <div class="step-body"><strong>Sort by the chosen rule</strong> SPT: ascending processing time. EDD: ascending due date. FCFS: arrival order. CR: ascending (time remaining ÷ work remaining); recalculate each period.</div>
+          <div class="step-body"><strong>Sort by the chosen rule</strong> SPT: ascending processing time. EDD: ascending due date. FCFS: arrival order. CR: ascending (time remaining ÷ work remaining); recalculate after each completed job.</div>
         </div>
         <div class="step-item">
           <div class="step-num">2</div>
@@ -873,11 +873,11 @@ select:focus, input[type="number"]:focus {
         </div>
         <div class="step-item">
           <div class="step-num">3</div>
-          <div class="step-body"><strong>Calculate net requirement</strong> Net Req = Gross Req − Available. If this is negative or zero, no order is needed. If positive, you must order.</div>
+          <div class="step-body"><strong>Set the desired ending safety stock</strong> Safety stock is the inventory you want remaining after the gross requirement is satisfied. It is part of the inventory target, not an amount added automatically after every calculation.</div>
         </div>
         <div class="step-item">
           <div class="step-num">4</div>
-          <div class="step-body"><strong>Add safety stock</strong> Order Quantity = Net Req + Safety Stock. Safety stock protects against demand spikes and supplier delays — it's the MRP-level answer to forecast error (W5 connection).</div>
+          <div class="step-body"><strong>Calculate the net requirement</strong> Net Req = max(0, Gross Req + Safety Stock − Available). Under lot-for-lot ordering, the planned receipt equals this net requirement.</div>
         </div>
         <div class="step-item">
           <div class="step-num">5</div>
@@ -916,7 +916,7 @@ select:focus, input[type="number"]:focus {
       </div>
       <div class="callout tip">
         <span class="callout-icon">✅</span>
-        <div><strong>Prior-week connection (W4 Quality):</strong> In Week 4 you saw that rework is one of the most expensive forms of waste (cost of poor quality). Crashing a project activity by adding resources also risks quality defects if the crew is rushed — the same cost-of-quality logic applies. Speed and quality trade off; CPM gives you the schedule impact, but the quality risk is a separate judgment.</div>
+        <div><strong>Prior-week connection (W4 Quality):</strong> In Week 4 you saw that rework is one of the most expensive forms of waste (cost of poor quality). Crashing an activity may introduce quality risk if added resources, handoffs, or time pressure are poorly managed. CPM shows the schedule impact; quality risk requires a separate managerial judgment.</div>
       </div>
     </div>
 
@@ -973,14 +973,15 @@ select:focus, input[type="number"]:focus {
       <div class="callout info" style="margin-top:1rem;">
         <span class="callout-icon">ℹ️</span>
         <div>
-          <strong>W6.C — Concept Check:</strong> 15 questions · 25 points · 35 minutes · One attempt.<br>
-          <strong>W6.D — Cowford Application Quiz:</strong> Applied scenario requiring calculation and judgment · 30 minutes.
+          <strong>W6.C — Concept Check:</strong> Timed questions covering Week 6 concepts and calculations.<br>
+          <strong>W6.D — Cowford Application Quiz:</strong> An applied scenario requiring calculation and managerial judgment.<br>
+          <strong>Before starting:</strong> Check Canvas for the current question count, point value, time limit, attempt limit, and navigation rules.
         </div>
       </div>
 
       <div class="callout warn" style="margin-top:.5rem;">
         <span class="callout-icon">⚠️</span>
-        <div>If you have more than 3 items unchecked in any single section, return to Phase 1 for that tool or Phase 3 for that framework before opening W6.C. The concept check is timed and does not allow revisiting questions.</div>
+        <div>If you have two or more items unchecked in any section, return to the related Phase 1 tool or Phase 3 framework before opening W6.C. Review the current assessment rules in Canvas before beginning the timed concept check.</div>
       </div>
     </div>
 
@@ -1072,11 +1073,11 @@ function runAP() {
     totalHireCost+=hireCostP; totalLayCost+=layCostP;
     totalHoldCost+=holdCostP; totalOTCost+=otCostP;
 
-    rows.push({month:months[i],demand:demand[i],workers,hires,layoffs,ot,inventory:Math.max(inventory,0),
+    rows.push({month:months[i],demand:demand[i],workers,hires,layoffs,ot,inventory,
       hireCostP,layCostP,holdCostP,otCostP,periodCost,feasible:inventory>=0||strategy==='chase'});
 
     prevWorkers=workers;
-    prevInv=Math.max(inventory,0);
+    prevInv=inventory;
   }
 
   const totalCost = totalHireCost+totalLayCost+totalHoldCost+totalOTCost;
@@ -1120,7 +1121,7 @@ function runAP() {
 
   // Total row
   if(isChase){
-    tbody+=`<tr class="total"><td colspan="5">Total</td>
+    tbody+=`<tr class="total"><td colspan="4">Total</td>
       <td class="num">$${totalHireCost.toLocaleString()}</td>
       <td class="num">$${totalLayCost.toLocaleString()}</td>
       <td class="num">$${totalCost.toLocaleString()}</td></tr>`;
@@ -1130,7 +1131,7 @@ function runAP() {
       <td class="num">$${(totalHireCost+totalLayCost).toLocaleString()}</td>
       <td class="num">$${totalCost.toLocaleString()}</td></tr>`;
   } else {
-    tbody+=`<tr class="total"><td colspan="6">Total</td>
+    tbody+=`<tr class="total"><td colspan="5">Total</td>
       <td class="num">$${totalOTCost.toLocaleString()}</td>
       <td class="num">$${totalHoldCost.toLocaleString()}</td>
       <td class="num">$${totalCost.toLocaleString()}</td></tr>`;
@@ -1185,8 +1186,15 @@ function runSeq(rule){
   if(rule==='spt') seq.sort((a,b)=>a.pt-b.pt);
   else if(rule==='edd') seq.sort((a,b)=>a.due-b.due);
   else if(rule==='cr'){
-    // CR at time 0: due/pt
-    seq.sort((a,b)=>(a.due/a.pt)-(b.due/b.pt));
+    const remaining=[...seq];
+    seq=[];
+    let elapsed=0;
+    while(remaining.length){
+      remaining.sort((a,b)=>((a.due-elapsed)/a.pt)-((b.due-elapsed)/b.pt));
+      const next=remaining.shift();
+      seq.push(next);
+      elapsed+=next.pt;
+    }
   }
   // FCFS: arrival order (as defined)
 
@@ -1240,10 +1248,10 @@ function runMRP(){
 
   const grossReq = kits * per;
   const available = oh + sr;
-  const netReq = Math.max(grossReq - available, 0);
-  const orderQty = netReq + ss;
+  const netReq = Math.max(grossReq + ss - available, 0);
+  const orderQty = netReq;
   const releaseWeek = 3 - lt; // requirement week 3
-  const feasible = releaseWeek >= 1;
+  const feasible = netReq===0 || releaseWeek >= 1;
 
   // Build MRP record table — 5 weeks
   const weeks = [1,2,3,4,5];
@@ -1297,9 +1305,9 @@ function runMRP(){
   if(!feasible){
     msg=`<strong>⚠️ Infeasible as planned.</strong> With a ${lt}-week lead time, the order release falls in Week ${releaseWeek}, which is in the past. The requirement cannot be met on time without expediting or reducing lead time.`;
   } else if(netReq===0){
-    msg=`<strong>No order needed.</strong> Available supply (${available} liners) covers the gross requirement of ${grossReq} liners. Ending inventory after fulfillment: ${available-grossReq} liners (above safety stock of ${ss}).`;
+    msg=`<strong>No order needed.</strong> Available supply (${available} liners) covers the gross requirement of ${grossReq} liners and leaves ${available-grossReq} liners, meeting the ${ss}-liner safety-stock target.`;
   } else {
-    msg=`<strong>Order ${orderQty} liners in Week ${releaseWeek}</strong> (${netReq} net + ${ss} safety stock). Gross requirement: ${grossReq} liners in Week 3. Available: ${oh} on-hand + ${sr} scheduled receipt = ${available}. Net: ${grossReq} − ${available} = ${netReq}.`;
+    msg=`<strong>Order ${orderQty} liners in Week ${releaseWeek}</strong> to arrive in Week 3. Gross requirement: ${grossReq}; safety-stock target: ${ss}; available supply: ${oh} on-hand + ${sr} scheduled receipt = ${available}. Net requirement: max(0, ${grossReq} + ${ss} − ${available}) = ${netReq}.`;
   }
   const res=document.getElementById('mrp-result');
   res.innerHTML=msg; res.classList.add('show');
@@ -1363,7 +1371,7 @@ function runCPM(){
     <div class="act-name">${k}</div>
     <div class="act-dur">${dur[k]}d</div>
     <div class="act-slack ${slack[k]===0?'zero':'pos-slack'}">Slack: ${slack[k]}d</div>
-    <div class="es-ef">ES${es[k]} EF${ef[k]}</div>
+    <div class="es-ef">ES ${es[k]} · EF ${ef[k]}<br>LS ${ls[k]} · LF ${lf[k]}</div>
   </div>`;
   const arr=(double=false)=>`<div style="display:flex;align-items:center;justify-content:center;padding:0 .25rem;font-size:1.1rem;color:var(--muted);">${double?'⇣':'→'}</div>`;
 
@@ -1380,14 +1388,15 @@ function runCPM(){
 
   document.getElementById('cpm-diagram').innerHTML=html;
 
-  const critPath='A → B → D → E → F → G';
-  const altPath=`A → C → D → E → F → G`;
+  const branchPaths=[];
+  if(critical('B')) branchPaths.push('A → B → D → E → F → G');
+  if(critical('C')) branchPaths.push('A → C → D → E → F → G');
+  const critLabel=branchPaths.join(' and ');
   document.getElementById('cpm-result').innerHTML=
-    `<strong>Project duration: ${projDur} days.</strong> 
-    Critical path: ${critPath} (${dur.A}+${dur.B}+${dur.D}+${dur.E}+${dur.F}+${dur.G} = ${dur.A+dur.B+dur.D+dur.E+dur.F+dur.G} days). 
-    Activity C has <strong>${slack.C} day${slack.C!==1?'s':''} of slack</strong> — it can slip that far without delaying the project. 
-    Activity B has <strong>${slack.B} day${slack.B!==1?'s':''} of slack</strong>. 
-    Try increasing a critical-path activity's duration — watch the project extend immediately.`;
+    `<strong>Project duration: ${projDur} days.</strong>
+    Critical path${branchPaths.length>1?'s':''}: ${critLabel}.
+    Activity B has <strong>${slack.B} day${slack.B!==1?'s':''} of slack</strong>; Activity C has <strong>${slack.C} day${slack.C!==1?'s':''} of slack</strong>.
+    Change either branch duration to see how the critical path and project completion time respond.`;
 }
 
 /* ══════════════════════════════════════
@@ -1416,7 +1425,7 @@ const QUESTIONS=[
   // W6 Sequencing
   {
     week:'W6',topic:'Job Sequencing',
-    q:'Under SPT, Cowford Bakery sequences jobs C→A→E→D→F→B. Which metric does SPT definitively minimize compared to EDD?',
+    q:'Under SPT, Cowford Bakery sequences jobs C→E→A→D→F→B (breaking the A/D tie by arrival order). Which metric does SPT minimize compared with EDD?',
     opts:['Maximum lateness','Number of late jobs','Average flow time / WIP',
           'Revenue from on-time orders'],
     ans:2,
@@ -1424,12 +1433,12 @@ const QUESTIONS=[
   },
   {
     week:'W6',topic:'Job Sequencing',
-    q:'Job B (7 hrs processing, due in 15 hrs) runs late under both SPT and EDD in the Bakery queue. What does this tell you?',
-    opts:['The sequencing rules are broken','The oven has insufficient capacity for the day\'s queue',
-          'Job B is inherently tight — no rule can make it on time unless it is processed first',
+    q:'Job B (7 hours processing, due in 15 hours) runs late under the standard SPT and EDD sequences, but it could finish on time if moved near the front. What does this show?',
+    opts:['The sequencing rules are broken','The oven must be replaced immediately',
+          'A priority rule optimizes a system metric but does not guarantee every individual job will meet its due date',
           'Job B should be cancelled'],
     ans:2,
-    fb:'When a job is late under every sequencing rule, it signals a capacity or timing problem, not a priority problem. Job B cannot finish on time unless it is processed first — which would worsen outcomes for shorter, more time-sensitive jobs. The real solution is either more capacity or renegotiating the due date.'
+    fb:'SPT and EDD optimize different system-level outcomes; neither guarantees that every job will be on time. A manager may elevate Job B because of its customer or revenue importance, add capacity, or renegotiate the due date while recognizing the trade-offs imposed on other jobs.'
   },
   // W6 MRP
   {
@@ -1437,7 +1446,7 @@ const QUESTIONS=[
     q:'Cowford Medical Supply\'s MPS calls for 600 kits in Week 4. Each kit uses 2 liners. On-hand: 200. Scheduled receipt in Week 3: 100. Safety stock: 50. Lead time: 1 week. What is the planned order release week?',
     opts:['Week 2','Week 3','Week 4','Week 5'],
     ans:1,
-    fb:'Gross requirement = 1,200. Available = 200+100 = 300. Net = 900. Order qty = 950 (with SS). Lead time = 1 week. Requirement in Week 4 → release in Week 3. Never add lead time — always subtract it from the requirement week.'
+    fb:'Gross requirement = 1,200. To finish with 50 units of safety stock, required supply = 1,250. Available = 200 + 100 = 300, so the net requirement and planned receipt are 950. With a one-week lead time and a Week 4 requirement, release the order in Week 3.'
   },
   {
     week:'W6',topic:'MRP',
@@ -1450,11 +1459,11 @@ const QUESTIONS=[
   // W6 CPM
   {
     week:'W6',topic:'CPM',
-    q:'In the Cowford Green Build network, Activity C (prefab module delivery, 3 days) has 6 days of slack. If Activity C is delayed by 4 days, what happens to the project?',
+    q:'In the default Cowford Green Build network, Activity C (module delivery, 3 days) has 3 days of slack. If Activity C is delayed by 4 days, what happens to the project?',
     opts:['The project extends by 4 days','The project extends by 1 day',
           'The project completion date does not change','Activity D must be crashed to compensate'],
-    ans:2,
-    fb:'Activity C has 6 days of slack. A 4-day delay consumes 4 of those 6 days, leaving 2 days of remaining slack. D\'s start is still constrained by Activity B (which finishes later), so the project end date is unchanged.'
+    ans:1,
+    fb:'Activity C can absorb the first 3 days of delay without affecting the project. The fourth day exceeds its slack by 1 day, delays Activity D by 1 day, and extends the project by 1 day.'
   },
   {
     week:'W6',topic:'CPM',
@@ -1478,33 +1487,33 @@ const QUESTIONS=[
   },
   {
     week:'W5→W6',topic:'Prior-week connection',
-    q:'In Week 5, Cowford Brewery\'s 3-month moving average forecast for summer had a MAPE of 18%. How does this forecast accuracy figure directly affect the Week 6 aggregate plan?',
+    q:'In Week 5, Cowford Brewery\'s three-month moving-average forecast had a MAPE of 18%. How should that result inform the Week 6 aggregate plan?',
     opts:['It doesn\'t — aggregate plans use actual demand, not forecasts',
-          'Higher MAPE means larger safety stock buffers are needed to absorb the error',
+          'It signals meaningful forecast uncertainty, so planners should evaluate inventory, capacity, or supplier-flexibility buffers',
           'Higher MAPE means the chase strategy is always preferable',
           'MAPE only affects MRP, not aggregate planning'],
     ans:1,
-    fb:'Forecast error (MAPE) translates directly into planning risk. An 18% MAPE on summer demand means the actual peak could be 18% higher than planned — which would leave the level strategy short if inventory buffers aren\'t sized to absorb that error. This is why safety stock in MRP and buffer inventory in aggregate planning both exist: to insulate execution from forecast imprecision.'
+    fb:'MAPE is the historical average absolute percentage error; it is not a prediction interval and does not mean demand will be exactly 18% above or below the forecast. It signals uncertainty that planners should address through an appropriate mix of inventory, capacity flexibility, supplier responsiveness, and service-level choices.'
   },
   {
     week:'W4→W6',topic:'Prior-week connection',
-    q:'In Week 4, Cowford Medical Supply measured a high Cost of Poor Quality (COPQ) from defective sterile kits. How does this relate to the MRP safety stock decision in Week 6?',
+    q:'In Week 4, Cowford Medical Supply measured yield loss from defective sterile kits. How should this affect the Week 6 MRP inputs?',
     opts:['COPQ is a manufacturing metric with no connection to inventory planning',
           'Higher defect rates reduce effective yield, meaning gross requirements must be inflated to account for expected scrap — which increases the planned order release quantity',
           'Safety stock should be reduced to offset the cost of poor quality',
           'MRP automatically adjusts for defect rates through the BOM'],
     ans:1,
-    fb:'If 5% of kits are defective, you need to produce 105 kits to ship 100. That yield loss inflates the gross requirement, which increases the net requirement and planned order quantity. Quality and planning are not separate — defect rates belong in the MRP input assumptions.'
+    fb:'At a 95% yield, the required starts for 100 good kits are 100 ÷ 0.95 = 105.3, which rounds up to 106 whole kits. This expected yield loss belongs in the gross-requirement or yield-adjusted BOM assumptions; it is distinct from safety stock used for demand or supply uncertainty.'
   },
   {
     week:'W2→W6',topic:'Prior-week connection',
-    q:'In Week 2, Cowford Green Build\'s modular construction process was analyzed for flow and bottlenecks. In Week 6, CPM replaced flow analysis for scheduling. What makes CPM more appropriate than a flow diagram for Green Build projects?',
+    q:'In Week 2, Cowford Green Build\'s modular construction process was analyzed for flow and bottlenecks. In Week 6, CPM adds schedule calculations to that process view. What makes CPM especially useful for Green Build projects?',
     opts:['CPM is cheaper to implement than flow diagrams',
           'Green Build projects are unique, dependency-driven, and time-bounded — unlike repeatable manufacturing flows, they have no interchangeable "jobs" to sequence; every activity is distinct and must be scheduled against its predecessors',
           'Flow diagrams cannot handle multiple workstations',
           'CPM eliminates resource constraints entirely'],
     ans:1,
-    fb:'Flow diagrams and priority sequencing rules apply to repetitive processes with interchangeable jobs. Green Build\'s modular construction projects are unique (each site is different), bounded in time, and dependency-driven (you cannot install before you lay the foundation). CPM — with its network of activities and precedence relationships — is the right tool for this category of work. That\'s exactly why Week 6 treats sequencing and CPM as two separate, context-dependent answers to the same underlying question.'
+    fb:'A process-flow diagram can still help visualize Green Build work, but CPM adds the time calculations needed for a dependency-driven project: earliest and latest times, slack, critical path, and project duration. Priority rules sequence waiting jobs; CPM schedules distinct activities connected by precedence relationships.'
   }
 ];
 
@@ -1590,7 +1599,7 @@ const CL={
   'cl-mrp':[
     'I can state the planning hierarchy: Aggregate Plan → MPS → MRP → shop floor / purchasing',
     'I can distinguish independent demand (customer-driven) from dependent demand (MPS-driven)',
-    'I can calculate net requirements: Gross − On-Hand − Scheduled Receipts, then add safety stock',
+    'I can calculate net requirements: max(0, Gross + Safety Stock − On-Hand − Scheduled Receipts)',
     'I can determine the planned order release week by subtracting lead time from the requirement week',
   ],
   'cl-cpm':[
@@ -1600,9 +1609,9 @@ const CL={
     'I can explain the crashing rule: crash the cheapest critical-path activity first',
   ],
   'cl-cross':[
-    'I can explain how W5 forecast error (MAPE) affects the safety stock decision in MRP (W6)',
+    'I can explain how W5 forecast error (MAPE) informs buffer and flexibility decisions in W6',
     'I can connect W3 TOC bottleneck logic to W6 job sequencing at the constraint workstation',
-    'I can explain why W4 defect rates inflate MRP gross requirements through yield-adjusted BOMs',
+    'I can explain why W4 yield loss inflates MRP gross requirements without treating it as safety stock',
   ]
 };
 
