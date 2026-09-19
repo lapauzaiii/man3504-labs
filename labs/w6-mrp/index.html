@@ -3,10 +3,235 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Week 6: MRP & Aggregate Planning | MAN3504</title>
-  <link rel="stylesheet" href="../../styles/shared.css">
+  <title>Week 6: MRP and Aggregate Planning | MAN3504</title>
   <style>
-    /* W6-specific styles */
+    :root {
+      --unf-navy: #0e2841;
+      --unf-orange: #e97132;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --text-primary: #212529;
+      --text-secondary: #6c757d;
+      --border-color: #e9ecef;
+      --spacing-sm: 8px;
+      --spacing-md: 16px;
+      --spacing-lg: 24px;
+      --spacing-xl: 32px;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-size-base: 14px;
+      --font-size-sm: 12px;
+      --font-size-lg: 16px;
+      --font-size-xl: 20px;
+      --font-size-2xl: 28px;
+      --border-radius: 6px;
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      font-size: var(--font-size-base);
+      line-height: 1.6;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0 0 var(--spacing-md) 0;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    h1 { font-size: var(--font-size-2xl); }
+    h2 { font-size: var(--font-size-xl); }
+    h3 { font-size: var(--font-size-lg); }
+
+    p { margin: 0 0 var(--spacing-md) 0; }
+
+    label {
+      display: block;
+      margin-bottom: var(--spacing-sm);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: var(--spacing-sm);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-family: var(--font-family);
+      font-size: var(--font-size-base);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--unf-navy);
+      box-shadow: 0 0 0 3px rgba(14, 40, 65, 0.1);
+    }
+
+    .lab-header {
+      background: linear-gradient(135deg, var(--unf-navy) 0%, rgba(14, 40, 65, 0.9) 100%);
+      color: white;
+      padding: var(--spacing-xl) var(--spacing-lg);
+      margin-bottom: var(--spacing-xl);
+      border-bottom: 4px solid var(--unf-orange);
+    }
+
+    .lab-header h1 {
+      margin: 0 0 var(--spacing-sm) 0;
+      color: white;
+    }
+
+    .lab-subtitle {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: var(--font-size-lg);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--spacing-lg);
+    }
+
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .card-header {
+      margin-bottom: var(--spacing-md);
+      padding-bottom: var(--spacing-md);
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .card-header h3 {
+      margin: 0;
+      color: var(--unf-navy);
+    }
+
+    .card-body { margin-bottom: var(--spacing-md); }
+
+    .btn {
+      display: inline-block;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: var(--font-size-base);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background-color: var(--unf-navy);
+      color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: #0d2033;
+      box-shadow: var(--shadow-md);
+    }
+
+    .alert {
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .alert-info {
+      background-color: #cfe2ff;
+      color: #084298;
+      border: 1px solid #b6d4fe;
+    }
+
+    .alert-success {
+      background-color: #d1e7dd;
+      color: #0f5132;
+      border: 1px solid #badbcc;
+    }
+
+    .alert-warning {
+      background-color: #fff3cd;
+      color: #664d03;
+      border: 1px solid #ffecb5;
+    }
+
+    .alert-danger {
+      background-color: #f8d7da;
+      color: #842029;
+      border: 1px solid #f5c2c7;
+    }
+
+    .phase-section { margin-bottom: var(--spacing-xl); }
+
+    .phase-badge {
+      display: inline-block;
+      background-color: var(--unf-orange);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+      font-size: var(--font-size-sm);
+    }
+
+    .scenario-input-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+      margin: var(--spacing-lg) 0;
+    }
+
+    .bom-tree {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      margin: var(--spacing-lg) 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: var(--font-size-sm);
+    }
+
+    .bom-tree-item { margin: var(--spacing-sm) 0; }
+
+    .bom-tree-item.level-0 {
+      padding-left: 0;
+      font-weight: 600;
+      color: var(--unf-navy);
+    }
+
+    .bom-tree-item.level-1 { padding-left: var(--spacing-lg); }
+    .bom-tree-item.level-2 { padding-left: calc(var(--spacing-lg) * 2); }
+
     .mrp-table {
       width: 100%;
       border-collapse: collapse;
@@ -20,6 +245,7 @@
       border: 1px solid var(--border-color);
       text-align: right;
       font-size: var(--font-size-sm);
+      vertical-align: top;
     }
 
     .mrp-table th {
@@ -33,43 +259,7 @@
       text-align: left;
     }
 
-    .mrp-table tbody tr:hover {
-      background-color: var(--bg-secondary);
-    }
-
-    .bom-tree {
-      background-color: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius);
-      padding: var(--spacing-md);
-      margin: var(--spacing-lg) 0;
-      font-family: monospace;
-      font-size: var(--font-size-sm);
-    }
-
-    .bom-tree-item {
-      margin: var(--spacing-sm) 0;
-      padding-left: calc(var(--spacing-lg) * 2);
-    }
-
-    .bom-tree-item.level-0 { padding-left: 0; font-weight: 600; color: var(--unf-navy); }
-    .bom-tree-item.level-1 { padding-left: var(--spacing-lg); }
-    .bom-tree-item.level-2 { padding-left: calc(var(--spacing-lg) * 2); }
-
-    .phase-section {
-      margin-bottom: var(--spacing-xl);
-    }
-
-    .phase-badge {
-      display: inline-block;
-      background-color: var(--unf-orange);
-      color: white;
-      padding: var(--spacing-sm) var(--spacing-md);
-      border-radius: var(--border-radius);
-      font-weight: 600;
-      margin-bottom: var(--spacing-md);
-      font-size: var(--font-size-sm);
-    }
+    .mrp-table tbody tr:hover { background-color: var(--bg-secondary); }
 
     .calculation-box {
       background-color: #f0f4ff;
@@ -77,54 +267,60 @@
       padding: var(--spacing-md);
       border-radius: var(--border-radius);
       margin: var(--spacing-md) 0;
-      font-family: monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
       font-size: var(--font-size-sm);
     }
 
-    [data-theme="dark"] .calculation-box {
-      background-color: #1a2340;
-    }
+    details { margin-bottom: var(--spacing-lg); }
 
-    .cowford-case-box {
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      padding: var(--spacing-md);
       background-color: var(--bg-secondary);
-      border-top: 4px solid;
-      padding: var(--spacing-lg);
       border-radius: var(--border-radius);
-      margin: var(--spacing-lg) 0;
+      user-select: none;
     }
 
-    .scenario-input-group {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: var(--spacing-md);
-      margin: var(--spacing-lg) 0;
+    .details-body {
+      padding: var(--spacing-lg);
+      border: 1px solid var(--border-color);
+      border-top: none;
+      background-color: var(--bg-primary);
+    }
+
+    .mb-md { margin-bottom: var(--spacing-md); }
+    .mb-lg { margin-bottom: var(--spacing-lg); }
+    .mt-lg { margin-top: var(--spacing-lg); }
+    .d-flex { display: flex; }
+
+    @media (max-width: 768px) {
+      .container { padding: var(--spacing-md); }
+      .lab-header { padding: var(--spacing-lg) var(--spacing-md); }
     }
   </style>
 </head>
 <body>
   <div class="lab-header">
     <h1>Week 6: Operations Planning</h1>
-    <p class="lab-subtitle">Aggregate Planning & Material Requirements Planning (MRP)</p>
+    <p class="lab-subtitle">Aggregate Planning and Material Requirements Planning (MRP)</p>
   </div>
 
   <div class="container">
-    <!-- PHASE 1: LIVE SESSION -->
     <section class="phase-section">
-      <div class="phase-badge">Phase 1: Live Session (30–40 min)</div>
-      <h2>Aggregate Planning & MRP Explorer</h2>
+      <div class="phase-badge">Phase 1: Live Session (30-40 min)</div>
+      <h2>Aggregate Planning and MRP Explorer</h2>
       <p>
-        In this phase, you'll discover how aggregate planning and MRP work by manipulating real Cowford scenarios.
-        See how changes in forecast, production strategy, and lead times ripple through the supply chain.
+        In this phase, you will explore how aggregate planning and MRP work by manipulating real Cowford scenarios.
+        Notice how changes in forecast pattern, production strategy, and lead times ripple through the supply chain.
       </p>
 
-      <!-- Aggregate Planning Scenario -->
       <div class="card">
         <div class="card-header">
           <h3>Aggregate Planning: Brewery Production Strategy</h3>
         </div>
         <p class="card-body">
-          The Brewery faces <strong>seasonal demand</strong>. Decide between three strategies: produce-to-demand (chase),
-          level production (smooth), or hybrid. See cost trade-offs.
+          The Brewery faces seasonal demand. Decide between chase, level, or hybrid production and compare the cost trade-offs.
         </p>
 
         <div class="scenario-input-group">
@@ -148,40 +344,40 @@
 
           <div>
             <label for="ap-months">Planning Horizon (months):</label>
-            <input type="number" id="ap-months" value="12" min="6" max="24" step="1">
+            <input type="number" id="ap-months" value="12" min="6" max="12" step="1">
           </div>
         </div>
 
-        <div class="d-flex" id="ap-buttons" style="gap: var(--spacing-md); margin-top: var(--spacing-lg);"></div>
+        <div class="d-flex" style="gap: var(--spacing-md); margin-top: var(--spacing-lg);">
+          <button class="btn btn-primary" id="ap-btn">Calculate Aggregate Plan</button>
+        </div>
 
-        <!-- Results Panel -->
         <div id="ap-results" style="margin-top: var(--spacing-lg);"></div>
       </div>
 
-      <!-- MRP Scenario -->
       <div class="card">
         <div class="card-header">
           <h3>Material Requirements Planning: Green Build Product</h3>
         </div>
         <p class="card-body">
-          Green Build launches a new product with multiple components. Enter the Bill of Materials (BOM) and master schedule.
-          Watch the system explode requirements and calculate planned order releases.
+          Green Build launches a new product with multiple components. Enter the Bill of Materials assumptions and master schedule,
+          then watch the system explode requirements and calculate planned order releases.
         </p>
 
         <div>
           <h4>Product BOM</h4>
           <div class="bom-tree" id="bom-display">
             <div class="bom-tree-item level-0">Finished Product (1 unit)</div>
-            <div class="bom-tree-item level-1">├─ Component A (2 units)</div>
-            <div class="bom-tree-item level-1">├─ Component B (1 unit)</div>
-            <div class="bom-tree-item level-2">│  └─ Raw Material B1 (3 units per B)</div>
-            <div class="bom-tree-item level-1">└─ Component C (1 unit)</div>
+            <div class="bom-tree-item level-1">|- Component A (2 units)</div>
+            <div class="bom-tree-item level-1">|- Component B (1 unit)</div>
+            <div class="bom-tree-item level-2">|  `- Raw Material B1 (3 units per B)</div>
+            <div class="bom-tree-item level-1">`- Component C (1 unit)</div>
           </div>
         </div>
 
         <div class="scenario-input-group">
           <div>
-            <label for="mrp-demand-week">Demand (Week 1, units):</label>
+            <label for="mrp-demand-week">Finished Product Demand (Week 4):</label>
             <input type="number" id="mrp-demand-week" value="100" min="10" max="500" step="10">
           </div>
 
@@ -202,65 +398,56 @@
         </div>
 
         <button class="btn btn-primary" id="mrp-calculate" style="margin-top: var(--spacing-lg);">Calculate MRP</button>
-
-        <!-- MRP Results -->
         <div id="mrp-results" style="margin-top: var(--spacing-lg);"></div>
       </div>
     </section>
 
-    <!-- PHASE 2: REINFORCEMENT LAB -->
     <section class="phase-section">
-      <div class="phase-badge">Phase 2: Reinforcement Lab (15–20 min)</div>
+      <div class="phase-badge">Phase 2: Reinforcement Lab (15-20 min)</div>
       <h2>Concept Check Quizzes</h2>
-      <p>Test your understanding with embedded quizzes. Immediate feedback helps you identify gaps.</p>
-
+      <p>Test your understanding with embedded quizzes. Immediate feedback helps you identify gaps before the formal assessments.</p>
       <div id="quiz-container"></div>
     </section>
 
-    <!-- PHASE 3: GUIDED DIAGNOSTIC -->
     <section class="phase-section">
-      <div class="phase-badge">Phase 3: Guided Diagnostic (10–15 min)</div>
+      <div class="phase-badge">Phase 3: Guided Diagnostic (10-15 min)</div>
       <h2>Step-by-Step Walkthrough</h2>
-      <p>
-        Follow this five-step framework to solve any aggregate planning or MRP problem you encounter on W6.D.
-      </p>
-
+      <p>Follow this five-step framework to solve any aggregate planning or MRP problem you encounter on W6.D.</p>
       <div id="diagnostic-container"></div>
     </section>
 
-    <!-- PHASE 4: ASSIGNMENT READINESS -->
     <section class="phase-section">
       <div class="phase-badge">Phase 4: Assignment Readiness</div>
-      <h2>Before You Start W6.C & W6.D</h2>
-      <p>Use this checklist to confirm you're ready for the formal assessments.</p>
+      <h2>Before You Start W6.C and W6.D</h2>
+      <p>Use this checklist to confirm you are ready for the formal assessments.</p>
 
       <div class="card">
         <div class="card-body">
           <h3>Readiness Checklist</h3>
           <form id="readiness-checklist">
             <div class="mb-md">
-              <input type="checkbox" id="check-1"> <label for="check-1">I can explain the difference between chase and level production strategies</label>
+              <input type="checkbox" id="check-1"> <label for="check-1" style="display: inline; font-weight: 400;">I can explain the difference between chase and level production strategies</label>
             </div>
             <div class="mb-md">
-              <input type="checkbox" id="check-2"> <label for="check-2">I understand how to calculate holding costs vs. setup costs for each strategy</label>
+              <input type="checkbox" id="check-2"> <label for="check-2" style="display: inline; font-weight: 400;">I understand how to calculate holding costs and setup costs for each strategy</label>
             </div>
             <div class="mb-md">
-              <input type="checkbox" id="check-3"> <label for="check-3">I know how to read and interpret a Bill of Materials (BOM)</label>
+              <input type="checkbox" id="check-3"> <label for="check-3" style="display: inline; font-weight: 400;">I know how to read and interpret a Bill of Materials (BOM)</label>
             </div>
             <div class="mb-md">
-              <input type="checkbox" id="check-4"> <label for="check-4">I can explode gross requirements into planned order releases using MRP logic</label>
+              <input type="checkbox" id="check-4"> <label for="check-4" style="display: inline; font-weight: 400;">I can explode gross requirements into planned order releases using MRP logic</label>
             </div>
             <div class="mb-md">
-              <input type="checkbox" id="check-5"> <label for="check-5">I understand lead time offsetting and why it matters in MRP</label>
+              <input type="checkbox" id="check-5"> <label for="check-5" style="display: inline; font-weight: 400;">I understand lead time offsetting and why it matters in MRP</label>
             </div>
             <div class="mb-md">
-              <input type="checkbox" id="check-6"> <label for="check-6">I can explain how safety stock affects inventory costs and service levels</label>
+              <input type="checkbox" id="check-6"> <label for="check-6" style="display: inline; font-weight: 400;">I can explain how safety stock affects inventory costs and service levels</label>
             </div>
             <div class="mb-md">
-              <input type="checkbox" id="check-7"> <label for="check-7">I know the four inputs to MRP: demand forecast, BOM, lead times, and current inventory</label>
+              <input type="checkbox" id="check-7"> <label for="check-7" style="display: inline; font-weight: 400;">I know the four inputs to MRP: demand forecast, BOM, lead times, and current inventory</label>
             </div>
             <div class="mb-lg">
-              <input type="checkbox" id="check-8"> <label for="check-8">I can apply these concepts to a Cowford Holdings scenario (Brewery, Green Build, or Medical Supply)</label>
+              <input type="checkbox" id="check-8"> <label for="check-8" style="display: inline; font-weight: 400;">I can apply these concepts to a Cowford Holdings scenario</label>
             </div>
 
             <div id="readiness-result" style="margin-top: var(--spacing-lg);"></div>
@@ -273,17 +460,544 @@
           <h3>Next Steps</h3>
         </div>
         <div class="card-body">
-          <p><strong>W6.C — Concept Check:</strong> Canvas quiz on aggregate planning and MRP fundamentals (10 questions, 20 min)</p>
-          <p><strong>W6.D — Application Quiz:</strong> Real Cowford scenario requiring aggregate planning or MRP analysis (30 min)</p>
-          <p><strong>Tip:</strong> Revisit this lab if you miss more than 2 questions on W6.C.</p>
+          <p><strong>W6.C - Concept Check:</strong> Canvas quiz on aggregate planning and MRP fundamentals (10 questions, 20 min)</p>
+          <p><strong>W6.D - Application Quiz:</strong> Real Cowford scenario requiring aggregate planning or MRP analysis (30 min)</p>
+          <p><strong>Tip:</strong> Revisit this lab if you miss more than two questions on W6.C.</p>
         </div>
       </div>
     </section>
   </div>
 
-  <!-- Scripts -->
-  <script src="../../js/shared.js"></script>
-  <script src="../../js/components.js"></script>
-  <script src="js/app.js"></script>
+  <script>
+    const MathUtils = {
+      formatCurrency(value) {
+        return new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(value);
+      },
+    };
+
+    const CowfordSubsidiaries = {
+      medicalSupply: { name: "Medical Supply", color: "#4a90e2" },
+      brewery: { name: "Brewery", color: "#f5a623" },
+      greenBuild: { name: "Green Build", color: "#7ed321" },
+    };
+
+    class LabAnalytics {
+      constructor(labName) {
+        this.labName = labName;
+        this.events = [];
+        this.startTime = Date.now();
+      }
+
+      track(eventName, data = {}) {
+        this.events.push({
+          name: eventName,
+          timestamp: Date.now(),
+          data,
+          timeElapsed: Date.now() - this.startTime,
+        });
+      }
+    }
+
+    class QuizQuestion {
+      constructor(options = {}) {
+        this.id = options.id;
+        this.question = options.question;
+        this.options = options.options || [];
+        this.correctAnswer = options.correctAnswer;
+        this.explanation = options.explanation || "";
+        this.onAnswer = options.onAnswer || function noop() {};
+        this.selectedAnswer = null;
+        this.render();
+      }
+
+      render() {
+        this.container = document.createElement("div");
+        this.container.className = "card";
+
+        const questionEl = document.createElement("h4");
+        questionEl.className = "card-header mb-lg";
+        questionEl.innerHTML = `Q: ${this.question}`;
+        this.container.appendChild(questionEl);
+
+        this.options.forEach((option, index) => {
+          const wrapper = document.createElement("div");
+          wrapper.className = "mb-md";
+
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.id = `${this.id}-${index}`;
+          radio.name = this.id;
+          radio.value = index;
+          radio.style.marginRight = "8px";
+          radio.addEventListener("change", () => {
+            this.selectedAnswer = index;
+          });
+
+          const label = document.createElement("label");
+          label.htmlFor = `${this.id}-${index}`;
+          label.style.cssText = "display: inline; font-weight: 400; margin: 0;";
+          label.textContent = option;
+
+          wrapper.appendChild(radio);
+          wrapper.appendChild(label);
+          this.container.appendChild(wrapper);
+        });
+
+        this.submitBtn = document.createElement("button");
+        this.submitBtn.className = "btn btn-primary mt-lg";
+        this.submitBtn.type = "button";
+        this.submitBtn.textContent = "Submit Answer";
+        this.submitBtn.addEventListener("click", () => this.check());
+        this.container.appendChild(this.submitBtn);
+
+        this.feedbackContainer = document.createElement("div");
+        this.feedbackContainer.className = "mt-lg";
+        this.container.appendChild(this.feedbackContainer);
+      }
+
+      check() {
+        if (this.selectedAnswer === null) {
+          this.showFeedback("Please select an answer.", "warning");
+          return;
+        }
+
+        const isCorrect = this.selectedAnswer === this.correctAnswer;
+        if (isCorrect) {
+          this.showFeedback("Correct.", "success");
+          this.submitBtn.disabled = true;
+        } else {
+          this.showFeedback(
+            `Incorrect. The correct answer is: ${this.options[this.correctAnswer]}.${this.explanation ? " " + this.explanation : ""}`,
+            "danger"
+          );
+        }
+
+        this.onAnswer({
+          question: this.question,
+          selected: this.options[this.selectedAnswer],
+          correct: isCorrect,
+        });
+      }
+
+      showFeedback(message, type) {
+        this.feedbackContainer.innerHTML = "";
+        const alert = document.createElement("div");
+        alert.className = `alert alert-${type}`;
+        alert.textContent = message;
+        this.feedbackContainer.appendChild(alert);
+      }
+
+      getElement() {
+        return this.container;
+      }
+    }
+
+    const analytics = new LabAnalytics("w6-mrp");
+
+    const aggregatePlanningData = {
+      stable: {
+        cowford: "Medical Supply",
+        color: CowfordSubsidiaries.medicalSupply.color,
+        monthlyDemand: [500, 510, 495, 505, 515, 490, 500, 510, 495, 505, 515, 500],
+        costPerUnit: 50,
+        holdingCostPerUnit: 2,
+        setupCostPerMonth: 3000,
+      },
+      seasonal: {
+        cowford: "Brewery",
+        color: CowfordSubsidiaries.brewery.color,
+        monthlyDemand: [300, 350, 400, 600, 700, 800, 900, 800, 600, 400, 350, 300],
+        costPerUnit: 35,
+        holdingCostPerUnit: 3,
+        setupCostPerMonth: 5000,
+      },
+      volatile: {
+        cowford: "Green Build",
+        color: CowfordSubsidiaries.greenBuild.color,
+        monthlyDemand: [200, 150, 500, 300, 400, 200, 600, 100, 450, 350, 280, 320],
+        costPerUnit: 60,
+        holdingCostPerUnit: 4,
+        setupCostPerMonth: 6000,
+      },
+    };
+
+    function calculateAggregatePlan(demandPattern, strategy, horizonMonths) {
+      const data = aggregatePlanningData[demandPattern];
+      const demand = data.monthlyDemand.slice(0, horizonMonths);
+      const avgDemand = demand.reduce((a, b) => a + b, 0) / demand.length;
+      const production = [];
+      const inventory = [];
+      let endingInventory = 0;
+      let totalCost = 0;
+
+      demand.forEach((periodDemand) => {
+        let producedAmount;
+
+        if (strategy === "chase") {
+          producedAmount = periodDemand;
+        } else if (strategy === "smooth") {
+          producedAmount = Math.ceil(avgDemand);
+        } else {
+          producedAmount = Math.ceil(avgDemand * 0.75 + periodDemand * 0.25);
+        }
+
+        endingInventory = Math.max(0, endingInventory + producedAmount - periodDemand);
+        production.push(producedAmount);
+        inventory.push(endingInventory);
+        totalCost += data.setupCostPerMonth + endingInventory * data.holdingCostPerUnit;
+      });
+
+      return {
+        demand,
+        production,
+        inventory,
+        totalCost,
+        avgCost: totalCost / horizonMonths,
+        cowford: data.cowford,
+        color: data.color,
+      };
+    }
+
+    function calculateMRP(masterSchedule, leadTimes, safetyStock) {
+      const periods = 8;
+      const masterWeekIndex = 3;
+      const levels = {
+        finished: {
+          name: "Finished Product",
+          leadTime: 0,
+          multiplier: 1,
+          parent: null,
+          grossReqs: Array(periods).fill(0),
+          availableInventory: Array(periods).fill(0),
+          netReqs: Array(periods).fill(0),
+          plannedReceipts: Array(periods).fill(0),
+          plannedReleases: Array(periods).fill(0),
+        },
+        a: {
+          name: "Component A (qty 2)",
+          leadTime: leadTimes.a || 2,
+          multiplier: 2,
+          parent: "finished",
+          grossReqs: Array(periods).fill(0),
+          availableInventory: Array(periods).fill(0),
+          netReqs: Array(periods).fill(0),
+          plannedReceipts: Array(periods).fill(0),
+          plannedReleases: Array(periods).fill(0),
+        },
+        b: {
+          name: "Component B (qty 1)",
+          leadTime: leadTimes.b || 3,
+          multiplier: 1,
+          parent: "finished",
+          grossReqs: Array(periods).fill(0),
+          availableInventory: Array(periods).fill(0),
+          netReqs: Array(periods).fill(0),
+          plannedReceipts: Array(periods).fill(0),
+          plannedReleases: Array(periods).fill(0),
+        },
+        b1: {
+          name: "Raw Material B1 (qty 3 per B)",
+          leadTime: 1,
+          multiplier: 3,
+          parent: "b",
+          grossReqs: Array(periods).fill(0),
+          availableInventory: Array(periods).fill(0),
+          netReqs: Array(periods).fill(0),
+          plannedReceipts: Array(periods).fill(0),
+          plannedReleases: Array(periods).fill(0),
+        },
+        c: {
+          name: "Component C (qty 1)",
+          leadTime: leadTimes.c || 2,
+          multiplier: 1,
+          parent: "finished",
+          grossReqs: Array(periods).fill(0),
+          availableInventory: Array(periods).fill(0),
+          netReqs: Array(periods).fill(0),
+          plannedReceipts: Array(periods).fill(0),
+          plannedReleases: Array(periods).fill(0),
+        },
+      };
+
+      levels.finished.grossReqs[masterWeekIndex] = masterSchedule;
+
+      function calculateLevel(level) {
+        let available = 0;
+        for (let i = 0; i < periods; i += 1) {
+          const gross = level.grossReqs[i];
+          const netReq = Math.max(0, gross + safetyStock - available);
+          level.netReqs[i] = netReq;
+          level.plannedReceipts[i] = netReq;
+
+          if (netReq > 0) {
+            const releaseIndex = Math.max(0, i - level.leadTime);
+            level.plannedReleases[releaseIndex] += netReq;
+            available = Math.max(0, available + netReq - gross);
+          } else {
+            available = Math.max(0, available - gross);
+          }
+
+          level.availableInventory[i] = available;
+        }
+      }
+
+      ["finished", "a", "b", "b1", "c"].forEach((key) => {
+        const level = levels[key];
+        if (level.parent) {
+          levels[level.parent].plannedReleases.forEach((releaseQty, period) => {
+            level.grossReqs[period] += releaseQty * level.multiplier;
+          });
+        }
+        calculateLevel(level);
+      });
+
+      return levels;
+    }
+
+    function displayAggregatePlanResults(result) {
+      const container = document.getElementById("ap-results");
+      let tableHTML = `
+        <div class="alert alert-info">
+          <strong>${result.cowford}</strong> planning result for the selected horizon
+        </div>
+        <table class="mrp-table">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Demand</th>
+              <th>Production</th>
+              <th>Ending Inventory</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      result.demand.forEach((demand, index) => {
+        tableHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${demand}</td>
+            <td>${result.production[index]}</td>
+            <td>${result.inventory[index]}</td>
+          </tr>
+        `;
+      });
+
+      tableHTML += `
+          </tbody>
+        </table>
+        <div class="calculation-box">
+          Total planning cost: <strong>${MathUtils.formatCurrency(result.totalCost)}</strong><br>
+          Average monthly cost: <strong>${MathUtils.formatCurrency(result.avgCost)}</strong>
+        </div>
+      `;
+
+      container.innerHTML = tableHTML;
+    }
+
+    function displayMRPResults(levels) {
+      const container = document.getElementById("mrp-results");
+      let html = '<div class="alert alert-info">MRP planned order schedule. Planned releases show when the order should be placed.</div>';
+
+      Object.entries(levels).forEach(([, level]) => {
+        html += `
+          <div class="card" style="border-top: 4px solid var(--unf-navy);">
+            <h4 style="margin-top: 0;">${level.name}</h4>
+            <table class="mrp-table">
+              <thead>
+                <tr>
+                  <th>Period</th>
+                  <th>Gross Req.</th>
+                  <th>Avail. Inv.</th>
+                  <th>Net Req.</th>
+                  <th>Planned Receipt</th>
+                  <th>Planned Release</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        for (let i = 0; i < 8; i += 1) {
+          html += `
+            <tr>
+              <td>${i + 1}</td>
+              <td>${level.grossReqs[i]}</td>
+              <td>${level.availableInventory[i]}</td>
+              <td>${level.netReqs[i]}</td>
+              <td>${level.plannedReceipts[i]}</td>
+              <td><strong>${level.plannedReleases[i]}</strong></td>
+            </tr>
+          `;
+        }
+
+        html += "</tbody></table></div>";
+      });
+
+      container.innerHTML = html;
+    }
+
+    function initializeQuizzes() {
+      const quizzes = [
+        {
+          id: "q1",
+          question: "In a <strong>chase production strategy</strong>, what typically increases?",
+          options: ["Holding costs (inventory)", "Setup and workforce adjustment costs", "Lead time", "Demand variability"],
+          correctAnswer: 1,
+          explanation: "Chase strategy follows demand closely, which usually requires frequent staffing or production changes.",
+        },
+        {
+          id: "q2",
+          question: "A level production strategy works best when:",
+          options: ["Demand is stable and predictable", "Holding costs are very high", "Demand is highly seasonal", "Setup costs are zero"],
+          correctAnswer: 0,
+          explanation: "Level production spreads output evenly; it works best with stable demand or inventory that can buffer changes.",
+        },
+        {
+          id: "q3",
+          question: "The <strong>Bill of Materials (BOM)</strong> tells you:",
+          options: ["The cost of each component", "How many of each component are needed per finished product", "The lead time for delivery", "The supplier for each part"],
+          correctAnswer: 1,
+          explanation: "A BOM is a structured list showing component quantities needed per unit of finished product.",
+        },
+        {
+          id: "q4",
+          question: "If Component A has a 2-week lead time and we need it in Week 4, when should we place the order?",
+          options: ["Week 1", "Week 2", "Week 3", "Week 4"],
+          correctAnswer: 1,
+          explanation: "Lead time offsetting means order release = need date - lead time, so Week 4 - 2 = Week 2.",
+        },
+      ];
+
+      const container = document.getElementById("quiz-container");
+      quizzes.forEach((quizData) => {
+        const quiz = new QuizQuestion({
+          ...quizData,
+          onAnswer: (data) => analytics.track("quiz_answered", data),
+        });
+        container.appendChild(quiz.getElement());
+      });
+    }
+
+    function initializeDiagnostic() {
+      const container = document.getElementById("diagnostic-container");
+      const steps = [
+        {
+          title: "Step 1: Assess Your Demand",
+          content: `
+            <p>Is your demand stable, seasonal, or volatile?</p>
+            <ul>
+              <li><strong>Stable:</strong> Use level production or simple forecasting.</li>
+              <li><strong>Seasonal:</strong> Consider hybrid strategy or safety stock.</li>
+              <li><strong>Volatile:</strong> May need higher safety stock or flexible capacity.</li>
+            </ul>
+            <div class="calculation-box">
+              Example: Brewery demand ranges from 300 to 900 units/month, so it is seasonal.
+            </div>
+          `,
+        },
+        {
+          title: "Step 2: Determine Your Constraints",
+          content: `
+            <p>What are your resource and cost constraints?</p>
+            <ul>
+              <li>What is your production capacity per month?</li>
+              <li>What is your holding cost per unit?</li>
+              <li>What is your setup or workforce adjustment cost?</li>
+              <li>What is your supplier lead time?</li>
+            </ul>
+          `,
+        },
+        {
+          title: "Step 3: Choose Your Aggregate Planning Strategy",
+          content: `
+            <table class="mrp-table">
+              <tr><th>Strategy</th><th>Best For</th><th>Primary Trade-Off</th></tr>
+              <tr><td>Chase</td><td>Variable demand, low adjustment cost</td><td>Workforce or setup instability</td></tr>
+              <tr><td>Level</td><td>Stable demand or storable products</td><td>Inventory holding cost</td></tr>
+              <tr><td>Hybrid</td><td>Moderate seasonal demand</td><td>Balanced complexity</td></tr>
+            </table>
+          `,
+        },
+        {
+          title: "Step 4: Build Your Master Schedule and Explode the BOM",
+          content: `
+            <ol>
+              <li>Start with the Master Production Schedule.</li>
+              <li>Use the Bill of Materials to identify component quantities.</li>
+              <li>Explode gross requirements: MPS quantity times BOM quantity.</li>
+              <li>Offset orders by lead time.</li>
+              <li>Calculate planned order releases.</li>
+            </ol>
+            <div class="calculation-box">
+              Need 100 finished products in Week 4. Each uses 2 units of Component A.
+              Gross requirement for A = 100 x 2 = 200 units. With a 2-week lead time, release in Week 2.
+            </div>
+          `,
+        },
+        {
+          title: "Step 5: Document Your Assumptions and Decisions",
+          content: `
+            <p>For W6.D, clearly state the demand pattern, chosen strategy, relevant costs, and what would change if demand, lead time, or capacity changed.</p>
+            <div class="alert alert-info">
+              Template: For [Cowford subsidiary], I chose [strategy] because [reason]. This changes cost, stability, or service level by [evidence].
+            </div>
+          `,
+        },
+      ];
+
+      container.innerHTML = steps.map((step) => `
+        <details>
+          <summary>${step.title}</summary>
+          <div class="details-body">${step.content}</div>
+        </details>
+      `).join("");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("ap-btn").addEventListener("click", () => {
+        const pattern = document.getElementById("ap-demand").value;
+        const strategy = document.getElementById("ap-strategy").value;
+        const months = parseInt(document.getElementById("ap-months").value, 10);
+        const result = calculateAggregatePlan(pattern, strategy, months);
+        displayAggregatePlanResults(result);
+        analytics.track("ap_calculated", { pattern, strategy, months, totalCost: result.totalCost });
+      });
+
+      document.getElementById("mrp-calculate").addEventListener("click", () => {
+        const demand = parseInt(document.getElementById("mrp-demand-week").value, 10);
+        const leadTimes = {
+          a: parseInt(document.getElementById("mrp-lead-a").value, 10),
+          b: parseInt(document.getElementById("mrp-lead-b").value, 10),
+          c: 2,
+        };
+        const safetyStock = parseInt(document.getElementById("mrp-ss").value, 10);
+        const result = calculateMRP(demand, leadTimes, safetyStock);
+        displayMRPResults(result);
+        analytics.track("mrp_calculated", { demand, leadTimes, safetyStock });
+      });
+
+      initializeQuizzes();
+      initializeDiagnostic();
+
+      const checkboxes = document.querySelectorAll('#readiness-checklist input[type="checkbox"]');
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+          const checked = Array.from(checkboxes).filter((item) => item.checked).length;
+          const result = document.getElementById("readiness-result");
+
+          if (checked === checkboxes.length) {
+            result.innerHTML = '<div class="alert alert-success">You are ready. Proceed to W6.C and W6.D.</div>';
+          } else if (checked >= 6) {
+            result.innerHTML = `<div class="alert alert-warning">You have completed ${checked}/${checkboxes.length} items. Review the unchecked items before proceeding.</div>`;
+          } else {
+            result.innerHTML = "";
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
