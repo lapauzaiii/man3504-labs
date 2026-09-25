@@ -58,21 +58,19 @@ body{font-family:-apple-system,"system-ui","Segoe UI",Roboto,"Helvetica Neue",Ar
 .opt-btn.locked{cursor:default}
 .tf-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
 
-/* Matching: tap-to-pair */
+/* Matching: one definition selector per term */
 .match-container{display:flex;flex-direction:column;gap:.6rem}
-.match-pair{display:grid;grid-template-columns:1fr auto 1fr;gap:.5rem;align-items:center}
+.match-pair{display:grid;grid-template-columns:minmax(120px,.8fr) auto minmax(0,1.2fr);gap:.5rem;align-items:center}
 .match-term{background:var(--navy);color:#fff;padding:.55rem .75rem;border-radius:8px;font-weight:600;font-size:.85rem;text-align:center}
 .match-arrow{color:var(--muted);font-size:1.1rem;text-align:center}
-.match-slot{background:var(--light-gray);border:2px dashed var(--border);border-radius:8px;padding:.55rem .75rem;font-size:.84rem;min-height:40px;cursor:pointer;text-align:center;transition:all .2s;color:var(--text)}
-.match-slot:hover:not(.locked){border-color:var(--orange);background:var(--orange-light)}
-.match-slot.filled{border-style:solid;border-color:var(--navy);background:var(--navy-light);font-weight:500}
-.match-slot.correct-match{border-color:var(--green);background:var(--green-light)}
-.match-slot.wrong-match{border-color:var(--red);background:var(--red-light)}
-.match-pool{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem;justify-content:center}
-.match-chip{background:var(--orange-light);border:1.5px solid var(--orange);border-radius:20px;padding:.35rem .75rem;font-size:.82rem;cursor:pointer;transition:all .2s;color:var(--text)}
-.match-chip:hover{background:var(--orange);color:#fff}
-.match-chip.used{opacity:.3;pointer-events:none;text-decoration:line-through}
-.match-chip.active{background:var(--orange);color:#fff;box-shadow:0 0 0 3px rgba(233,113,50,.3)}
+.match-select-wrap{min-width:0}
+.match-select{width:100%;min-height:42px;background:var(--light-gray);border:2px solid var(--border);border-radius:8px;padding:.5rem 2.1rem .5rem .7rem;font-size:.84rem;font-family:inherit;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s}
+.match-select:hover:not(:disabled),.match-select:focus{border-color:var(--orange);outline:none}
+.match-select.filled{border-color:var(--navy);background:var(--navy-light);font-weight:500}
+.match-select.correct-match{border-color:var(--green);background:var(--green-light)}
+.match-select.wrong-match{border-color:var(--red);background:var(--red-light)}
+.match-select:disabled{cursor:default;opacity:1;-webkit-text-fill-color:var(--text)}
+.match-correction{display:block;color:var(--green);font-size:.78rem;font-weight:600;margin:.3rem .15rem 0}
 
 /* Feedback */
 .feedback{margin-top:.85rem;padding:.75rem 1rem;border-radius:8px;font-size:.86rem;line-height:1.6;display:none}
@@ -193,13 +191,11 @@ let state={idx:0,answers:{},retries:new Set()};
 let shuffledQs=[];
 const sections=[...new Set(QUESTIONS.map(q=>q.s))];
 let activeSection='all';
-let activeChip=null;
 
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
 
 function initQuiz(){
   state={idx:0,answers:{},retries:new Set()};
-  activeChip=null;
   // Shuffle questions but keep section grouping optional
   const bySection={};
   QUESTIONS.forEach((q,i)=>{if(!bySection[q.s])bySection[q.s]=[];bySection[q.s].push({...q,origIdx:i})});
@@ -276,14 +272,20 @@ function renderQuestion(){
   }else if(q.type==='match'){
     h+='<div class="match-container">';
     q.terms.forEach((t,j)=>{
-      let slotContent='Click a chip below';let slotCls='match-slot';
-      if(state._matchPairs&&state._matchPairs[j]!==undefined){slotContent=q.defs[state._matchPairs[j]];slotCls+=' filled'}
-      if(answered){const isCorrect=state._matchPairs&&state._matchPairs[j]===q.ans[j];slotCls+=isCorrect?' correct-match':' wrong-match';slotCls+=' locked';if(!isCorrect)slotContent=q.defs[q.ans[j]]+' ✓'}
-      h+='<div class="match-pair"><div class="match-term">'+t+'</div><div class="match-arrow">→</div><div class="'+slotCls+'" onclick="selectSlot('+gi+','+j+')">'+slotContent+'</div></div>'});
-    if(!answered){h+='<div class="match-pool">';q.defs.forEach((d,k)=>{
-      const used=state._matchPairs&&Object.values(state._matchPairs).includes(k);
-      h+='<div class="match-chip'+(used?' used':'')+(activeChip===k?' active':'')+'" onclick="selectChip('+gi+','+k+')">'+d+'</div>'});
-      h+='</div><div class="btn-row"><button class="check-btn" onclick="checkMatch('+gi+')"'+((!state._matchPairs||Object.keys(state._matchPairs).length<q.terms.length)?' disabled':'')+'>Check Answer</button></div>'}
+      const selected=state._matchPairs&&state._matchPairs[j]!==undefined?state._matchPairs[j]:null;
+      const isCorrect=answered&&selected===q.ans[j];
+      let selectCls='match-select'+(selected!==null?' filled':'');
+      if(answered)selectCls+=isCorrect?' correct-match':' wrong-match';
+      h+='<div class="match-pair"><div class="match-term">'+t+'</div><div class="match-arrow">→</div><div class="match-select-wrap">';
+      h+='<select class="'+selectCls+'" aria-label="Choose a definition for '+t+'" onchange="setMatch('+gi+','+j+',this.value)"'+(answered?' disabled':'')+'>';
+      h+='<option value="" disabled'+(selected===null?' selected':'')+'>Choose a definition</option>';
+      q.defs.forEach((d,k)=>{
+        const usedElsewhere=state._matchPairs&&Object.keys(state._matchPairs).some(row=>Number(row)!==j&&state._matchPairs[row]===k);
+        h+='<option value="'+k+'"'+(selected===k?' selected':'')+(usedElsewhere?' disabled':'')+'>'+d+'</option>'});
+      h+='</select>';
+      if(answered&&!isCorrect)h+='<span class="match-correction">Correct: '+q.defs[q.ans[j]]+'</span>';
+      h+='</div></div>'});
+    if(!answered)h+='<div class="btn-row"><button class="check-btn" onclick="checkMatch('+gi+')"'+((!state._matchPairs||Object.keys(state._matchPairs).length<q.terms.length)?' disabled':'')+'>Check Answer</button></div>';
     h+='</div>';
   }
   // Feedback
@@ -306,16 +308,15 @@ function answerTF(gi,oi){if(state.answers[gi]!==undefined)return;const q=shuffle
 function toggleMulti(gi,oi){if(state.answers[gi]!==undefined)return;if(!state._multiSel)state._multiSel=new Set();if(state._multiSel.has(oi))state._multiSel.delete(oi);else state._multiSel.add(oi);renderQuestion()}
 function checkMulti(gi){if(state.answers[gi]!==undefined)return;const q=shuffledQs[gi];const sel=state._multiSel||new Set();state.answers[gi]=q.ans.length===sel.size&&q.ans.every(a=>sel.has(a));updateProgress();renderQuestion()}
 
-function selectChip(gi,k){activeChip=activeChip===k?null:k;renderQuestion()}
-function selectSlot(gi,j){if(state.answers[gi]!==undefined)return;if(activeChip===null)return;if(!state._matchPairs)state._matchPairs={};
-  // Remove chip from any other slot
-  Object.keys(state._matchPairs).forEach(k=>{if(state._matchPairs[k]===activeChip)delete state._matchPairs[k]});
-  state._matchPairs[j]=activeChip;activeChip=null;renderQuestion()}
+function setMatch(gi,j,value){if(state.answers[gi]!==undefined||value==='')return;if(!state._matchPairs)state._matchPairs={};
+  const selected=Number(value);
+  Object.keys(state._matchPairs).forEach(row=>{if(Number(row)!==j&&state._matchPairs[row]===selected)delete state._matchPairs[row]});
+  state._matchPairs[j]=selected;renderQuestion()}
 function checkMatch(gi){if(state.answers[gi]!==undefined)return;const q=shuffledQs[gi];const pairs=state._matchPairs||{};let correct=true;q.terms.forEach((_,j)=>{if(pairs[j]!==q.ans[j])correct=false});state.answers[gi]=correct;updateProgress();renderQuestion()}
 
-function retryQ(gi){state.retries.add(gi);delete state.answers[gi];state._selected=undefined;state._multiSel=undefined;state._matchPairs=undefined;activeChip=null;updateProgress();renderQuestion()}
+function retryQ(gi){state.retries.add(gi);delete state.answers[gi];state._selected=undefined;state._multiSel=undefined;state._matchPairs=undefined;updateProgress();renderQuestion()}
 
-function nextQ(){state._selected=undefined;state._multiSel=undefined;state._matchPairs=undefined;activeChip=null;state.idx++;renderQuestion()}
+function nextQ(){state._selected=undefined;state._multiSel=undefined;state._matchPairs=undefined;state.idx++;renderQuestion()}
 
 function updateProgress(){
   const n=shuffledQs.length;const answered=Object.keys(state.answers).length;
