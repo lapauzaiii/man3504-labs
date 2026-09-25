@@ -98,6 +98,20 @@ body {
   border-radius: 99px;
   white-space: nowrap;
 }
+.site-header .home-link {
+  color: #fff;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 4px;
+  padding: .2rem .5rem;
+  text-decoration: none;
+  font-size: .72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background .15s,border-color .15s;
+}
+.site-header .home-link:hover,
+.site-header .home-link:focus-visible { background: rgba(255,255,255,.2); border-color: rgba(255,255,255,.65); outline: none; }
 
 /* ── PHASE NAV ── */
 .phase-nav {
@@ -518,6 +532,8 @@ select:focus, input[type="number"]:focus {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 480px) {
+  .site-header { padding: 0 .65rem; gap: .5rem; }
+  .site-header .course-tag, .site-header .week-badge { display: none; }
   .lab-shell { padding: .85rem .6rem 3rem; }
   .phase-header { flex-wrap: wrap; }
   .phase-header .ph-time { margin-left: 0; }
@@ -529,6 +545,7 @@ select:focus, input[type="number"]:focus {
 
 <!-- ── HEADER ── -->
 <header class="site-header">
+  <a class="home-link" href="../../" aria-label="Return to the MAN3504 lab homepage">&larr; Home</a>
   <span class="course-tag">MAN 3504</span>
   <h1>Week 6: Operations Planning</h1>
   <span class="spacer"></span>
