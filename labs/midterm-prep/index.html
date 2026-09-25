@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Midterm Prep | MAN3504 Operations Management</title>
+<style>
+:root{--navy:#0E2841;--navy-90:#1a3654;--navy-light:#e8edf3;--orange:#E97132;--orange-light:#fef3ec;--orange-hover:#d4602a;--text:#212529;--muted:#6c757d;--light-gray:#f8f9fa;--border:#e9ecef;--white:#fff;--green:#198754;--green-light:#d1e7dd;--red:#dc3545;--red-light:#f8d7da;--card-shadow:0 2px 4px rgba(0,0,0,0.1);--radius:10px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--navy:#1a3654;--navy-light:#111e2e;--text:#e8f0f8;--muted:#8fa8c8;--light-gray:#14202e;--border:#243448;--white:#0d1820;--green-light:#0a2e1a;--red-light:#2d0f13;--orange-light:#2a1a0a;--card-shadow:0 2px 8px rgba(0,0,0,0.4)}}
+:root[data-theme="dark"]{--navy:#1a3654;--navy-light:#111e2e;--text:#e8f0f8;--muted:#8fa8c8;--light-gray:#14202e;--border:#243448;--white:#0d1820;--green-light:#0a2e1a;--red-light:#2d0f13;--orange-light:#2a1a0a;--card-shadow:0 2px 8px rgba(0,0,0,0.4)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{font-family:-apple-system,"system-ui","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--light-gray);color:var(--text);line-height:1.6;min-height:100vh}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-90) 100%);color:#fff;padding:2.5rem 1.5rem 2rem;border-bottom:4px solid var(--orange);text-align:center;position:relative}
+.hero h1{font-size:1.7rem;font-weight:700;margin-bottom:.3rem;letter-spacing:-.02em}
+.hero p{font-size:.9rem;opacity:.75}
+.hero .badge{display:inline-block;background:var(--orange);color:#fff;font-size:.7rem;font-weight:600;padding:.2rem .65rem;border-radius:20px;margin-bottom:.6rem;letter-spacing:.04em}
+.theme-toggle{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.15);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center}
+.container{max-width:820px;margin:0 auto;padding:1.25rem 1rem 3rem}
+
+/* Progress */
+.progress-wrap{margin:1.25rem 0 .4rem;display:flex;align-items:center;gap:.75rem}
+.progress-bar-outer{flex:1;background:var(--border);border-radius:20px;height:10px;overflow:hidden;position:relative}
+.progress-bar-correct{position:absolute;left:0;top:0;height:100%;background:var(--green);border-radius:20px;transition:width .4s}
+.progress-bar-wrong{position:absolute;top:0;height:100%;background:var(--red);transition:width .4s,left .4s}
+.progress-counter{font-size:.82rem;font-weight:600;color:var(--navy);white-space:nowrap;min-width:60px;text-align:right}
+.progress-text{font-size:.76rem;color:var(--muted);margin-bottom:1rem;display:flex;justify-content:space-between}
+.progress-text span{display:flex;align-items:center;gap:.3rem}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dot.g{background:var(--green)}.dot.r{background:var(--red)}.dot.u{background:var(--border)}
+
+/* Section tabs */
+.section-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.section-tab{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:.35rem .75rem;font-size:.78rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s}
+.section-tab:hover{border-color:var(--orange);color:var(--orange)}
+.section-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.section-tab .ct{font-weight:400;opacity:.7;margin-left:.25rem}
+
+/* Question card */
+.q-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:0;box-shadow:var(--card-shadow);transition:border-color .3s;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.q-card.correct{border-color:var(--green);background:var(--green-light)}
+.q-card.incorrect{border-color:var(--red);background:var(--red-light)}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem}
+.q-num{font-size:.72rem;font-weight:600;color:var(--orange);letter-spacing:.03em}
+.q-type{font-size:.68rem;color:var(--muted);font-weight:500;background:var(--light-gray);padding:.15rem .5rem;border-radius:4px}
+.q-section-label{font-size:.68rem;color:var(--muted);margin-bottom:.25rem}
+.q-text{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:1rem;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:.5rem}
+.opt-btn{background:var(--light-gray);border:2px solid var(--border);border-radius:8px;padding:.7rem .9rem;font-size:.9rem;cursor:pointer;text-align:left;transition:all .2s;color:var(--text);font-family:inherit;width:100%;position:relative}
+.opt-btn:hover:not(:disabled):not(.locked){border-color:var(--orange);background:var(--orange-light)}
+.opt-btn.selected{border-color:var(--navy);background:var(--navy-light);font-weight:600}
+.opt-btn.correct-answer{border-color:var(--green);background:var(--green-light)}
+.opt-btn.correct-answer::after{content:"✓";position:absolute;right:.75rem;top:50%;transform:translateY(-50%);color:var(--green);font-weight:700;font-size:1.1rem}
+.opt-btn.wrong-answer{border-color:var(--red);background:var(--red-light);opacity:.65}
+.opt-btn.wrong-answer::after{content:"✗";position:absolute;right:.75rem;top:50%;transform:translateY(-50%);color:var(--red);font-weight:700;font-size:1.1rem}
+.opt-btn:disabled{cursor:default}
+.opt-btn.locked{cursor:default}
+.tf-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+
+/* Matching: tap-to-pair */
+.match-container{display:flex;flex-direction:column;gap:.6rem}
+.match-pair{display:grid;grid-template-columns:1fr auto 1fr;gap:.5rem;align-items:center}
+.match-term{background:var(--navy);color:#fff;padding:.55rem .75rem;border-radius:8px;font-weight:600;font-size:.85rem;text-align:center}
+.match-arrow{color:var(--muted);font-size:1.1rem;text-align:center}
+.match-slot{background:var(--light-gray);border:2px dashed var(--border);border-radius:8px;padding:.55rem .75rem;font-size:.84rem;min-height:40px;cursor:pointer;text-align:center;transition:all .2s;color:var(--text)}
+.match-slot:hover:not(.locked){border-color:var(--orange);background:var(--orange-light)}
+.match-slot.filled{border-style:solid;border-color:var(--navy);background:var(--navy-light);font-weight:500}
+.match-slot.correct-match{border-color:var(--green);background:var(--green-light)}
+.match-slot.wrong-match{border-color:var(--red);background:var(--red-light)}
+.match-pool{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem;justify-content:center}
+.match-chip{background:var(--orange-light);border:1.5px solid var(--orange);border-radius:20px;padding:.35rem .75rem;font-size:.82rem;cursor:pointer;transition:all .2s;color:var(--text)}
+.match-chip:hover{background:var(--orange);color:#fff}
+.match-chip.used{opacity:.3;pointer-events:none;text-decoration:line-through}
+.match-chip.active{background:var(--orange);color:#fff;box-shadow:0 0 0 3px rgba(233,113,50,.3)}
+
+/* Feedback */
+.feedback{margin-top:.85rem;padding:.75rem 1rem;border-radius:8px;font-size:.86rem;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:var(--green-light);border-left:4px solid var(--green)}
+.feedback.incorrect{background:var(--red-light);border-left:4px solid var(--red)}
+.feedback .your-answer{font-weight:600;display:block;margin-bottom:.25rem}
+.feedback .correct-answer-text{font-weight:600;color:var(--green);display:block;margin-bottom:.3rem}
+.feedback .explanation{color:var(--text);opacity:.9}
+
+/* Buttons */
+.btn-row{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.check-btn,.next-btn,.retry-btn{border:none;border-radius:8px;padding:.6rem 1.4rem;font-size:.88rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.check-btn{background:var(--navy);color:#fff}
+.check-btn:hover{background:var(--orange)}
+.check-btn:disabled{opacity:.35;cursor:default}
+.next-btn{background:var(--orange);color:#fff}
+.next-btn:hover{background:var(--orange-hover)}
+.retry-btn{background:transparent;border:2px solid var(--muted);color:var(--muted)}
+.retry-btn:hover{border-color:var(--orange);color:var(--orange)}
+
+/* Score panel */
+.score-panel{background:var(--white);border:2px solid var(--orange);border-radius:var(--radius);padding:2rem;text-align:center;margin:1.5rem 0;box-shadow:var(--card-shadow)}
+.score-panel h2{color:var(--navy);font-size:1.3rem;margin-bottom:.5rem}
+.big-score{font-size:3rem;font-weight:700;color:var(--orange)}
+.score-sub{font-size:.9rem;color:var(--muted);margin:.4rem 0 1.25rem}
+.section-scores{text-align:left;margin:1rem 0}
+.section-score-row{display:flex;align-items:center;gap:.6rem;padding:.45rem 0;border-bottom:1px solid var(--border);font-size:.86rem}
+.section-score-row:last-child{border:none}
+.section-score-label{flex:1;font-weight:600;color:var(--text)}
+.section-score-bar{width:120px;height:8px;background:var(--border);border-radius:20px;overflow:hidden}
+.section-score-fill{height:100%;border-radius:20px;transition:width .5s}
+.section-score-pct{font-weight:700;min-width:40px;text-align:right}
+.reset-btn{background:var(--orange);color:#fff;border:none;border-radius:8px;padding:.65rem 1.5rem;font-size:.92rem;font-weight:600;cursor:pointer;font-family:inherit;margin-top:1rem}
+.reset-btn:hover{background:var(--orange-hover)}
+.hidden{display:none!important}
+
+footer{text-align:center;font-size:.76rem;color:var(--muted);padding:2rem 1rem 1rem;border-top:1px solid var(--border);margin-top:2rem}
+
+@media(max-width:500px){.hero h1{font-size:1.35rem}.section-tabs{gap:.25rem}.section-tab{font-size:.7rem;padding:.25rem .5rem}.match-pair{grid-template-columns:1fr;gap:.25rem}.match-arrow{display:none}.q-card{padding:1.1rem}}
+</style>
+</head>
+<body>
+<header class="hero">
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">🌙</button>
+<div class="badge">Midterm Prep — Weeks 1–6</div>
+<h1>MAN3504 Interactive Review</h1>
+<p>Operations Management · Cowford Holdings · Fall 2026</p>
+</header>
+<div class="container">
+<div class="progress-wrap">
+<div class="progress-bar-outer"><div class="progress-bar-correct" id="pCorrect"></div><div class="progress-bar-wrong" id="pWrong"></div></div>
+<div class="progress-counter" id="pCounter">0 / 45</div>
+</div>
+<div class="progress-text"><span><span class="dot g"></span> Correct</span><span><span class="dot r"></span> Missed</span><span><span class="dot u"></span> Remaining</span></div>
+<div class="section-tabs" id="sectionTabs"></div>
+<div id="quizArea"></div>
+<div class="hidden" id="scorePanel"></div>
+</div>
+<footer>MAN3504 Operations Management · Coggin College of Business, UNF · Fall 2026</footer>
+<script>
+const QUESTIONS=[
+{s:"W1: OM Foundations",type:"mcq",q:"Which of the following best defines Operations Management?",opts:["Managing financial records","Managing processes that create goods and services","Managing sales campaigns","Managing employee benefits"],ans:1,exp:"OM is the management of processes that transform inputs into goods and services."},
+{s:"W1: OM Foundations",type:"tf",q:"Productivity is calculated as Outputs ÷ Inputs.",ans:true,exp:"Productivity = Outputs ÷ Inputs. Higher ratio = more efficient. Never invert."},
+{s:"W1: OM Foundations",type:"mcq",q:"Productivity is defined as:",opts:["Inputs ÷ Outputs","Outputs ÷ Inputs","Costs ÷ Benefits","Fixed ÷ Variable"],ans:1,exp:"Outputs on top, Inputs on bottom — always."},
+{s:"W1: OM Foundations",type:"mcq",q:"Which factor is most subjective in the value equation (Value = Benefits ÷ Cost)?",opts:["Cost","Perceived benefits","Fixed overhead","Variable cost"],ans:1,exp:"Perceived benefits are inherently subjective — two customers assign different value to the same product."},
+{s:"W1: OM Foundations",type:"tf",q:"Improving product quality, service, or brand reputation are ways a company can increase perceived value without lowering price.",ans:true,exp:"Value rises when perceived benefits increase, even if price stays constant."},
+{s:"W1: OM Foundations",type:"tf",q:"Break-even analysis assumes fixed costs remain constant regardless of volume.",ans:true,exp:"This is a core assumption of break-even analysis."},
+{s:"W1: OM Foundations",type:"tf",q:"Break-even analysis calculates the number of units that must be sold before a company starts earning a profit.",ans:true,exp:"Below break-even the firm loses money; above it, the firm profits."},
+{s:"W1: OM Foundations",type:"multi",q:"Which of the following are characteristics of services? (Select all that apply)",opts:["Intangible","Perishable","High customer contact","Critical Path Method","Fixed-position layout"],ans:[0,1,2],exp:"Services are intangible, perishable, and involve high customer contact. CPM and fixed-position layout are OM tools — not service characteristics."},
+{s:"W1: OM Foundations",type:"multi",q:"Which of the following are characteristics of goods? (Select all that apply)",opts:["Tangible","Storable","Low customer contact","Theory of Constraints","Economies of scale"],ans:[0,1,2],exp:"Goods are tangible, storable, and produced with low customer contact. TOC and economies of scale are OM concepts, not goods characteristics."},
+{s:"W1: OM Foundations",type:"match",q:"Match each Operations Management concept with its definition:",terms:["Break-even analysis","Value","Transformation process","Capacity cushion"],defs:["Point where total cost = total revenue","Benefits ÷ cost","Turning inputs into outputs","Extra reserve capacity for demand surges"],ans:[0,1,2,3],exp:"Break-even = revenue equals cost. Value = benefits over cost. Transformation = inputs to outputs. Cushion = reserve capacity."},
+{s:"W2: Process Design",type:"tf",q:"Swimlane diagrams clarify who is responsible for each activity in a process.",ans:true,exp:"Each lane represents a department or role — making handoffs and responsibilities visible."},
+{s:"W2: Process Design",type:"tf",q:"Consulting firms use swimlane diagrams to analyze process handoffs between departments.",ans:true,exp:"Swimlane diagrams are a standard consulting tool for cross-functional process analysis."},
+{s:"W2: Process Design",type:"mcq",q:"Which tool is most helpful when analyzing customer wait time in a service process?",opts:["Swimlane diagram","Flowchart","PERT chart","Kanban board"],ans:0,exp:"Swimlane diagrams expose handoff delays between departments — the primary driver of customer wait time."},
+{s:"W2: Process Design",type:"tf",q:"Aligning process design with strategy is critical for competitiveness.",ans:true,exp:"Misalignment between process type and strategy is a structural disadvantage."},
+{s:"W2: Process Design",type:"multi",q:"Which of the following are characteristics of a line process? (Select all that apply)",opts:["High volume","Standardized products","Low flexibility","High customization","High cost per unit"],ans:[0,1,2],exp:"Line processes = high volume, standardized, low flexibility, LOW cost per unit. High customization describes job/project processes."},
+{s:"W2: Process Design",type:"tf",q:"A batch process has higher variety and lower volume compared to a line process.",ans:true,exp:"Batch sits between job shop and line on the process matrix."},
+{s:"W2: Process Design",type:"mcq",q:"A bottleneck is:",opts:["The step with the most labor","The step with the least effective capacity","The fastest step in the process","The average of all steps"],ans:1,exp:"The bottleneck constrains the entire system's output — always the step with the least effective capacity."},
+{s:"W2: Process Design",type:"match",q:"Match each term to its definition:",terms:["Bottleneck","Cycle time","Throughput"],defs:["Slowest step — caps system output","Time to complete one unit","Actual output rate of the system"],ans:[0,1,2],exp:"Bottleneck = slowest step. Cycle time = time per unit. Throughput = actual output rate."},
+{s:"W3: Lean & TOC",type:"mcq",q:"Toyota's efficiency is largely attributed to which philosophy?",opts:["Over-automation","Lean principles","Push scheduling","Maximizing rework"],ans:1,exp:"Toyota Production System = Lean. Eliminate waste, produce what's needed when it's needed."},
+{s:"W3: Lean & TOC",type:"mcq",q:"Which of the following would NOT be considered waste in lean?",opts:["Overproduction","Motion","Customer value-added activities","Waiting"],ans:2,exp:"Customer value-added activities are what the customer pays for — Lean maximizes these."},
+{s:"W3: Lean & TOC",type:"mcq",q:"Which of the following is NOT a step in the Theory of Constraints?",opts:["Identify the bottleneck","Exploit the bottleneck","Subordinate other decisions","Maximize local efficiency"],ans:3,exp:"TOC explicitly rejects local optimization. Maximizing non-bottleneck output builds inventory without increasing throughput."},
+{s:"W3: Lean & TOC",type:"tf",q:"Theory of Constraints assumes bottlenecks are permanently eliminated once elevated.",ans:false,exp:"Once you elevate a constraint, a new bottleneck emerges. TOC is a continuous cycle."},
+{s:"W3: Lean & TOC",type:"tf",q:"Increasing cycle time always increases throughput.",ans:false,exp:"Longer cycle time = each unit takes longer = throughput decreases, not increases."},
+{s:"W4: Capacity",type:"mcq",q:"A machine can produce 200 units/day but averages 150. What is utilization?",opts:["50%","65%","75%","80%"],ans:2,exp:"Utilization = Actual ÷ Design Capacity = 150 ÷ 200 = 75%."},
+{s:"W4: Capacity",type:"mcq",q:"Design capacity = 1,000 units/week, effective capacity = 850, actual output = 700. Utilization is:",opts:["70%","82%","85%","100%"],ans:0,exp:"Utilization = Actual ÷ DESIGN Capacity = 700 ÷ 1,000 = 70%. (Efficiency would use effective capacity.)"},
+{s:"W4: Capacity",type:"tf",q:"A negative capacity cushion means demand exceeds capacity.",ans:true,exp:"Cushion = 100% − Utilization. Negative means utilization > 100% — demand outstrips capacity."},
+{s:"W4: Capacity",type:"mcq",q:"A drawback of maintaining a large capacity cushion is:",opts:["Higher costs","Increased customer wait times","Reduced flexibility","Lower service levels"],ans:0,exp:"Idle capacity = fixed costs with no revenue. It does NOT cause longer waits — the opposite."},
+{s:"W4: Capacity",type:"tf",q:"Throughput always equals design capacity.",ans:false,exp:"Actual throughput is always less than design capacity due to real-world constraints."},
+{s:"W4: Capacity",type:"tf",q:"The wait-and-see strategy relies on overtime, subcontracting, or temp workers to meet demand.",ans:true,exp:"Wait-and-see uses flexible short-term capacity rather than permanent expansion."},
+{s:"W4: Capacity",type:"match",q:"Match each capacity strategy to its description:",terms:["Expansionist","Wait-and-see"],defs:["Captures market share, risk of overcapacity","Conservative, risk of missed demand"],ans:[0,1],exp:"Expansionist builds ahead (risk: overcapacity). Wait-and-see reacts (risk: lost sales)."},
+{s:"W5: Forecasting",type:"mcq",q:"Starbucks uses a weighted moving average to plan coffee bean purchases. This is an example of:",opts:["Qualitative forecast","Time series forecasting","Causal regression","Long-range planning only"],ans:1,exp:"Weighted moving average is a time-series method using past data patterns."},
+{s:"W5: Forecasting",type:"tf",q:"Forecasts should always be treated as exact predictions.",ans:false,exp:"All forecasts contain error. They are informed estimates, never exact."},
+{s:"W5: Forecasting",type:"mcq",q:"MAD is best described as:",opts:["Mean Absolute Deviation","Maximum Average Difference","Mean Average Demand","Median Absolute Data"],ans:0,exp:"MAD = Mean Absolute Deviation = average of |Actual − Forecast| across all periods."},
+{s:"W5: Forecasting",type:"mcq",q:"If actual demand = 100 and forecast = 90, the absolute error =",opts:["5","10","90","110"],ans:1,exp:"|100 − 90| = 10. Absolute error is always positive."},
+{s:"W5: Forecasting",type:"tf",q:"Long-term forecasts are generally more accurate than short-term forecasts.",ans:false,exp:"Accuracy decreases as the horizon extends. Short-term is always more reliable."},
+{s:"W5: Forecasting",type:"mcq",q:"Which of the following is a quantitative forecasting method?",opts:["Delphi method","Executive opinion","Exponential smoothing","Market research"],ans:2,exp:"Exponential smoothing uses historical data mathematically. The others are qualitative."},
+{s:"W5: Forecasting",type:"mcq",q:"A 3-period simple moving average for data (10, 12, 14) =",opts:["10","12","13","14"],ans:1,exp:"SMA = (10 + 12 + 14) ÷ 3 = 12."},
+{s:"W5: Forecasting",type:"mcq",q:"Exponential smoothing weights:",opts:["All past periods equally","Recent data more heavily","Old data more heavily","Trend and seasonality only"],ans:1,exp:"α (alpha) controls the weight on the most recent observation. Higher α = more responsive."},
+{s:"W5: Forecasting",type:"mcq",q:"An ice cream shop sees spikes every summer. This is an example of:",opts:["Trend","Seasonality","Random variation","Regression"],ans:1,exp:"Regular, repeating pattern within a year = seasonality."},
+{s:"W5: Forecasting",type:"match",q:"Match each demand pattern to its description:",terms:["Trend","Seasonality","Cyclical","Random variation"],defs:["Long-term upward/downward movement","Regular pattern within a year","Multi-year economic/business cycles","Unpredictable noise"],ans:[0,1,2,3],exp:"Trend = direction. Seasonality = annual. Cyclical = multi-year economic swings. Random = noise."},
+{s:"W5: Forecasting",type:"mcq",q:"The Delphi method is best described as:",opts:["Relying on historical data only","Rounds of expert opinion to reach consensus","Managerial guesswork","Customer surveys"],ans:1,exp:"Delphi = anonymous, iterative expert rounds reaching consensus."},
+{s:"W5: Forecasting",type:"mcq",q:"Correlation values range between:",opts:["−0.5 and +0.5","−1 and +1","0 and +1","−10 and +10"],ans:1,exp:"Correlation coefficient r ranges from −1 (perfect negative) to +1 (perfect positive)."},
+{s:"W5: Forecasting",type:"mcq",q:"If demand increases when price decreases, the correlation between price and demand is likely:",opts:["Strong positive","Strong negative","Weak positive","Zero"],ans:1,exp:"Opposite directions → negative correlation (r near −1)."},
+{s:"W5: Forecasting",type:"match",q:"Match each forecasting method to its best explanation:",terms:["Delphi","Executive judgment","Customer survey"],defs:["Structured expert consensus","Top management intuition","Input from potential buyers"],ans:[0,1,2],exp:"Delphi = structured expert rounds. Executive = management intuition. Survey = buyer input."},
+{s:"W6: Planning & MRP",type:"mcq",q:"Which element of the planning hierarchy directly produces planned order releases?",opts:["Material Requirements Plan","Aggregate Plan","Master Production Schedule","Schedule"],ans:2,exp:"MPS translates aggregate plans into specific SKU-level quantities that feed MRP."},
+{s:"W6: Planning & MRP",type:"tf",q:"The purpose of aggregate planning is to align strategy with execution by balancing demand and capacity.",ans:true,exp:"S&OP bridges the gap between strategic intent and operational execution."},
+{s:"W6: Planning & MRP",type:"mcq",q:"Allowing temporary shortages and fulfilling orders later is known as:",opts:["Chase strategy","Backordering","Subcontracting","Level strategy"],ans:1,exp:"Backordering accepts the shortage now, fills the order when capacity catches up."},
+{s:"W6: Planning & MRP",type:"mcq",q:"A firm that adjusts its workforce each month to exactly match demand is using:",opts:["Level strategy","Chase strategy","Hybrid strategy","Subcontracting"],ans:1,exp:"Chase = workforce tracks demand period by period."},
+{s:"W6: Planning & MRP",type:"mcq",q:"Which of the following is NOT an example of dependent demand?",opts:["Engines for cars","Flour for bread production","Laptops purchased by customers","Packaging for coffee pods"],ans:2,exp:"Laptops purchased by customers = independent demand. Components derived from a parent product = dependent."},
+{s:"W6: Planning & MRP",type:"mcq",q:"Forecast = 300 boxes, BOM = 4 pouches/box, On-hand = 420, Scheduled receipts = 200. Net requirement =",opts:["380","580","780","1,200"],ans:1,exp:"Gross = 300 × 4 = 1,200. Available = 420 + 200 = 620. Net = 1,200 − 620 = 580."},
+{s:"W6: Planning & MRP",type:"mcq",q:"Which inputs are required for MRP?",opts:["BOM, MPS, inventory/lead times","Aggregate plan and EOQ","Forecast and value stream map","Strategy and cushion"],ans:0,exp:"MRP needs three inputs: Bill of Materials, Master Production Schedule, and inventory records with lead times."},
+{s:"W6: Planning & MRP",type:"tf",q:"Effective scheduling improves both resource utilization and customer service.",ans:true,exp:"Good scheduling maximizes machine/labor usage while meeting delivery commitments."}
+];
+
+let state={idx:0,answers:{},retries:new Set()};
+let shuffledQs=[];
+const sections=[...new Set(QUESTIONS.map(q=>q.s))];
+let activeSection='all';
+let activeChip=null;
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+
+function initQuiz(){
+  state={idx:0,answers:{},retries:new Set()};
+  activeChip=null;
+  // Shuffle questions but keep section grouping optional
+  const bySection={};
+  QUESTIONS.forEach((q,i)=>{if(!bySection[q.s])bySection[q.s]=[];bySection[q.s].push({...q,origIdx:i})});
+  shuffledQs=[];
+  // Shuffle within each section, then interleave sections
+  const sectionQueues={};
+  sections.forEach(s=>{sectionQueues[s]=shuffle(bySection[s])});
+  // Round-robin through sections for interleaving
+  let more=true;
+  while(more){more=false;sections.forEach(s=>{if(sectionQueues[s].length){shuffledQs.push(sectionQueues[s].shift());more=true}})}
+  // Shuffle answer options for MCQ
+  shuffledQs.forEach(q=>{
+    if(q.type==='mcq'){
+      const correct=q.opts[q.ans];
+      const shuffled=shuffle(q.opts);
+      q.opts=shuffled;q.ans=shuffled.indexOf(correct);
+    }
+    if(q.type==='multi'){
+      const correctTexts=q.ans.map(i=>q.opts[i]);
+      const shuffled=shuffle(q.opts);
+      q.opts=shuffled;q.ans=correctTexts.map(t=>shuffled.indexOf(t));
+    }
+    if(q.type==='match'){
+      const shuffledDefs=shuffle(q.defs);
+      const newAns=q.terms.map((_,i)=>shuffledDefs.indexOf(q.defs[q.ans[i]]));
+      q.defs=shuffledDefs;q.ans=newAns;
+    }
+  });
+  renderTabs();renderQuestion();updateProgress();
+  document.getElementById('scorePanel').classList.add('hidden');
+}
+
+function renderTabs(){
+  const el=document.getElementById('sectionTabs');
+  const total=getFiltered().length;
+  let h='<div class="section-tab'+(activeSection==='all'?' active':'')+'" onclick="setSection(\'all\',this)">All<span class="ct">'+total+'</span></div>';
+  sections.forEach(s=>{const c=shuffledQs.filter(q=>q.s===s).length;h+='<div class="section-tab'+(activeSection===s?' active':'')+'" onclick="setSection(\''+s+'\',this)">'+s.replace(/^W\d+: /,'')+'<span class="ct">'+c+'</span></div>'});
+  el.innerHTML=h;
+}
+
+function setSection(s,el){activeSection=s;state.idx=0;document.querySelectorAll('.section-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderQuestion()}
+
+function getFiltered(){return activeSection==='all'?shuffledQs:shuffledQs.filter(q=>q.s===activeSection)}
+
+function renderQuestion(){
+  const qs=getFiltered();
+  if(state.idx>=qs.length){showResults();return}
+  const q=qs[state.idx];const gi=shuffledQs.indexOf(q);
+  const answered=state.answers[gi]!==undefined;
+  const area=document.getElementById('quizArea');
+  const typeLabel={mcq:'Multiple Choice',tf:'True / False',multi:'Select All That Apply',match:'Matching'}[q.type];
+  let h='<div class="q-card'+(answered?(state.answers[gi]?' correct':' incorrect'):'')+'" id="qCard">';
+  h+='<div class="q-section-label">'+q.s+'</div>';
+  h+='<div class="q-header"><span class="q-num">Question '+(state.idx+1)+' of '+qs.length+'</span><span class="q-type">'+typeLabel+'</span></div>';
+  h+='<div class="q-text">'+q.q+'</div>';
+  if(q.type==='mcq'){
+    h+='<div class="options">';q.opts.forEach((_,j)=>{
+      let cls='opt-btn';if(answered){cls+=' locked';if(j===q.ans)cls+=' correct-answer';if(state.answers[gi]===false&&j===state._selected)cls+=' wrong-answer'}
+      h+='<button class="'+cls+'" onclick="answerMCQ('+gi+','+j+')"'+(answered?' disabled':'')+'>'+q.opts[j]+'</button>'});
+    h+='</div>';
+  }else if(q.type==='tf'){
+    h+='<div class="options tf-row">';
+    ['True','False'].forEach((l,j)=>{
+      let cls='opt-btn';if(answered){cls+=' locked';const ci=q.ans?0:1;if(j===ci)cls+=' correct-answer';if(state.answers[gi]===false&&j===state._selected)cls+=' wrong-answer'}
+      h+='<button class="'+cls+'" onclick="answerTF('+gi+','+j+')"'+(answered?' disabled':'')+'>'+l+'</button>'});
+    h+='</div>';
+  }else if(q.type==='multi'){
+    h+='<div class="options">';q.opts.forEach((o,j)=>{
+      let cls='opt-btn';if(answered){cls+=' locked';if(q.ans.includes(j))cls+=' correct-answer';else if(state._multiSel&&state._multiSel.has(j))cls+=' wrong-answer'}
+      else if(state._multiSel&&state._multiSel.has(j))cls+=' selected';
+      h+='<button class="'+cls+'" onclick="toggleMulti('+gi+','+j+')"'+(answered?' disabled':'')+'>'+o+'</button>'});
+    h+='</div>';
+    if(!answered)h+='<div class="btn-row"><button class="check-btn" onclick="checkMulti('+gi+')">Check Answer</button></div>';
+  }else if(q.type==='match'){
+    h+='<div class="match-container">';
+    q.terms.forEach((t,j)=>{
+      let slotContent='Click a chip below';let slotCls='match-slot';
+      if(state._matchPairs&&state._matchPairs[j]!==undefined){slotContent=q.defs[state._matchPairs[j]];slotCls+=' filled'}
+      if(answered){const isCorrect=state._matchPairs&&state._matchPairs[j]===q.ans[j];slotCls+=isCorrect?' correct-match':' wrong-match';slotCls+=' locked';if(!isCorrect)slotContent=q.defs[q.ans[j]]+' ✓'}
+      h+='<div class="match-pair"><div class="match-term">'+t+'</div><div class="match-arrow">→</div><div class="'+slotCls+'" onclick="selectSlot('+gi+','+j+')">'+slotContent+'</div></div>'});
+    if(!answered){h+='<div class="match-pool">';q.defs.forEach((d,k)=>{
+      const used=state._matchPairs&&Object.values(state._matchPairs).includes(k);
+      h+='<div class="match-chip'+(used?' used':'')+(activeChip===k?' active':'')+'" onclick="selectChip('+gi+','+k+')">'+d+'</div>'});
+      h+='</div><div class="btn-row"><button class="check-btn" onclick="checkMatch('+gi+')"'+((!state._matchPairs||Object.keys(state._matchPairs).length<q.terms.length)?' disabled':'')+'>Check Answer</button></div>'}
+    h+='</div>';
+  }
+  // Feedback
+  if(answered){
+    const correct=state.answers[gi];
+    h+='<div class="feedback show '+(correct?'correct':'incorrect')+'">';
+    h+='<span class="your-answer">'+(correct?'✅ Correct':'❌ Incorrect')+'</span>';
+    if(!correct)h+='<span class="correct-answer-text">Correct answer shown above</span>';
+    h+='<span class="explanation">'+q.exp+'</span></div>';
+    h+='<div class="btn-row">';
+    if(!correct&&!state.retries.has(gi))h+='<button class="retry-btn" onclick="retryQ('+gi+')">Try Again</button>';
+    h+='<button class="next-btn" onclick="nextQ()">Next →</button></div>';
+  }
+  h+='</div>';area.innerHTML=h;
+}
+
+function answerMCQ(gi,oi){if(state.answers[gi]!==undefined)return;const q=shuffledQs[gi];state._selected=oi;state.answers[gi]=oi===q.ans;updateProgress();renderQuestion()}
+function answerTF(gi,oi){if(state.answers[gi]!==undefined)return;const q=shuffledQs[gi];state._selected=oi;const correct=(q.ans===true&&oi===0)||(q.ans===false&&oi===1);state.answers[gi]=correct;updateProgress();renderQuestion()}
+
+function toggleMulti(gi,oi){if(state.answers[gi]!==undefined)return;if(!state._multiSel)state._multiSel=new Set();if(state._multiSel.has(oi))state._multiSel.delete(oi);else state._multiSel.add(oi);renderQuestion()}
+function checkMulti(gi){if(state.answers[gi]!==undefined)return;const q=shuffledQs[gi];const sel=state._multiSel||new Set();state.answers[gi]=q.ans.length===sel.size&&q.ans.every(a=>sel.has(a));updateProgress();renderQuestion()}
+
+function selectChip(gi,k){activeChip=activeChip===k?null:k;renderQuestion()}
+function selectSlot(gi,j){if(state.answers[gi]!==undefined)return;if(activeChip===null)return;if(!state._matchPairs)state._matchPairs={};
+  // Remove chip from any other slot
+  Object.keys(state._matchPairs).forEach(k=>{if(state._matchPairs[k]===activeChip)delete state._matchPairs[k]});
+  state._matchPairs[j]=activeChip;activeChip=null;renderQuestion()}
+function checkMatch(gi){if(state.answers[gi]!==undefined)return;const q=shuffledQs[gi];const pairs=state._matchPairs||{};let correct=true;q.terms.forEach((_,j)=>{if(pairs[j]!==q.ans[j])correct=false});state.answers[gi]=correct;updateProgress();renderQuestion()}
+
+function retryQ(gi){state.retries.add(gi);delete state.answers[gi];state._selected=undefined;state._multiSel=undefined;state._matchPairs=undefined;activeChip=null;updateProgress();renderQuestion()}
+
+function nextQ(){state._selected=undefined;state._multiSel=undefined;state._matchPairs=undefined;activeChip=null;state.idx++;renderQuestion()}
+
+function updateProgress(){
+  const n=shuffledQs.length;const answered=Object.keys(state.answers).length;
+  const correct=Object.values(state.answers).filter(Boolean).length;
+  const wrong=answered-correct;
+  document.getElementById('pCorrect').style.width=(correct/n*100)+'%';
+  const pw=document.getElementById('pWrong');pw.style.width=(wrong/n*100)+'%';pw.style.left=(correct/n*100)+'%';
+  document.getElementById('pCounter').textContent=answered+' / '+n;
+}
+
+function showResults(){
+  const panel=document.getElementById('scorePanel');
+  const total=shuffledQs.length;const correct=Object.values(state.answers).filter(Boolean).length;
+  const pct=Math.round(correct/total*100);
+  let h='<div class="score-panel"><h2>Midterm Prep Complete</h2><div class="big-score">'+pct+'%</div><div class="score-sub">'+correct+' of '+total+' correct</div>';
+  h+='<div class="section-scores">';
+  sections.forEach(s=>{
+    const qs=shuffledQs.filter(q=>q.s===s);const sc=qs.filter(q=>state.answers[shuffledQs.indexOf(q)]===true).length;
+    const spct=qs.length?Math.round(sc/qs.length*100):0;
+    const color=spct>=80?'var(--green)':spct>=60?'var(--orange)':'var(--red)';
+    h+='<div class="section-score-row"><span class="section-score-label">'+s+'</span><div class="section-score-bar"><div class="section-score-fill" style="width:'+spct+'%;background:'+color+'"></div></div><span class="section-score-pct" style="color:'+color+'">'+spct+'%</span></div>';
+  });
+  h+='</div><button class="reset-btn" onclick="resetQuiz()">Try Again (New Order)</button></div>';
+  panel.innerHTML=h;panel.classList.remove('hidden');
+  document.getElementById('quizArea').innerHTML='';
+  panel.scrollIntoView({behavior:'smooth'});
+}
+
+function resetQuiz(){window.scrollTo({top:0,behavior:'smooth'});setTimeout(initQuiz,300)}
+function toggleTheme(){const r=document.documentElement;const c=r.getAttribute('data-theme');const n=c==='dark'?'light':'dark';r.setAttribute('data-theme',n);document.querySelector('.theme-toggle').textContent=n==='dark'?'☀️':'🌙'}
+
+initQuiz();
+</script>
+</body>
+</html>
