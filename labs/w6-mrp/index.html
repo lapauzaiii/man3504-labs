@@ -771,6 +771,16 @@ select:focus, input[type="number"]:focus {
 
       <div id="cpm-diagram"></div>
       <div class="result-banner show" id="cpm-result" style="margin-top:.75rem;"></div>
+
+      <h3 style="margin-top:1.5rem;">PERT: Installation Uncertainty</h3>
+      <p>For Cowford Green Build activity D, estimate optimistic (a), most likely (m) and pessimistic (b) durations. Expected duration = (a + 4m + b) / 6; variance = ((b − a) / 6)². These are illustrative planning estimates, not a guaranteed completion date.</p>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;">
+        <div class="control-group" style="flex:1 1 150px;"><label for="pert-a">Optimistic a (days)</label><input type="number" id="pert-a" value="3" min="0.1" step="0.1"></div>
+        <div class="control-group" style="flex:1 1 150px;"><label for="pert-m">Most likely m (days)</label><input type="number" id="pert-m" value="5" min="0.1" step="0.1"></div>
+        <div class="control-group" style="flex:1 1 150px;"><label for="pert-b">Pessimistic b (days)</label><input type="number" id="pert-b" value="9" min="0.1" step="0.1"></div>
+      </div>
+      <p id="pert-result" role="status" style="margin-top:.75rem;"></p>
+      <p>Compare the expected installation duration with the CPM activity D estimate. Activity variance alone does not establish project completion probability; dependencies, path changes and duration assumptions still matter.</p>
     </div>
 
   </div><!-- /card -->
@@ -1668,6 +1678,22 @@ buildChecklist();
 
 /* ── init CPM on load ── */
 runCPM();
+</script>
+<script>
+(() => {
+  const inputs = ['a','m','b'].map(id => document.getElementById('pert-' + id));
+  function updatePERT() {
+    const [a,m,b] = inputs.map(input => Number(input.value));
+    const output = document.getElementById('pert-result');
+    if (!inputs.every(input => input.value !== '') || ![a,m,b].every(Number.isFinite) || a <= 0 || a > m || m > b) {
+      output.textContent = 'Enter positive durations with optimistic ≤ most likely ≤ pessimistic.';
+      return;
+    }
+    output.textContent = 'Expected duration: ' + ((a + 4*m + b)/6).toFixed(2) + ' days. Activity variance: ' + (((b-a)/6)**2).toFixed(2) + ' days².';
+  }
+  inputs.forEach(input => input.addEventListener('input', updatePERT));
+  updatePERT();
+})();
 </script>
 </body>
 </html>
