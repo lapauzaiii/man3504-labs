@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles/shared.css">
   <style>
     .hero {
-      background: linear-gradient(135deg, var(--unf-navy) 0%, rgba(14, 40, 65, 0.9) 100%);
+      background: var(--unf-navy);
       color: white;
       padding: var(--spacing-xl) var(--spacing-lg);
       text-align: center;
@@ -29,7 +29,7 @@
 
     .labs-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
       gap: var(--spacing-lg);
       margin: var(--spacing-xl) 0;
     }
@@ -49,7 +49,7 @@
     }
 
     .lab-card h3 {
-      color: var(--unf-navy);
+      color: var(--text-primary);
       margin: 0 0 var(--spacing-md) 0;
     }
 
@@ -108,15 +108,13 @@
     }
 
     .info-section {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius);
-      padding: var(--spacing-lg);
+      border-top: 1px solid var(--border-color);
+      padding: var(--spacing-lg) 0;
       margin: var(--spacing-xl) 0;
     }
 
     .info-section h2 {
-      color: var(--unf-navy);
+      color: var(--text-primary);
       margin-top: 0;
     }
 
@@ -145,12 +143,12 @@
 <body>
   <div class="hero">
     <h1>MAN3504 Interactive Labs</h1>
-    <p>Operations Management | Cowford Holdings Case Universe</p>
+    <p>UNF Operations Management | Cowford Holdings | Fall 2026</p>
   </div>
 
   <div class="container">
     <!-- Labs Grid -->
-    <h2 style="color: var(--unf-navy); margin-top: 0;">Available Labs</h2>
+    <h2 style="margin-top: 0;">Labs and Review by Week</h2>
     <div class="labs-grid">
       <!-- Week 1: Operations Management Foundations (In Development) -->
       <div class="lab-card coming-soon">
@@ -166,7 +164,7 @@
       <!-- Week 2: Process Design (In Development) -->
       <div class="lab-card coming-soon">
         <div class="week-badge" style="background-color: var(--text-secondary);">Week 2</div>
-        <h3>Process Design</h3>
+        <h3>Process Design and Capacity Fundamentals</h3>
         <p>Map process flows, identify bottlenecks and handoff delays, and align process choices with operating strategy.</p>
         <div class="cowford-anchor">
           <strong>Focus:</strong> Process design and analysis (in development)
@@ -177,17 +175,25 @@
       <!-- Week 3: Lean & Theory of Constraints (In Development) -->
       <div class="lab-card coming-soon">
         <div class="week-badge" style="background-color: var(--text-secondary);">Week 3</div>
-        <h3>Lean &amp; Theory of Constraints</h3>
-        <p>Identify operational waste, improve flow, and apply the Theory of Constraints to system bottlenecks.</p>
+        <h3>Capacity Planning and Bottleneck Management</h3>
+        <p>Evaluate capacity, utilization, capacity cushions and system bottlenecks.</p>
         <div class="cowford-anchor">
-          <strong>Focus:</strong> Lean operations and constraints (in development)
+          <strong>Focus:</strong> Capacity and bottlenecks (in development)
         </div>
         <button class="btn-launch" disabled>Coming Soon</button>
       </div>
 
-      <!-- Week 4: Netflix Excel Assignment (LIVE) -->
       <div class="lab-card">
         <div class="week-badge">Week 4</div>
+        <h3>Quantitative Forecasting</h3>
+        <p>Compare moving averages and exponential smoothing on a common evaluation window. Record accuracy measures and defend a purchasing recommendation.</p>
+        <div class="cowford-anchor"><strong>Cowford anchor:</strong> Coffee</div>
+        <a href="labs/w4-forecasting/" class="btn-launch">Launch Lab &rarr;</a>
+      </div>
+
+      <!-- Week 4: Netflix Excel Assignment (LIVE) -->
+      <div class="lab-card">
+        <div class="week-badge">Week 4 Excel Activity</div>
         <h3>Netflix Excel Assignment</h3>
         <p>Student-facing instructions for building the Week 4 Netflix Excel workbook, answering the Canvas questions, and submitting the required file.</p>
         <div class="cowford-anchor">
@@ -210,8 +216,8 @@
       <!-- Week 6: MRP & Aggregate Planning (LIVE) -->
       <div class="lab-card">
         <div class="week-badge">Week 6</div>
-        <h3>MRP & Aggregate Planning</h3>
-        <p>Discover how aggregate planning and MRP work by manipulating real Cowford scenarios. Explore chase vs. smooth production strategies and BOM explosion.</p>
+        <h3>Operations Planning</h3>
+        <p>Explore aggregate planning, job sequencing, MRP and CPM/PERT project planning using Cowford scenarios.</p>
         <div class="cowford-anchor">
           <strong>Anchors:</strong> Brewery (seasonal), Medical Supply (stable), Green Build (volatile)
         </div>
@@ -220,8 +226,8 @@
 
       <!-- Week 7: Midterm Prep Interactive Review (LIVE) -->
       <div class="lab-card">
-        <div class="week-badge">Week 7 <span class="badge-new">NEW</span></div>
-        <h3>Midterm Prep: Interactive Review</h3>
+        <div class="week-badge">Week 7 · Practice Review</div>
+        <h3>Midterm Preparation</h3>
         <p>Practice material from Weeks 1–6 with randomized questions, immediate feedback, retry options, and section-level score reporting.</p>
         <div class="cowford-anchor">
           <strong>Practice only:</strong> Use repeatedly before the midterm. No Canvas score is submitted.
@@ -241,93 +247,82 @@
       </div>
 
       <!-- Week 9: Inventory (In Development) -->
-      <div class="lab-card coming-soon">
-        <div class="week-badge" style="background-color: var(--text-secondary);">Week 9</div>
+      <div class="lab-card">
+        <div class="week-badge">Week 9</div>
         <h3>Inventory Management</h3>
         <p>Balance holding costs vs. stockout risk. Explore EOQ, safety stock, and reorder points under demand uncertainty.</p>
         <div class="cowford-anchor">
-          <strong>Focus:</strong> Inventory fundamentals (in development)
+          <strong>Cowford anchor:</strong> Logistics — order quantity, reorder trigger, safety stock and criticality
         </div>
-        <button class="btn-launch" disabled>Coming Soon</button>
+        <a href="labs/w9-inventory/" class="btn-launch">Launch Lab &rarr;</a>
       </div>
 
       <!-- Week 10: Lean (In Development) -->
-      <div class="lab-card coming-soon">
-        <div class="week-badge" style="background-color: var(--text-secondary);">Week 10</div>
-        <h3>Lean Systems</h3>
+      <div class="lab-card">
+        <div class="week-badge">Week 10</div>
+        <h3>Lean Systems and Vendor Relationships</h3>
         <p>Waste elimination, value stream mapping, and lean vendor partnerships.</p>
         <div class="cowford-anchor">
-          <strong>Focus:</strong> Lean systems (in development)
+          <strong>Cowford anchor:</strong> Coffee — flow efficiency and countermeasure trials
         </div>
-        <button class="btn-launch" disabled>Coming Soon</button>
+        <a href="labs/w10-lean/" class="btn-launch">Launch Lab &rarr;</a>
       </div>
 
       <!-- Week 11: Quality (In Development) -->
-      <div class="lab-card coming-soon">
-        <div class="week-badge" style="background-color: var(--text-secondary);">Week 11</div>
-        <h3>Quality Management</h3>
+      <div class="lab-card">
+        <div class="week-badge">Week 11</div>
+        <h3>Quality and Performance Management</h3>
         <p>Cost of quality framework and quality management foundations.</p>
         <div class="cowford-anchor">
-          <strong>Focus:</strong> Quality systems (in development)
+          <strong>Cowford anchor:</strong> Medical Supply — cost of quality and DMAIC
         </div>
-        <button class="btn-launch" disabled>Coming Soon</button>
+        <a href="labs/w11-quality/" class="btn-launch">Launch Lab &rarr;</a>
       </div>
 
       <!-- Week 12: SPC (In Development) -->
-      <div class="lab-card coming-soon">
-        <div class="week-badge" style="background-color: var(--text-secondary);">Week 12</div>
+      <div class="lab-card">
+        <div class="week-badge">Week 12</div>
         <h3>Statistical Process Control</h3>
         <p>Monitor process variation with control charts. Detect assignable causes and make improvement decisions.</p>
         <div class="cowford-anchor">
-          <strong>Focus:</strong> SPC and control charts (in development)
+          <strong>Cowford anchor:</strong> Bakery — subgroup statistics and trial control limits
         </div>
-        <button class="btn-launch" disabled>Coming Soon</button>
+        <a href="labs/w12-spc/" class="btn-launch">Launch Lab &rarr;</a>
       </div>
 
       <!-- Week 13: Ethics (In Development) -->
-      <div class="lab-card coming-soon">
-        <div class="week-badge" style="background-color: var(--text-secondary);">Week 13</div>
-        <h3>Ethics & Sustainability</h3>
+      <div class="lab-card">
+        <div class="week-badge">Week 13</div>
+        <h3>Ethics, Sustainability and Global Operations</h3>
         <p>Triple Bottom Line, ethical sourcing, and sustainability frameworks.</p>
         <div class="cowford-anchor">
-          <strong>Focus:</strong> Ethics and sustainability (in development)
+          <strong>Cowford anchor:</strong> Brewery — sourcing costs and due-diligence gates
         </div>
-        <button class="btn-launch" disabled>Coming Soon</button>
+        <a href="labs/w13-sourcing/" class="btn-launch">Launch Lab &rarr;</a>
       </div>
 
       <!-- Week 14: Performance Measurement (In Development) -->
-      <div class="lab-card coming-soon">
-        <div class="week-badge" style="background-color: var(--text-secondary);">Week 14</div>
-        <h3>Performance Measurement</h3>
+      <div class="lab-card">
+        <div class="week-badge">Week 14</div>
+        <h3>Performance Measurement and Continuous Improvement</h3>
         <p>Balanced Scorecard, benchmarking, and continuous improvement.</p>
         <div class="cowford-anchor">
-          <strong>Focus:</strong> Performance measurement (in development)
+          <strong>Cowford anchor:</strong> Tech Services — Balanced Scorecard and PDCA
         </div>
-        <button class="btn-launch" disabled>Coming Soon</button>
+        <a href="labs/w14-performance/" class="btn-launch">Launch Lab &rarr;</a>
       </div>
     </div>
 
     <!-- How to Use -->
     <div class="info-section">
-      <h2>How to Use These Labs</h2>
-      <p>These interactive labs are <strong>practice tools</strong> to help you master course concepts. They are <strong>not graded</strong> but are designed to prepare you for formal Canvas assessments (W#.C Concept Check and W#.D Application Quiz).</p>
-
-      <h3>Four-Phase Learning Arc</h3>
-      <ul>
-        <li><strong>Phase 1: Live Session</strong> — Manipulate real Cowford scenarios and see how changes ripple through operations.</li>
-        <li><strong>Phase 2: Reinforcement Lab</strong> — Test your understanding with embedded quizzes and get immediate feedback.</li>
-        <li><strong>Phase 3: Guided Diagnostic</strong> — Follow a step-by-step framework to solve problems identical in structure to W#.D.</li>
-        <li><strong>Phase 4: Assignment Readiness</strong> — Use the checklist to confirm you're ready for formal assessments.</li>
-      </ul>
-
-      <h3>Canvas Integration</h3>
-      <p>Labs can be embedded directly in Canvas pages using an iframe. Your instructor will provide embedded links in each week's module.</p>
+      <h2>Course Activities</h2>
+      <p>Classroom labs and the midterm practice review are ungraded. The Week 4 Netflix Excel activity retains its assignment instructions; Canvas remains the authority for submissions, grades and deadlines.</p>
     </div>
 
     <!-- Course Overview -->
     <div class="info-section">
       <h2>About MAN3504</h2>
-      <p><strong>Operations Management</strong> is a 14-week course exploring how organizations design and manage production processes, supply chains, and service delivery. All course content is anchored in <strong>Cowford Holdings</strong>, a fictional holding company with five operating subsidiaries:</p>
+      <p><strong>Operations Management</strong> explores production processes, supply chains and service delivery. The Fall 2026 planner runs from Week 0 through Week 16 and Finals Week, including the Week 7 midterm and Week 15 Thanksgiving break. This directory lists lab and review resources, rather than every course requirement. <strong>Cowford Holdings</strong> is a fictional holding company with eight operating subsidiaries:</p>
 
       <ul>
         <li><strong>Medical Supply</strong> — Stable contracts, high quality, predictable demand</li>
@@ -335,9 +330,12 @@
         <li><strong>Green Build</strong> — New market, 3-year ramp, capacity under uncertainty</li>
         <li><strong>Fitness</strong> — Capacity distribution, demand shifting by season/program</li>
         <li><strong>Logistics</strong> — Scheduling, throughput constraints, on-time performance</li>
+        <li><strong>Bakery</strong> — Perishability, production flow and quality control</li>
+        <li><strong>Coffee</strong> — Forecasting, service flow and responsible sourcing</li>
+        <li><strong>Tech Services</strong> — Service capacity, customer outcomes and continuous improvement</li>
       </ul>
 
-      <p>Each interactive lab uses these anchors in the Phase 1 discovery section. The Phase 2 quizzes align directly with your W#.C Concept Check. The Phase 3 diagnostic follows the problem-solving logic you'll use in W#.D. Phase 4 is your readiness checkpoint.</p>
+      <p>Classroom cases use independent data from the graded Cowford applications. Assessment instructions and exam preparation for later weeks are available through Canvas.</p>
     </div>
 
     <!-- Support -->

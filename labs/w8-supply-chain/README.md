@@ -1,6 +1,6 @@
 # W8 — Cowford Medical Supply Network Disruption Simulator
 
-MAN 3504 Operations Management, Week 8 (14-week Fall 2026). Embedded in the W8.D Cowford Application Quiz (Canvas New Quizzes, Q6–Q10).
+MAN3504 Operations Management, Week 8, Fall 2026. Supply-chain simulation resource used with the independent Canvas application.
 
 Governing specification: *MAN 3504 W8 — Supply Chain Pilot Specification* (Notion, Cowford Interactive Assessment Buildbook), including §38 revisions.
 
@@ -27,7 +27,7 @@ Diagnose → Choose (locked) → Disruption revealed, all three architectures co
 | `receipt.js` | Receipt regenerated from state each time it is shown |
 | `app.js` | Interface |
 | `styles.css` | Styles; tables become stacked cards below 600px |
-| `tests/model.test.js` | Fixture tests against spec §12, §13, §30.2, §38.3 and the Canvas Q6/Q9 keys |
+| `tests/model.test.js` | Simulator fixture tests against spec §12, §13, §30.2 and §38.3; no graded question mappings |
 
 No build step, no dependencies, no backend, no external requests, no student identifiers. Scripts are classic (non-module) for maximum compatibility inside the Canvas iframe.
 
@@ -37,4 +37,4 @@ No build step, no dependencies, no backend, no external requests, no student ide
 node --test labs/w8-supply-chain/tests/model.test.js
 ```
 
-Expected: 16 tests, 16 pass. Do not change any number in `scenarios.js` without instructional reconciliation (spec §28); the Canvas answer keys depend on these values.
+Expected: 15 tests, 15 pass. Do not change numbers in `scenarios.js` without instructional reconciliation (spec §28). Graded question mappings belong only in instructor materials. Simulator outputs remain publicly inspectable; do not treat them as confidential assessment keys.

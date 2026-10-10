@@ -15,7 +15,6 @@ test('§12 baseline outcomes (no disruption)', () => {
     assert.equal(r.spend.total, spend, a);
   }
 });
-
 const matrix = [
   ['3504-W8-01', 'globalmed', 0, 0, 2000, 0.0, 0],
   ['3504-W8-01', 'medserv', 2000, 0, 0, 100, 100000],
@@ -61,14 +60,4 @@ test('§38.3 stress-test fixtures', () => {
   assert.equal(by.dual.averageSpend, 111045);
   assert.equal(M.fmt.pct(by.medserv.averageService), '61.4%');
   assert.equal(M.fmt.pct(by.dual.averageService), '96.9%');
-});
-
-test('Canvas keys: Q6 seed keys and Q9 common key', () => {
-  close(M.simulate('globalmed', '3504-W8-01').serviceLevel * 100, 0.0, 1e-9, 'Q6 s01');
-  close(M.simulate('medserv', '3504-W8-02').serviceLevel * 100, 0.0, 1e-9, 'Q6 s02');
-  close(M.simulate('globalmed', '3504-W8-03').serviceLevel * 100, 96.0, 1e-9, 'Q6 s03');
-  close(M.simulate('dual', '3504-W8-04').serviceLevel * 100, 87.5, 1e-9, 'Q6 s04');
-  const st = M.stressTest();
-  const best = st.slice().sort((a, b) => b.worstService - a.worstService || a.averageSpend - b.averageSpend)[0];
-  assert.equal(best.archId, 'dual', 'Q9 robustness rule selects dual');
 });
