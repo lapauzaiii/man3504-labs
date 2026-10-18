@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Week 10 Lean Explorer | MAN3504</title>
+  <meta name="description" content="A self-paced, interactive walk through lean systems at Cowford Brewery, guided by Lola June. Pairs with the W10.A reading.">
+  <link rel="stylesheet" href="../../styles/shared.css">
+  <link rel="stylesheet" href="explorer.css">
+  <script src="model.js" defer></script>
+  <script src="explorer.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#explorer">Skip to the explorer</a>
+  <header class="ex-header">
+    <a class="ex-home" href="../../">All Labs</a>
+    <p class="ex-kicker">Week 10 · Lean Systems and Vendor Relationships</p>
+    <h1>Lean Explorer: A Walk Through Cowford Brewery</h1>
+    <p class="ex-sub">Self-paced, about 35–45 minutes. Pairs with the W10.A reading. Ungraded, and nothing you do here is saved or submitted.</p>
+  </header>
+
+  <nav class="ex-progress" aria-label="Explorer stops">
+    <ol id="stopNav"></ol>
+    <div class="ex-bar" aria-hidden="true"><div id="progressFill"></div></div>
+  </nav>
+
+  <main id="explorer" class="ex-main" tabindex="-1">
+    <noscript><p class="notice">This explorer needs JavaScript. Work through the W10.A reading instead, and ask your instructor for an alternative.</p></noscript>
+
+    <!-- ===================== START ===================== -->
+    <section class="stop" id="start" data-label="Start" aria-labelledby="h-start">
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="120" height="156">
+        <div class="bubble">
+          <p class="bubble-name">Lola June</p>
+          <p>Hi, I'm Lola June, Cowford Brewery's unofficial taproom greeter. I know every corner of this building, mostly by smell. This week we'll walk the floor together and look at it the way a lean analyst would.</p>
+        </div>
+      </div>
+      <h2 id="h-start">How this walk works</h2>
+      <div class="two-col">
+        <div>
+          <p>There are seven stops. Each one matches a section of the W10.A reading, so keep it open in another tab.</p>
+          <ol class="how">
+            <li><strong>Predict.</strong> Commit to a quick guess before you touch anything. There's no score; the point is to notice when your intuition is wrong.</li>
+            <li><strong>Explore.</strong> Move the sliders, flip the switches, and watch the brewery respond.</li>
+            <li><strong>Lola's take.</strong> When you're ready, open my explanation and compare it with what you saw.</li>
+          </ol>
+          <p class="fine">This is not the classroom lab, and it isn't the W10.D quiz. The data here is illustrative Cowford Brewery data and does not carry over to either one. Nothing on this page is stored. If you refresh or leave, it starts fresh.</p>
+        </div>
+        <aside class="profile" aria-label="Cowford Brewery at a glance">
+          <h3>Cowford Brewery at a glance</h3>
+          <ul>
+            <li>Four core beers and six rotating seasonals; recipes rotate every 4–6 weeks</li>
+            <li>Sells through its own taproom and to regional distributors</li>
+            <li>Packages in cans, bottles, and kegs</li>
+            <li>One brewhouse, a fermentation cellar, a packaging area, and a cold room</li>
+          </ul>
+        </aside>
+      </div>
+      <div class="stop-map" aria-label="The seven stops">
+        <div><span>1</span>Lower the water <em>W10.A §1</em></div>
+        <div><span>2</span>Waste walk <em>§2</em></div>
+        <div><span>3</span>Push vs. pull <em>§3</em></div>
+        <div><span>4</span>Takt and heijunka <em>§3</em></div>
+        <div><span>5</span>Rearrange the floor <em>§4</em></div>
+        <div><span>6</span>Value stream and PCE <em>§5</em></div>
+        <div><span>7</span>Kanban and vendors <em>§6</em></div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 1 ===================== -->
+    <section class="stop" id="s1" data-label="1" aria-labelledby="h-s1" hidden>
+      <p class="stop-tag">Stop 1 of 7 · W10.A Section 1 · about 5 minutes</p>
+      <h2 id="h-s1">Lower the water</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Cowford keeps about two weeks of finished beer in the cold room, "just in case." The reading says inventory is like water hiding rocks in a river. Let's drain the cold room a little at a time and see what's underneath.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s1">
+        <legend>Predict first</legend>
+        <p>The operations lead wants to cut finished-beer inventory from 14 days to 3. What should the team expect to happen first?</p>
+        <label><input type="radio" name="p-s1" value="a"> Costs fall and nothing else changes</label>
+        <label><input type="radio" name="p-s1" value="b"> Hidden problems start causing shortages unless the team fixes them</label>
+        <label><input type="radio" name="p-s1" value="c"> Customer demand falls to match the lower inventory</label>
+        <label><input type="radio" name="p-s1" value="d"> Beer quality improves automatically</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s1">
+        <h3>Explore</h3>
+        <div class="control">
+          <label for="buffer">Days of finished beer kept in the cold room: <output id="bufferOut">14</output></label>
+          <input type="range" id="buffer" min="2" max="14" step="1" value="14">
+        </div>
+        <svg id="river" class="river" viewBox="0 0 640 220" role="img" aria-labelledby="riverTitle">
+          <title id="riverTitle">River diagram: water level shows days of inventory; rocks show problems it hides</title>
+        </svg>
+        <div class="metrics" aria-live="polite">
+          <div class="metric"><span>Cash tied up in finished beer</span><strong id="m1cash">$29,400</strong></div>
+          <div class="metric"><span>Problems now visible</span><strong id="m1vis">0 of 4</strong></div>
+          <div class="metric"><span>Expected shortage days per month</span><strong id="m1short">0</strong></div>
+        </div>
+        <div id="rocks" class="rock-list"></div>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s1" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s1" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Watch the order of events. The cushion came down, a problem surfaced, and the shortages stopped only after the team fixed the cause. That loop is <strong>kaizen</strong>: lower the water, find the rock, remove it, then lower the water again.</p>
+            <p>Cutting inventory without fixing what surfaces just turns hidden waste into empty taps. That's the "Where lean gets hard" warning in Section 1: in some operations, customers hit the rock before you can remove it, so you lower the water in steps you can actually keep up with.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 2 ===================== -->
+    <section class="stop" id="s2" data-label="2" aria-labelledby="h-s2" hidden>
+      <p class="stop-tag">Stop 2 of 7 · W10.A Section 2 · about 7 minutes</p>
+      <h2 id="h-s2">Waste walk</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Grab a clipboard. I noted nine things on my walk this morning. Eight of them are different kinds of waste from the DOWNTIME list. One of them isn't waste at all. Classify each one, then check my read.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s2">
+        <legend>Predict first</legend>
+        <p>In a brewery, is every long wait a form of waste?</p>
+        <label><input type="radio" name="p-s2" value="a"> Yes. If nothing is moving, it's waste.</label>
+        <label><input type="radio" name="p-s2" value="b"> No. Some waiting is part of making the product.</label>
+        <label><input type="radio" name="p-s2" value="c"> Only waits longer than a day count as waste.</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s2">
+        <h3>Explore</h3>
+        <svg class="floor" viewBox="0 0 640 230" role="img" aria-labelledby="floorTitle">
+          <title id="floorTitle">Brewery floor plan with nine numbered observations</title>
+          <g id="floorMap"></g>
+        </svg>
+        <p class="fine" id="wasteCount" aria-live="polite">Classified 0 of 9</p>
+        <div id="wasteCards" class="cards"></div>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s2" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s2" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Wastes travel in packs. Brewing to last year's forecast (overproduction) left kegs in the cold room (inventory) that a forklift keeps hauling around (transportation). Fix the cause and several symptoms go with it.</p>
+            <p>And one of the longest waits on the floor, four weeks of lagering, wasn't waste. The beer is changing the whole time, and customers pay for that. The test is always "does the customer value this?", not "is anything moving?" Hold onto that; it comes back at Stop 6.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 3 ===================== -->
+    <section class="stop" id="s3" data-label="3" aria-labelledby="h-s3" hidden>
+      <p class="stop-tag">Stop 3 of 7 · W10.A Section 3 · about 6 minutes</p>
+      <h2 id="h-s3">Push vs. pull</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Cowford sells canned IPA in the taproom and to two distributors. Below are ten days of demand. On the left, packaging runs a fixed forecast every day (push). On the right, packaging only refills what customers actually took (pull).</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s3">
+        <legend>Predict first</legend>
+        <p>If the forecast turns out to be wrong, which approach suffers more?</p>
+        <label><input type="radio" name="p-s3" value="a"> Push</label>
+        <label><input type="radio" name="p-s3" value="b"> Pull</label>
+        <label><input type="radio" name="p-s3" value="c"> Both suffer about the same</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s3">
+        <h3>Explore</h3>
+        <div class="table-wrap">
+          <table class="demand"><caption>Canned IPA demand (cases per day)</caption><tbody><tr id="demandRow"></tr></tbody></table>
+        </div>
+        <div class="pp-grid">
+          <div class="pp">
+            <h4>Push: package to the forecast</h4>
+            <label for="pushF">Forecast packaged every day</label>
+            <select id="pushF">
+              <option value="60">Optimistic: 60 cases a day</option>
+              <option value="48" selected>On target: 48 cases a day</option>
+              <option value="38">Pessimistic: 38 cases a day</option>
+            </select>
+            <svg id="pushChart" class="chart" viewBox="0 0 300 170" role="img" aria-label="Push: cases on the shelf each morning versus demand"></svg>
+            <div class="metrics small" id="pushM" aria-live="polite"></div>
+          </div>
+          <div class="pp">
+            <h4>Pull: refill only what was sold</h4>
+            <label for="pullK">Cases authorized (the kanban)</label>
+            <select id="pullK">
+              <option value="80">80 cases</option>
+              <option value="110" selected>110 cases</option>
+              <option value="140">140 cases</option>
+            </select>
+            <svg id="pullChart" class="chart" viewBox="0 0 300 170" role="img" aria-label="Pull: cases on the shelf each morning versus demand"></svg>
+            <div class="metrics small" id="pullM" aria-live="polite"></div>
+          </div>
+        </div>
+        <p class="legend"><span class="sw sw-demand"></span>Demand <span class="sw sw-shelf"></span>Cases on the shelf at opening <span class="sw sw-lost"></span>Sales lost</p>
+        <p class="fine">Pull refill rule: each day's sales are packaged the next day and are back on the shelf the morning after. Push packaging also lands the next morning.</p>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s3" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s3" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Push only looked good when the forecast was right. The optimistic forecast left 177 cases sitting in the cold room by day 10; the pessimistic one lost 81 sales. Pull never used the forecast at all. Its results depended on one decision: how many cases you authorized.</p>
+            <p>At 80 cases, pull couldn't cover the refill gap and lost more sales than the pessimistic push. At 140, it never missed. So pull isn't magic. It replaces "how accurate is our forecast?" with "how big should our kanban be?", and that is exactly the question the kanban formula at Stop 7 answers: enough to cover demand while containers wait and get refilled, plus a buffer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 4 ===================== -->
+    <section class="stop" id="s4" data-label="4" aria-labelledby="h-s4" hidden>
+      <p class="stop-tag">Stop 4 of 7 · W10.A Section 3 · about 7 minutes</p>
+      <h2 id="h-s4">Takt and heijunka on the canning line</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Takt time is the drumbeat the customer sets. Pick the shift length and how many cases distributors want, then watch which canning stations can keep the beat. After that, we'll plan the whole week.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s4">
+        <legend>Predict first</legend>
+        <p>Distributor orders jump from 600 to 700 cases per shift. What happens on the line?</p>
+        <label><input type="radio" name="p-s4" value="a"> Every station slows down by the same amount</label>
+        <label><input type="radio" name="p-s4" value="b"> The slowest stations can no longer keep pace</label>
+        <label><input type="radio" name="p-s4" value="c"> Takt time gets longer, so the line has more time per case</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s4">
+        <h3>Explore: takt time</h3>
+        <div class="controls-2">
+          <div class="control">
+            <label for="avail">Available minutes per shift: <output id="availOut">450</output></label>
+            <input type="range" id="avail" min="360" max="480" step="15" value="450">
+          </div>
+          <div class="control">
+            <label for="cases">Cases demanded per shift: <output id="casesOut">600</output></label>
+            <input type="range" id="cases" min="300" max="900" step="25" value="600">
+          </div>
+        </div>
+        <p class="big-readout" aria-live="polite">Takt time: <strong id="taktOut">45.0 seconds per case</strong></p>
+        <svg id="taktChart" class="chart wide" viewBox="0 0 640 230" role="img" aria-label="Station cycle times compared with takt time"></svg>
+        <p id="taktMsg" class="status-line" aria-live="polite"></p>
+
+        <h3>Explore: leveling the week (heijunka)</h3>
+        <p class="fine">Weekly demand: 1,500 cases of IPA, 900 of Lager, and 600 of the Seasonal. The line can can 600 cases a day.</p>
+        <div class="seg" role="group" aria-label="Weekly schedule">
+          <button type="button" class="seg-btn" data-mode="batch" aria-pressed="true">Batch week (one beer at a time)</button>
+          <button type="button" class="seg-btn" data-mode="level" aria-pressed="false">Level week (every beer every day)</button>
+        </div>
+        <div id="weekGrid" class="week" aria-live="polite"></div>
+        <div class="control">
+          <label for="setup">Minutes per changeover: <output id="setupOut">45</output></label>
+          <input type="range" id="setup" min="5" max="60" step="1" value="45">
+        </div>
+        <div class="metrics" id="hjM" aria-live="polite"></div>
+        <p class="fine">Assumes each beer sells evenly through the week, and that anything canned today can ship today.</p>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s4" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s4" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>More demand in the same shift means <em>shorter</em> takt, about 38.6 seconds at 700 cases. The filler (44 s) and seamer (40 s) can't keep that beat no matter how hard the crew works; they need a design change, such as a second head, a faster changeover, or a longer shift.</p>
+            <p>Leveling the week means every beer is made every day, so finished beer stops piling up and distributors never wait days for the Lager. Malt and hops use also becomes steady, which suppliers love. The price is changeovers: 14 a week instead of 2. At 45 minutes each, that's 630 minutes, more than a full shift. At an 8-minute setup, it's 112. That's why heijunka and single-digit setup always travel together.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 5 ===================== -->
+    <section class="stop" id="s5" data-label="5" aria-labelledby="h-s5" hidden>
+      <p class="stop-tag">Stop 5 of 7 · W10.A Section 4 · about 5 minutes</p>
+      <h2 id="h-s5">Rearrange the packaging floor</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Right now the packaging area is arranged by machine type: fillers together, labelers together, keg filling off in a corner. Let's follow one batch of the IPA family through it, then regroup the machines into a cell and follow it again.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s5">
+        <legend>Predict first</legend>
+        <p>If the machines for the IPA family are regrouped into one cell, what changes most?</p>
+        <label><input type="radio" name="p-s5" value="a"> How fast each machine runs</label>
+        <label><input type="radio" name="p-s5" value="b"> How far the beer travels and how often it waits between steps</label>
+        <label><input type="radio" name="p-s5" value="c"> How much IPA customers buy</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s5">
+        <h3>Explore</h3>
+        <div class="seg" role="group" aria-label="Packaging layout">
+          <button type="button" class="seg-btn" data-layout="functional" aria-pressed="true">Arranged by machine type</button>
+          <button type="button" class="seg-btn" data-layout="cell" aria-pressed="false">Group technology cell</button>
+        </div>
+        <svg id="layout" class="floor" viewBox="0 0 640 260" role="img" aria-label="Packaging floor plan with the route of one IPA batch"></svg>
+        <div class="metrics" id="layoutM" aria-live="polite"></div>
+
+        <h3>Which cell fits?</h3>
+        <div class="fit" data-fit="f1">
+          <p><strong>The taproom to-go counter.</strong> One bartender runs a small can filler, a seamer, and a label printer for crowlers. Each machine runs on its own for about 40 seconds once loaded.</p>
+          <label><input type="radio" name="f1" value="owmm"> One-worker, multiple-machine (OWMM) cell</label>
+          <label><input type="radio" name="f1" value="gt"> Group technology (GT) cell</label>
+          <p class="fit-read" hidden></p>
+        </div>
+        <div class="fit" data-fit="f2">
+          <p><strong>Packaging for the IPA family.</strong> 12-ounce cans, 16-ounce cans, and sixth-barrel kegs share filling, quality checks, and palletizing. Three people staff the area.</p>
+          <label><input type="radio" name="f2" value="owmm"> One-worker, multiple-machine (OWMM) cell</label>
+          <label><input type="radio" name="f2" value="gt"> Group technology (GT) cell</label>
+          <p class="fit-read" hidden></p>
+        </div>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s5" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s5" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>No machine got faster. What changed was everything <em>between</em> the machines: the trip shrank from about 640 feet to 140, and the places where beer waits in a queue dropped from four to one. That's transportation and waiting waste from Stop 2, removed by layout rather than effort.</p>
+            <p>The two fit questions turn on the textbook distinction: an OWMM cell is one worker tending several automatic machines for one product; a GT cell groups dissimilar machines for a <em>family</em> of similar products, staffed by several people. And remember Section 4's warning: the right layout is often known for years before anyone pays for the downtime to move the equipment.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 6 ===================== -->
+    <section class="stop" id="s6" data-label="6" aria-labelledby="h-s6" hidden>
+      <p class="stop-tag">Stop 6 of 7 · W10.A Section 5 · about 6 minutes</p>
+      <h2 id="h-s6">Value stream and PCE: you make the call</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Here's the whole value stream for one batch of Cowford Lager, from malt arriving to the distributor's truck. Two steps are judgment calls. You decide whether they add value, and we'll watch Process Cycle Efficiency move.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s6">
+        <legend>Predict first</legend>
+        <p>Fermentation and lagering take 42 days. If you count both as value-adding, what will PCE look like?</p>
+        <label><input type="radio" name="p-s6" value="a"> Low, under 10%</label>
+        <label><input type="radio" name="p-s6" value="b"> Moderate, 25% to 50%</label>
+        <label><input type="radio" name="p-s6" value="c"> High, over 75%</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s6">
+        <h3>Explore</h3>
+        <div id="vsmBar" class="vsm-bar" aria-hidden="true"></div>
+        <p class="legend"><span class="sw sw-va"></span>Value-adding <span class="sw sw-wait"></span>Waiting <span class="sw sw-choice"></span>Hatched = your call (colored by how you classify it)</p>
+        <div class="table-wrap">
+          <table class="vsm"><caption>Cowford Lager value stream (hours)</caption>
+            <thead><tr><th scope="col">Step</th><th scope="col">Hours</th><th scope="col">Classification</th></tr></thead>
+            <tbody id="vsmBody"></tbody>
+          </table>
+        </div>
+        <div class="checks">
+          <label><input type="checkbox" id="improve"> Remove avoidable waits (malt silo, cleaning, packaging slot, and cold-room hold)</label>
+          <label><input type="checkbox" id="idle"> Also count the canning line's 3 idle hours, while it waits for the tank to be released, as lead time</label>
+        </div>
+        <div class="metrics" id="pceM" aria-live="polite"></div>
+        <p id="idleNote" class="status-line" aria-live="polite"></p>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s6" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s6" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Same beer, same hours, and PCE runs from under 1% to about 80% depending only on how you classify fermentation and lagering. Neither number is "the answer." What matters is stating your convention and using it consistently, because a high PCE can hide real waste.</p>
+            <p>Either way, the improvement target is identical: 246 hours of plain waiting. Removing the avoidable waits cut lead time by 158 hours without touching the beer. And the canning line's 3 idle hours are <strong>resource idle time</strong>, any period a ready and available operator or machine sits inactive because of delays, imbalances, or shortages. It's real waste for the line, but the beer wasn't waiting during it, so it doesn't belong in product lead time.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 7 ===================== -->
+    <section class="stop" id="s7" data-label="7" aria-labelledby="h-s7" hidden>
+      <p class="stop-tag">Stop 7 of 7 · W10.A Section 6 · about 6 minutes</p>
+      <h2 id="h-s7">Kanban and the malt supplier</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Malt comes in pallets of four sacks, and the brewhouse uses about 12 sacks a day. How many pallets should the brewery authorize? It depends on the supplier relationship. And what happens when a truck is late?</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s7">
+        <legend>Predict first</legend>
+        <p>Cowford switches from weekly orders to frequent small deliveries from one partner supplier. What happens?</p>
+        <label><input type="radio" name="p-s7" value="a"> Less malt on hand and less risk from a late delivery</label>
+        <label><input type="radio" name="p-s7" value="b"> Less malt on hand, but more exposure to a late delivery</label>
+        <label><input type="radio" name="p-s7" value="c"> More malt on hand, because deliveries are more frequent</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s7">
+        <h3>Explore</h3>
+        <div class="seg seg-col" role="group" aria-label="Supplier relationship" id="vendorSeg"></div>
+        <div class="control">
+          <label for="policyA">Safety buffer, policy variable a: <output id="policyOut">0.10</output></label>
+          <input type="range" id="policyA" min="0" max="0.5" step="0.05" value="0.1">
+        </div>
+        <p class="formula" id="formula" aria-live="polite"></p>
+        <div id="pallets" class="pallets" aria-hidden="true"></div>
+        <div class="metrics" id="kbM" aria-live="polite"></div>
+        <h3>Now the truck is late</h3>
+        <div class="controls-2">
+          <div class="control">
+            <label for="delay">Delivery arrives late by: <output id="delayOut">1.0</output> day(s)</label>
+            <input type="range" id="delay" min="0" max="3" step="0.5" value="1">
+          </div>
+          <label class="check-inline"><input type="checkbox" id="backup"> A qualified backup supplier can deliver within half a day</label>
+        </div>
+        <p class="big-readout" aria-live="polite">Brewhouse days lost: <strong id="lostOut">0.5</strong></p>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s7" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s7" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Moving from weekly orders to a partner supplier cut authorized malt from 12 pallets to 5, because the wait time <em>v</em> in the kanban formula fell from 3 days to 1. But the spare cover beyond normal replenishment fell too, so a truck that's a day late now idles the brewhouse longer. Lean vendor relationships trade inventory for dependence.</p>
+            <p>The mitigations are the ones you just tried: raise <em>a</em> for critical inputs, qualify a backup, and share forecasts so the supplier sees trouble coming. JIT II goes further than VMI generally: the supplier's planner works inside the brewery. That lowers inventory again and spots problems earlier, but it doesn't remove the need for a contingency.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== WRAP ===================== -->
+    <section class="stop" id="wrap" data-label="Wrap" aria-labelledby="h-wrap" hidden>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="120" height="156">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>That's the whole walk. Thanks for keeping up; I usually only get this many laps around the brewery when someone drops a pretzel.</p></div>
+      </div>
+      <h2 id="h-wrap">Seven ideas to carry forward</h2>
+      <ol class="carry">
+        <li><strong>Inventory hides problems.</strong> Lower it in steps and fix what surfaces, or you just trade waste for shortages.</li>
+        <li><strong>Wastes cause each other.</strong> Find the cause (often overproduction), and some waits aren't waste at all.</li>
+        <li><strong>Pull replaces forecast accuracy with kanban sizing.</strong> It still needs enough authorized stock to cover the refill gap.</li>
+        <li><strong>A station slower than takt is a bottleneck</strong>, and leveling the schedule only pays off when setups are short.</li>
+        <li><strong>Layout removes transportation and waiting</strong> that no amount of machine speed can.</li>
+        <li><strong>PCE depends on classification.</strong> State your convention, and keep resource idle time out of product lead time.</li>
+        <li><strong>Lean vendor relationships trade inventory for dependence.</strong> Plan the contingency before you need it.</li>
+      </ol>
+      <div class="next">
+        <h3>Where to next</h3>
+        <ul>
+          <li>Check your understanding with the <strong>W10.C Concept Check</strong> in Canvas.</li>
+          <li>Apply it on your own in the <strong>W10.D Cowford Application Quiz</strong> in Canvas. It uses a different subsidiary and different numbers, so nothing here carries over directly.</li>
+          <li>Practice with your class in the <a href="../w10-lean/">Week 10 classroom lab</a>.</li>
+        </ul>
+      </div>
+      <button type="button" class="btn" id="restart">Walk it again from the start</button>
+    </section>
+
+    <div class="pager">
+      <button type="button" class="btn ghost" id="prevBtn">&larr; Previous</button>
+      <span id="pagerLabel" class="pager-label"></span>
+      <button type="button" class="btn" id="nextBtn">Next &rarr;</button>
+    </div>
+  </main>
+
+  <footer class="ex-footer">
+    <p>MAN3504 Operations Management · Cowford Holdings is a fictional company used for teaching. Illustrative data only; ungraded; nothing is stored or submitted. Canvas is authoritative for assignments, grades, and deadlines.</p>
+  </footer>
+</body>
+</html>

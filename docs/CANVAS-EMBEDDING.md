@@ -14,6 +14,7 @@ GitHub Pages resources do not send scores or responses to Canvas. Classroom labs
 | 8 | Supply Chain Simulator | https://lapauzaiii.github.io/man3504-labs/labs/w8-supply-chain/?seed=3504-W8-04 |
 | 9 | Inventory Management | https://lapauzaiii.github.io/man3504-labs/labs/w9-inventory/ |
 | 10 | Lean Systems and Vendor Relationships | https://lapauzaiii.github.io/man3504-labs/labs/w10-lean/ |
+| 10 | Lean Explorer (self-paced) | https://lapauzaiii.github.io/man3504-labs/labs/w10-explorer/ |
 | 11 | Quality and Performance Management | https://lapauzaiii.github.io/man3504-labs/labs/w11-quality/ |
 | 12 | Statistical Process Control | https://lapauzaiii.github.io/man3504-labs/labs/w12-spc/ |
 | 13 | Ethics, Sustainability and Global Operations | https://lapauzaiii.github.io/man3504-labs/labs/w13-sourcing/ |
@@ -48,7 +49,7 @@ Supported seeds: `3504-W8-01`, `3504-W8-02`, `3504-W8-03`, `3504-W8-04`. Missing
 
 ## Student Work
 
-Week 4 Cowford and Weeks 9–14 save locally when browser storage is permitted. JSON work files can be imported into the matching lab. CSV downloads contain classroom inputs only. Print produces the student's current work record; these labs contain no answer key or scoring engine.
+Week 4 Cowford and Weeks 9–14 save locally (the Week 10 Lean Explorer is the exception: it stores nothing, by design) when browser storage is permitted. JSON work files can be imported into the matching lab. CSV downloads contain classroom inputs only. Print produces the student's current work record; these labs contain no answer key or scoring engine.
 
 Embedded storage may be unavailable or cleared between sessions. Export provides a portable record. Use a new-tab link if embedded downloads or printing are restricted. Nothing is uploaded to an instructor automatically.
 
