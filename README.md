@@ -23,6 +23,7 @@ The eight subsidiaries are Bakery, Coffee, Fitness, Brewery, Medical Supply, Log
 | 10 | Lean Systems and Vendor Relationships | `labs/w10-lean/` | Coffee flow and countermeasure planning |
 | 10 | Lean Explorer (self-paced, in lieu of lecture) | `labs/w10-explorer/` | Brewery walk with Lola June; pairs with W10.A; stores nothing |
 | 11 | Quality and Performance Management | `labs/w11-quality/` | Medical Supply quality costs and DMAIC |
+| 11 | Quality Explorer (self-paced, in lieu of lecture) | `labs/w11-explorer/` | Logistics walk with Lola June; pairs with W11.A; stores nothing |
 | 12 | Statistical Process Control | `labs/w12-spc/` | Bakery subgroup statistics and trial limits |
 | 13 | Ethics, Sustainability and Global Operations | `labs/w13-sourcing/` | Brewery TCO and due diligence |
 | 14 | Performance Measurement and Continuous Improvement | `labs/w14-performance/` | Tech Services scorecard and PDCA |
@@ -51,6 +52,6 @@ The existing palette is navy `#0E2841` and orange `#E97132`. Preserve course ide
 
 ## Validation and Deployment
 
-Run `node --test labs/w8-supply-chain/tests/model.test.js tests/classroom.test.cjs tests/w10-explorer.test.cjs`. Browser QA covers desktop/mobile, charts, persistence, export/import, reset and dark mode. Preview through a local HTTP server, commit verified changes to main, and check deployed Pages URLs before embedding.
+Run `node --test labs/w8-supply-chain/tests/model.test.js tests/classroom.test.cjs tests/w10-explorer.test.cjs tests/w11-explorer.test.cjs`. Browser QA covers desktop/mobile, charts, persistence, export/import, reset and dark mode. Preview through a local HTTP server, commit verified changes to main, and check deployed Pages URLs before embedding.
 
 GitHub Pages serves public student files. Canvas module publication and assessment deployment require separate checks in Canvas.

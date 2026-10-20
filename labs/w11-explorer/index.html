@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Week 11 Quality Explorer | MAN3504</title>
+  <meta name="description" content="A self-paced, interactive walk through quality and performance at Cowford Logistics, guided by Lola June. Pairs with the W11.A reading.">
+  <link rel="stylesheet" href="../../styles/shared.css">
+  <link rel="stylesheet" href="explorer.css">
+  <script src="model.js" defer></script>
+  <script src="explorer.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#explorer">Skip to the explorer</a>
+  <header class="ex-header">
+    <a class="ex-home" href="../../">All Labs</a>
+    <p class="ex-kicker">Week 11 · Quality and Performance Management</p>
+    <h1>Quality Explorer: A Shift at Cowford Logistics</h1>
+    <p class="ex-sub">Self-paced, about 35–45 minutes. Pairs with the W11.A reading. Ungraded, and nothing you do here is saved or submitted.</p>
+  </header>
+
+  <nav class="ex-progress" aria-label="Explorer stops">
+    <ol id="stopNav"></ol>
+    <div class="ex-bar" aria-hidden="true"><div id="progressFill"></div></div>
+  </nav>
+
+  <main id="explorer" class="ex-main" tabindex="-1">
+    <noscript><p class="notice">This explorer needs JavaScript. Work through the W11.A reading instead, and ask your instructor for an alternative.</p></noscript>
+
+    <!-- ===================== START ===================== -->
+    <section class="stop" id="start" data-label="Start" aria-labelledby="h-start">
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="120" height="156">
+        <div class="bubble">
+          <p class="bubble-name">Lola June</p>
+          <p>Hi, I'm Lola June. This week I'm riding along at Cowford Logistics' Westside distribution center, where I supervise the dock and inspect every box at nose height. Let's spend a shift looking at quality the way an operations manager would.</p>
+        </div>
+      </div>
+      <h2 id="h-start">How this walk works</h2>
+      <div class="two-col">
+        <div>
+          <p>There are five stops, one for each section of the W11.A reading, so keep it open in another tab.</p>
+          <ol class="how">
+            <li><strong>Predict.</strong> Commit to a quick guess before you touch anything. There's no score; the point is to notice when your intuition is wrong.</li>
+            <li><strong>Explore.</strong> Move the sliders, flip the switches, and watch the warehouse respond.</li>
+            <li><strong>Lola's take.</strong> When you're ready, open my explanation and compare it with what you saw.</li>
+          </ol>
+          <p class="fine">This is not the classroom lab, and it isn't the W11.C or W11.D quiz. The data here is illustrative Cowford Logistics data and does not carry over to any of them. Nothing on this page is stored. If you refresh or leave, it starts fresh.</p>
+        </div>
+        <aside class="profile" aria-label="Cowford Logistics at a glance">
+          <h3>Cowford Logistics at a glance</h3>
+          <ul>
+            <li>Third-party warehousing and delivery for grocers, restaurants, and clinics across Northeast Florida</li>
+            <li>The Westside distribution center ships about 10,000 orders a month</li>
+            <li>Dry, refrigerated, and frozen freight; refrigerated loads must stay between 2 and 8 °C</li>
+            <li>Every order is picked, packed, checked at the dock, and delivered by Cowford drivers</li>
+          </ul>
+        </aside>
+      </div>
+      <div class="stop-map" aria-label="The five stops">
+        <div><span>1</span>Picker or system? <em>W11.A §1</em></div>
+        <div><span>2</span>The cost of quality <em>§2</em></div>
+        <div><span>3</span>TQM and the Pareto chart <em>§3</em></div>
+        <div><span>4</span>DMAIC, DPMO, and SERVQUAL <em>§4</em></div>
+        <div><span>5</span>Cold-chain capability <em>§5</em></div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 1 ===================== -->
+    <section class="stop" id="s1" data-label="1" aria-labelledby="h-s1" hidden>
+      <p class="stop-tag">Stop 1 of 5 · W11.A Section 1 · about 6 minutes</p>
+      <h2 id="h-s1">Is it the picker or the system?</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>First, a warm-up: quality means different things to different people. Then a real problem. Last month the day shift made 78 mis-picks, and the shift lead wants to retrain the picker with the most errors. Deming would have something to say about that.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s1">
+        <legend>Predict first</legend>
+        <p>Picker E made the most mis-picks last month. Which change will cut the shift's total mis-picks more?</p>
+        <label><input type="radio" name="p-s1" value="a"> Retrain Picker E</label>
+        <label><input type="radio" name="p-s1" value="b"> Redesign something every picker uses</label>
+        <label><input type="radio" name="p-s1" value="c"> Both cut errors by about the same amount</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s1">
+        <h3>Explore: three kinds of quality</h3>
+        <p class="fine">Classify each customer comment as conformance, performance, or perceived quality.</p>
+        <div id="dimCards" class="cards"></div>
+
+        <h3>Explore: who is making the mis-picks?</h3>
+        <p class="fine">Each bar is one picker's mis-picks last month. The darker part happened at look-alike bin pairs, where two similar products sit side by side with near-identical labels.</p>
+        <div class="chart-scroll"><svg id="pickChart" class="chart wide" viewBox="0 0 640 240" role="img" aria-label="Mis-picks by picker, split into errors at look-alike bins and other errors"></svg></div>
+        <p class="legend"><span class="sw sw-system"></span>At look-alike bins <span class="sw sw-own"></span>Other errors</p>
+        <div class="checks">
+          <label><input type="checkbox" id="retrain"> Retrain the picker with the most errors (Picker E)</label>
+          <label><input type="checkbox" id="fixBins"> Relabel look-alike bins and add scan-to-confirm for every picker</label>
+        </div>
+        <div class="metrics" id="pickM" aria-live="polite"></div>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s1" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s1" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Retraining Picker E took the shift from 78 mis-picks to 75, about 4% fewer. Fixing the bins took it to 30, about 62% fewer, because 60 of the 78 errors (77%) happened at look-alike bins that every picker uses. Picker E wasn't careless; Picker E just walked past those bins the most. That's Deming's point in Section 1: most quality problems live in the system management designed, so fixing the system beats blaming the person.</p>
+            <p>The three comments show why "quality" needs a definition first. An on-time, complete order is conformance; tighter temperature control than competitors is performance; nicer trucks with no change in service is perceived quality. Operations controls conformance most directly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 2 ===================== -->
+    <section class="stop" id="s2" data-label="2" aria-labelledby="h-s2" hidden>
+      <p class="stop-tag">Stop 2 of 5 · W11.A Section 2 · about 9 minutes</p>
+      <h2 id="h-s2">The cost of quality</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>A mis-pick costs almost nothing if you catch it at the shelf, and a lot if a customer catches it. Let's follow one error down the line. Then you'll set Westside's prevention budget and watch all four cost of quality categories move.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s2">
+        <legend>Predict first</legend>
+        <p>Westside spends $15,000 a year on prevention. If it raises that to $45,000, what happens to the <em>total</em> cost of quality?</p>
+        <label><input type="radio" name="p-s2" value="a"> It rises by $30,000</label>
+        <label><input type="radio" name="p-s2" value="b"> It falls, because failure costs drop by more than $30,000</label>
+        <label><input type="radio" name="p-s2" value="c"> It stays about the same</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s2">
+        <h3>Explore: catch it early or catch it late</h3>
+        <div class="seg" role="group" aria-label="Where the mis-pick is caught" id="stageSeg"></div>
+        <div class="chart-scroll"><svg id="escChart" class="chart wide" viewBox="0 0 640 210" role="img" aria-label="Cost of one mis-pick depending on where it is caught"></svg></div>
+        <p id="escMsg" class="status-line" aria-live="polite"></p>
+
+        <h3>Explore: set the prevention budget</h3>
+        <div class="control">
+          <label for="prev">Prevention spending per year (training, bin design, supplier labeling standards): <output id="prevOut">$15,000</output></label>
+          <input type="range" id="prev" min="5000" max="150000" step="5000" value="15000">
+        </div>
+        <label class="check-inline"><input type="checkbox" id="scaleApp"> Let inspection shrink as errors fall (appraisal scaled to the error rate)</label>
+        <div id="coqBar" class="coq-bar" aria-hidden="true"></div>
+        <p class="legend"><span class="sw sw-prev"></span>Prevention <span class="sw sw-app"></span>Appraisal <span class="sw sw-int"></span>Internal failure <span class="sw sw-ext"></span>External failure</p>
+        <div class="metrics" id="coqM" aria-live="polite"></div>
+        <svg id="coqCurve" class="chart wide" viewBox="0 0 640 230" role="img" aria-label="Total cost of quality at each level of prevention spending"></svg>
+        <p class="fine">Model assumptions: 120,000 orders a year; a 2% error rate at today's prevention level, falling toward a 0.4% floor that prevention alone cannot remove; 60% of errors caught in the building at $12 each; the rest reach the customer at $95 each.</p>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s2" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s2" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>The same mis-pick costs $1.50 at the shelf and $95 at the customer, about 63 times more. The first three catch points are internal failure; the last is external failure, and it carries costs no invoice shows, like a grocer quietly moving volume to a competitor.</p>
+            <p>Raising prevention from $15,000 to $45,000 <em>lowered</em> the total, from about $183,500 to about $167,700, because failure costs fell by more than the extra spending. Let inspection shrink as errors fall, as the textbook expects, and the best budget moves to about $60,000, with a total near $148,300. But keep sliding: at $150,000 the total climbs back above $200,000. Prevention pays only when it is aimed at causes you can actually remove. And never "save" on quality by hiding a known problem: Krajewski's ethical failure costs can dwarf the other four categories combined.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 3 ===================== -->
+    <section class="stop" id="s3" data-label="3" aria-labelledby="h-s3" hidden>
+      <p class="stop-tag">Stop 3 of 5 · W11.A Section 3 · about 7 minutes</p>
+      <h2 id="h-s3">TQM on the warehouse floor: the Pareto chart</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>TQM runs on facts, not hunches. Last quarter the team kept a check sheet of every order error, wherever it was found. Let's turn it into a Pareto chart and decide where the first improvement project should go.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s3">
+        <legend>Predict first</legend>
+        <p>The check sheet has six causes. How many of them account for about 70% of all order errors?</p>
+        <label><input type="radio" name="p-s3" value="a"> One</label>
+        <label><input type="radio" name="p-s3" value="b"> Two</label>
+        <label><input type="radio" name="p-s3" value="c"> Four</label>
+        <label><input type="radio" name="p-s3" value="d"> All six contribute about equally</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s3">
+        <h3>Explore</h3>
+        <div class="seg" role="group" aria-label="Chart order">
+          <button type="button" class="seg-btn" data-order="sheet" aria-pressed="true">Check sheet order</button>
+          <button type="button" class="seg-btn" data-order="pareto" aria-pressed="false">Pareto order, with cumulative %</button>
+        </div>
+        <div class="chart-scroll"><svg id="paretoChart" class="chart wide" viewBox="0 0 640 260" role="img" aria-label="Order errors by cause, last quarter"></svg></div>
+        <fieldset class="pick-causes">
+          <legend>Choose the causes for the first improvement project</legend>
+          <div id="causeChecks" class="cause-checks"></div>
+        </fieldset>
+        <p class="big-readout" aria-live="polite">Errors your project targets: <strong id="covOut">0 of 600 (0%)</strong></p>
+
+        <h3>Which TQM principle is this?</h3>
+        <div class="fit" data-fit="f1">
+          <p><strong>Pickers suggest color-coding look-alike bins.</strong> The supervisor starts a weekly 15-minute huddle where pickers bring problems and ideas.</p>
+          <label><input type="radio" name="f1" value="customer"> Customer focus</label>
+          <label><input type="radio" name="f1" value="employee"> Employee involvement</label>
+          <label><input type="radio" name="f1" value="fact"> Fact-based decisions</label>
+          <p class="fit-read" hidden></p>
+        </div>
+        <div class="fit" data-fit="f2">
+          <p><strong>A manager wants to put the three pickers with the most errors on written warning.</strong> Which principle does that ignore?</p>
+          <label><input type="radio" name="f2" value="continuous"> Continuous improvement</label>
+          <label><input type="radio" name="f2" value="customer"> Customer focus</label>
+          <label><input type="radio" name="f2" value="process"> Process thinking</label>
+          <p class="fit-read" hidden></p>
+        </div>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s3" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s3" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Two causes, wrong item and wrong quantity, make up 417 of 600 errors, about 70%. Wrong item alone is nearly half. The check sheet listed causes in the order people happened to write them; the Pareto chart sorts them so the vital few jump out. That's TQM's fact-based decisions in practice, and it points straight back at the look-alike bins from Stop 1.</p>
+            <p>"Damaged in transit" is real and visible, which makes it tempting, but it's 13% of the problem. Start where the data says. And the huddle and the written warnings are two sides of the same coin: TQM asks the people doing the work what the process gets wrong, and it fixes the process instead of the person.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 4 ===================== -->
+    <section class="stop" id="s4" data-label="4" aria-labelledby="h-s4" hidden>
+      <p class="stop-tag">Stop 4 of 5 · W11.A Section 4 · about 10 minutes</p>
+      <h2 id="h-s4">DMAIC, DPMO, and service quality</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>The team turns the wrong-item problem into a Six Sigma project. First, put the project's steps in DMAIC order. Then we'll score Westside's sigma level, and find out that the score depends on a definition. Last, the delivery customers get their say.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s4">
+        <legend>Predict first</legend>
+        <p>Westside had 600 order errors on 30,000 orders last quarter. If the team counts each order line (4 per order) as an opportunity instead of each order, what happens to the sigma level?</p>
+        <label><input type="radio" name="p-s4" value="a"> It goes up</label>
+        <label><input type="radio" name="p-s4" value="b"> It goes down</label>
+        <label><input type="radio" name="p-s4" value="c"> It stays the same, because the errors didn't change</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s4">
+        <h3>Explore: the DMAIC sequence</h3>
+        <p class="fine">Assign each project step to its DMAIC phase.</p>
+        <div id="dmaicCards" class="cards"></div>
+        <p class="fine" id="dmaicCount" aria-live="polite">Assigned 0 of 5</p>
+
+        <h3>Explore: DPMO and the sigma level</h3>
+        <div class="control">
+          <label for="opps">Opportunities for an error per order: <output id="oppsOut">1</output></label>
+          <input type="range" id="opps" min="1" max="8" step="1" value="1">
+        </div>
+        <p class="formula" id="dpmoFormula" aria-live="polite"></p>
+        <div class="metrics" id="dpmoM" aria-live="polite"></div>
+
+        <h3>Explore: what delivery customers say (SERVQUAL)</h3>
+        <p class="fine">Survey of 140 delivery customers, 1–7 scale. Gap = perception minus expectation.</p>
+        <div class="table-wrap">
+          <table class="sq"><caption>SERVQUAL results, Cowford Logistics deliveries</caption>
+            <thead><tr><th scope="col">Dimension</th><th scope="col">Example</th><th scope="col">Expect</th><th scope="col">Perceive</th><th scope="col">Gap</th></tr></thead>
+            <tbody id="sqBody"></tbody>
+          </table>
+        </div>
+        <div class="fit" data-fit="f3">
+          <p><strong>Where should Cowford Logistics invest first?</strong></p>
+          <label><input type="radio" name="f3" value="tangibles"> Repaint the fleet and print glossier paperwork</label>
+          <label><input type="radio" name="f3" value="reliability"> Fix the dispatch and loading process so deliveries hit the promised window</label>
+          <label><input type="radio" name="f3" value="assurance"> Send every driver to a product-knowledge course</label>
+          <p class="fit-read" hidden></p>
+        </div>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s4" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s4" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>DMAIC is a project with an order to it: define the problem before you measure it, measure before you analyze, and prove the cause before you pilot a fix. Control is the step teams skip, and it's why gains quietly slip away.</p>
+            <p>Counting one opportunity per order gives 20,000 DPMO, about 3.55 sigma. Counting four lines per order gives 5,000 DPMO, about 4.08 sigma. Same 600 errors, and customers still see 20 bad orders in every 1,000. DPMO counts per opportunity, so always state what counts as one before you compare sigma levels. And the survey says Reliability has the biggest gap, −1.4 points, while Tangibles is already above expectations. Paint won't fix late trucks.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 5 ===================== -->
+    <section class="stop" id="s5" data-label="5" aria-labelledby="h-s5" hidden>
+      <p class="stop-tag">Stop 5 of 5 · W11.A Section 5 · about 8 minutes</p>
+      <h2 id="h-s5">Cold-chain capability: Cp and Cpk</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Refrigerated loads for grocers and clinics must stay between 2 and 8 °C. The trailers' temperature process is stable, so the question is whether it's <em>capable</em>. Cowford's standard is four-sigma, a critical value of 1.33. I prefer my water bowl a little cooler than that.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s5">
+        <legend>Predict first</legend>
+        <p>The trailers pass the textbook's Cp test at 1.33 but fail the Cpk test. What should the team try first?</p>
+        <label><input type="radio" name="p-s5" value="a"> Buy new refrigeration units to cut temperature variation</label>
+        <label><input type="radio" name="p-s5" value="b"> Adjust the thermostat set point so the process is centered</label>
+        <label><input type="radio" name="p-s5" value="c"> Ask customers to accept a wider temperature range</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s5">
+        <h3>Explore</h3>
+        <div class="controls-2">
+          <div class="control">
+            <label for="mean">Average load temperature (set point): <output id="meanOut">5.9</output> °C</label>
+            <input type="range" id="mean" min="3" max="7" step="0.1" value="5.9">
+          </div>
+          <div class="control">
+            <label for="sd">Process standard deviation σ: <output id="sdOut">0.70</output> °C</label>
+            <input type="range" id="sd" min="0.3" max="1.2" step="0.05" value="0.7">
+          </div>
+        </div>
+        <div class="seg" role="group" aria-label="Critical value" id="critSeg"></div>
+        <svg id="capChart" class="chart wide" viewBox="0 0 640 240" role="img" aria-label="Distribution of load temperatures compared with the 2 to 8 degree specification"></svg>
+        <p class="legend"><span class="sw sw-curve"></span>Load temperatures <span class="sw sw-out"></span>Outside specification <span class="sw sw-spec"></span>Specification limits</p>
+        <p class="formula" id="capFormula" aria-live="polite"></p>
+        <div class="metrics" id="capM" aria-live="polite"></div>
+        <p id="capMsg" class="status-line" aria-live="polite"></p>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s5" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s5" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>At a 5.9 °C average with σ = 0.7, Cp is 1.43 but Cpk is only 1.00: the spread fits the 2–8 window with room to spare, but the process sits too close to the 8 °C limit, so about 1,350 loads per million run warm. Move the set point to 5.0 and Cpk rises to 1.43, with no new equipment, and the expected loads outside the 2–8 window fall to about 18 per million. That's the textbook test from Section 5: judge capability on Cpk, and when it fails, Cp tells you whether to recenter or reduce variation.</p>
+            <p>Push σ up to 1.0 and Cp drops to 1.00. Now no set point passes at 1.33, because the variation itself is the problem. Widening the specification isn't an operations decision; food and medicines have safety limits for a reason. One caution: Cp and Cpk assume a roughly normal distribution. Dock dwell times, which can't go below zero and have long tails, would need a different approach.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== WRAP ===================== -->
+    <section class="stop" id="wrap" data-label="Wrap" aria-labelledby="h-wrap" hidden>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="120" height="156">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>That's the end of the shift. Every box passed my inspection, mostly because I'm easily impressed. Thanks for riding along.</p></div>
+      </div>
+      <h2 id="h-wrap">Five ideas to carry forward</h2>
+      <ol class="carry">
+        <li><strong>Fix the system, not the person.</strong> Most errors come from how the work is designed, and everyone's errors fall when the design improves.</li>
+        <li><strong>A defect gets more expensive the later it's caught.</strong> Well-aimed prevention lowers the total cost of quality, until you start buying improvements you can't get.</li>
+        <li><strong>Let the data pick the project.</strong> A Pareto chart shows the vital few causes; TQM asks the people closest to the work.</li>
+        <li><strong>DMAIC is an ordered project, and DPMO depends on what counts as an opportunity.</strong> State your definition before comparing sigma levels.</li>
+        <li><strong>Judge capability on Cpk, then use Cp to diagnose.</strong> If Cp passes, recenter; if Cp fails, reduce variation.</li>
+      </ol>
+      <div class="next">
+        <h3>Where to next</h3>
+        <ul>
+          <li>Check your understanding with the <strong>W11.C Concept Check</strong> in Canvas.</li>
+          <li>Apply it on your own in the <strong>W11.D Cowford Application Quiz</strong> in Canvas. It uses a different subsidiary and different numbers, so nothing here carries over directly.</li>
+          <li>Practice with your class in the <a href="../w11-quality/">Week 11 classroom lab</a>.</li>
+        </ul>
+      </div>
+      <button type="button" class="btn" id="restart">Walk it again from the start</button>
+    </section>
+
+    <div class="pager">
+      <button type="button" class="btn ghost" id="prevBtn">&larr; Previous</button>
+      <span id="pagerLabel" class="pager-label"></span>
+      <button type="button" class="btn" id="nextBtn">Next &rarr;</button>
+    </div>
+  </main>
+
+  <footer class="ex-footer">
+    <p>MAN3504 Operations Management · Cowford Holdings is a fictional company used for teaching. Illustrative data only; ungraded; nothing is stored or submitted. Canvas is authoritative for assignments, grades, and deadlines.</p>
+  </footer>
+</body>
+</html>

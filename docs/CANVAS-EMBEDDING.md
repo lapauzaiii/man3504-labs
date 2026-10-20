@@ -16,6 +16,7 @@ GitHub Pages resources do not send scores or responses to Canvas. Classroom labs
 | 10 | Lean Systems and Vendor Relationships | https://lapauzaiii.github.io/man3504-labs/labs/w10-lean/ |
 | 10 | Lean Explorer (self-paced) | https://lapauzaiii.github.io/man3504-labs/labs/w10-explorer/ |
 | 11 | Quality and Performance Management | https://lapauzaiii.github.io/man3504-labs/labs/w11-quality/ |
+| 11 | Quality Explorer (self-paced) | https://lapauzaiii.github.io/man3504-labs/labs/w11-explorer/ |
 | 12 | Statistical Process Control | https://lapauzaiii.github.io/man3504-labs/labs/w12-spc/ |
 | 13 | Ethics, Sustainability and Global Operations | https://lapauzaiii.github.io/man3504-labs/labs/w13-sourcing/ |
 | 14 | Performance Measurement and Continuous Improvement | https://lapauzaiii.github.io/man3504-labs/labs/w14-performance/ |
@@ -43,13 +44,19 @@ Replace the URL and title for each resource. Preview as a student on desktop and
 
 No student identifiers are needed. An ordinary iframe does not interpolate Canvas `$User.id` variables or create an LTI integration. Do not append student IDs for tracking.
 
+## Explorer Stop Links
+
+The self-paced explorers open at a specific stop when the URL ends in a stop anchor, which is how the readings' "Try it with Lola" links work. Week 11 anchors: `#s1` (W11.A Section 1) through `#s5` (Section 5), plus `#start` and `#wrap`. Example: `https://lapauzaiii.github.io/man3504-labs/labs/w11-explorer/#s3`.
+
+For Canvas pages that show Lola June, use the PNG avatar (`labs/w10-explorer/lola-june.png` or `labs/w11-explorer/lola-june.png`); the SVG does not render in Canvas.
+
 ## Week 8 Seeds
 
 Supported seeds: `3504-W8-01`, `3504-W8-02`, `3504-W8-03`, `3504-W8-04`. Missing or invalid seeds fall back to `3504-W8-04`. Preserve the seed for an activity that depends on it.
 
 ## Student Work
 
-Week 4 Cowford and Weeks 9–14 save locally (the Week 10 Lean Explorer is the exception: it stores nothing, by design) when browser storage is permitted. JSON work files can be imported into the matching lab. CSV downloads contain classroom inputs only. Print produces the student's current work record; these labs contain no answer key or scoring engine.
+Week 4 Cowford and Weeks 9–14 save locally (the Week 10 Lean Explorer and Week 11 Quality Explorer are the exceptions: they store nothing, by design) when browser storage is permitted. JSON work files can be imported into the matching lab. CSV downloads contain classroom inputs only. Print produces the student's current work record; these labs contain no answer key or scoring engine.
 
 Embedded storage may be unavailable or cleared between sessions. Export provides a portable record. Use a new-tab link if embedded downloads or printing are restricted. Nothing is uploaded to an instructor automatically.
 
