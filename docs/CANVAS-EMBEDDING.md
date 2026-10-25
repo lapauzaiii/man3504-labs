@@ -18,6 +18,7 @@ GitHub Pages resources do not send scores or responses to Canvas. Classroom labs
 | 11 | Quality and Performance Management | https://lapauzaiii.github.io/man3504-labs/labs/w11-quality/ |
 | 11 | Quality Explorer (self-paced) | https://lapauzaiii.github.io/man3504-labs/labs/w11-explorer/ |
 | 12 | Statistical Process Control | https://lapauzaiii.github.io/man3504-labs/labs/w12-spc/ |
+| 12 | In-Class Session (slides and recap) | https://lapauzaiii.github.io/man3504-labs/labs/w12-session/ |
 | 13 | Ethics, Sustainability and Global Operations | https://lapauzaiii.github.io/man3504-labs/labs/w13-sourcing/ |
 | 14 | Performance Measurement and Continuous Improvement | https://lapauzaiii.github.io/man3504-labs/labs/w14-performance/ |
 
@@ -49,6 +50,10 @@ No student identifiers are needed. An ordinary iframe does not interpolate Canva
 The self-paced explorers open at a specific stop when the URL ends in a stop anchor, which is how the readings' "Try it with Lola" links work. Week 11 anchors: `#s1` (W11.A Section 1) through `#s5` (Section 5), plus `#start` and `#wrap`. Example: `https://lapauzaiii.github.io/man3504-labs/labs/w11-explorer/#s3`.
 
 For Canvas pages that show Lola June, use the PNG avatar (`labs/w10-explorer/lola-june.png` or `labs/w11-explorer/lola-june.png`); the SVG does not render in Canvas.
+
+## Week 12 Session
+
+Link to the session page rather than embedding it; the slide mode needs the full window. `?present` opens it straight into slides, and a slide anchor (`#s6` for the ten-second challenge) opens read mode at that slide. Timing data is kept only in the browser that entered it; use Download CSV to keep a copy.
 
 ## Week 8 Seeds
 

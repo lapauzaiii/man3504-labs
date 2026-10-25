@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Week 12 In-Class Session | MAN3504</title>
+  <meta name="description" content="Week 12 in-class session on statistical process control: live slides, a class timing experiment with real X-bar and R charts, and a full recap for anyone who missed class.">
+  <link rel="stylesheet" href="../../styles/shared.css">
+  <link rel="stylesheet" href="session.css">
+  <script src="model.js" defer></script>
+  <script src="session.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#deck">Skip to the session</a>
+
+  <header class="ss-header">
+    <a class="ss-home" href="../../">All Labs</a>
+    <p class="ss-kicker">Week 12 · Statistical Process Control · In-class session</p>
+    <h1>When Should a Manager Touch a Process?</h1>
+    <p class="ss-sub">Follow along in class, or work through it on your own if you missed the session. Ungraded. Your timing data stays in this browser; nothing is submitted.</p>
+    <div class="ss-modes" role="group" aria-label="View">
+      <button type="button" id="btnPresent" class="mode-btn">Present slides</button>
+      <button type="button" id="btnExpand" class="mode-btn ghost">Expand all notes</button>
+      <button type="button" id="btnCollapse" class="mode-btn ghost">Collapse all notes</button>
+    </div>
+  </header>
+
+  <main id="deck" class="deck" tabindex="-1">
+    <noscript><p class="notice">The interactive parts need JavaScript. Everything else on this page still reads top to bottom.</p></noscript>
+
+    <!-- 1 -->
+    <section class="slide" id="s1" data-title="Welcome" aria-labelledby="h1">
+      <p class="tag">Week 12 · 75 minutes</p>
+      <h2 id="h1">Today: when to act, and when to leave a process alone</h2>
+      <div class="split">
+        <ol class="agenda">
+          <li><strong>The loaf question</strong>: one sample, one decision</li>
+          <li><strong>Two kinds of variation</strong>, and what tampering costs</li>
+          <li><strong>X-bar and R charts</strong>: what each one watches</li>
+          <li><strong>The ten-second challenge</strong>: we make our own data and chart it live</li>
+          <li><strong>Cowford Bakery lab</strong> in pairs</li>
+          <li><strong>Control limits versus specifications</strong>, and where SPC fits at Cowford</li>
+          <li><strong>Exit ticket</strong></li>
+        </ol>
+        <aside class="card">
+          <h3>Before and after class</h3>
+          <ul class="tight">
+            <li>Reading: W12.A in Canvas</li>
+            <li>Concept check: W12.C in Canvas</li>
+            <li>Application: W12.D, Cowford Coffee SPC at Scale, in Canvas</li>
+          </ul>
+          <p class="fine">Canvas has the current due dates. Nothing on this page counts toward your grade.</p>
+        </aside>
+      </div>
+      <details class="recap" open>
+        <summary>Missed class? Start here</summary>
+        <div class="lola">
+          <img src="../w11-explorer/lola.svg" alt="" class="lola-img" width="88" height="114">
+          <div class="bubble"><p class="bubble-name">Lola June</p>
+            <p>Each slide has one of these notes with what we said in the room. You can do the ten-second challenge by yourself, too. Time yourself four times per round instead of working with a table group. Plan on about 45 minutes, and keep W12.A open in another tab.</p></div>
+        </div>
+      </details>
+    </section>
+
+    <!-- 2 -->
+    <section class="slide" id="s2" data-title="The loaf question" aria-labelledby="h2">
+      <p class="tag">Hook · Cowford Bakery</p>
+      <h2 id="h2">Four loaves just averaged 806 grams. The target is 800. What do you do?</h2>
+      <p>Cowford Bakery's sourdough line pulls four loaves every hour. The latest four averaged 6 grams heavy. The shift lead has the dough divider control in hand.</p>
+      <div class="poll" role="group" aria-label="Your call">
+        <button type="button" class="poll-opt" data-poll="a"><span>A</span>Turn the divider down 6 grams right now</button>
+        <button type="button" class="poll-opt" data-poll="b"><span>B</span>Check what else is going on before touching anything</button>
+        <button type="button" class="poll-opt" data-poll="c"><span>C</span>Leave it alone; 6 grams is noise</button>
+      </div>
+      <p class="fine" id="pollNote" aria-live="polite">Commit to an answer. We will come back to it once we have a way to tell the difference.</p>
+      <details class="recap">
+        <summary>What we discussed</summary>
+        <p>Start with the customer: a light loaf shortchanges them on a labeled weight, and a heavy loaf gives away margin. Then ask what the manager actually controls. The honest answer to the poll is "it depends on whether 806 is unusual <em>for this process</em>." One number cannot tell you that. You need to know how much the line normally moves. That is what a control chart supplies.</p>
+      </details>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide" id="s3" data-title="Two kinds of variation" aria-labelledby="h3">
+      <p class="tag">W12.A Section 1</p>
+      <h2 id="h3">Every process varies. The question is which kind of variation you are looking at.</h2>
+      <div class="pair">
+        <div class="card common">
+          <h3>Common cause</h3>
+          <p>Many small, everyday sources that are built into the current system, such as flour moisture, room humidity, or small hand differences. No single cause dominates.</p>
+          <p class="act"><strong>Manager's move:</strong> leave the process alone day to day. Reducing it means redesigning the system.</p>
+        </div>
+        <div class="card special">
+          <h3>Special (assignable) cause</h3>
+          <p>A specific event outside normal operation, such as a worn part, a new flour lot, an untrained operator, or a scale that was never re-zeroed.</p>
+          <p class="act"><strong>Manager's move:</strong> find it, fix it, and keep it from coming back.</p>
+        </div>
+      </div>
+      <details class="expand">
+        <summary>Examples across Cowford</summary>
+        <table class="ex-table">
+          <thead><tr><th scope="col">Subsidiary</th><th scope="col">Common cause</th><th scope="col">Possible special cause</th></tr></thead>
+          <tbody>
+            <tr><td>Bakery</td><td>Humidity changes proofing slightly</td><td>Divider blade replaced and not re-set</td></tr>
+            <tr><td>Brewery</td><td>Small temperature swings in the cellar</td><td>A CO₂ regulator fails on one batch</td></tr>
+            <tr><td>Coffee</td><td>Barista-to-barista tamp differences</td><td>Grinder setting changed at shift change</td></tr>
+            <tr><td>Logistics</td><td>Traffic on a normal Tuesday</td><td>A bridge closure reroutes every truck</td></tr>
+          </tbody>
+        </table>
+      </details>
+      <details class="recap">
+        <summary>What we discussed</summary>
+        <p>The distinction matters because it tells the manager who should act. Common-cause variation belongs to management, because only a system change will reduce it. Special-cause variation is something the people closest to the work can usually find and fix. If you treat one as the other, you waste money either way.</p>
+      </details>
+    </section>
+
+    <!-- 4 -->
+    <section class="slide" id="s4" data-title="The cost of tampering" aria-labelledby="h4">
+      <p class="tag">W12.A Section 1 · Deming's funnel</p>
+      <h2 id="h4">What happens if we "fix" a stable process after every loaf?</h2>
+      <p>Both runs below use the <em>same</em> natural loaf-to-loaf noise. The only difference is the operator's policy. <strong>Predict first:</strong> will adjusting after every loaf make the spread smaller, the same, or larger?</p>
+      <div class="controls">
+        <button type="button" class="btn" id="tamperRun">Run 60 loaves</button>
+        <button type="button" class="btn ghost" id="tamperNew">New day (different noise)</button>
+      </div>
+      <div class="pair">
+        <figure class="chart-card">
+          <figcaption><strong>Leave it alone</strong> <span id="tLeaveStat" class="stat"></span></figcaption>
+          <svg id="tLeave" class="chart" viewBox="0 0 460 200" role="img" aria-label="Loaf weights when the setting is left alone"></svg>
+        </figure>
+        <figure class="chart-card">
+          <figcaption><strong>Adjust by the full error every time</strong> <span id="tAdjStat" class="stat"></span></figcaption>
+          <svg id="tAdj" class="chart" viewBox="0 0 460 200" role="img" aria-label="Loaf weights when the operator adjusts after every loaf"></svg>
+        </figure>
+      </div>
+      <p class="callout" id="tamperTake" aria-live="polite">Run it to compare the two policies.</p>
+      <details class="recap">
+        <summary>What we discussed</summary>
+        <p>Adjusting after every loaf feels responsible, but each adjustment reacts to noise that was never going to repeat. Over many runs, that adds about 40% more spread (the standard deviation grows by roughly the square root of 2). This is what W12.A calls <strong>tampering</strong>, and it is why a stable process should be left alone until a chart gives a real signal.</p>
+      </details>
+    </section>
+
+    <!-- 5 -->
+    <section class="slide" id="s5" data-title="X-bar and R" aria-labelledby="h5">
+      <p class="tag">W12.A Section 2</p>
+      <h2 id="h5">Two charts, two questions</h2>
+      <div class="pair">
+        <div class="card">
+          <h3>X-bar chart: has the <em>center</em> moved?</h3>
+          <p>Plots each subgroup's mean. Centerline = grand mean X̄̄.</p>
+          <p class="formula">UCL, LCL = X̄̄ ± A₂ R̄</p>
+        </div>
+        <div class="card">
+          <h3>R chart: has the <em>spread</em> changed?</h3>
+          <p>Plots each subgroup's range (largest minus smallest). Centerline = average range R̄.</p>
+          <p class="formula">UCL = D₄ R̄ &nbsp; LCL = D₃ R̄</p>
+        </div>
+      </div>
+      <p class="callout">Read the R chart first. If the spread is out of control, the X-bar limits, which are built from R̄, cannot be trusted.</p>
+      <details class="expand">
+        <summary>Constants table (from W12.A)</summary>
+        <table class="ex-table num">
+          <thead><tr><th scope="col">n</th><th scope="col">A₂</th><th scope="col">D₃</th><th scope="col">D₄</th><th scope="col">d₂</th></tr></thead>
+          <tbody>
+            <tr><td>2</td><td>1.880</td><td>0</td><td>3.267</td><td>1.128</td></tr>
+            <tr><td>3</td><td>1.023</td><td>0</td><td>2.574</td><td>1.693</td></tr>
+            <tr><td>4</td><td>0.729</td><td>0</td><td>2.282</td><td>2.059</td></tr>
+            <tr><td>5</td><td>0.577</td><td>0</td><td>2.114</td><td>2.326</td></tr>
+          </tbody>
+        </table>
+      </details>
+      <details class="expand">
+        <summary>Worked mini-example from W12.A (predict, then open: is it in control?)</summary>
+        <p>Four subgroups of four espresso shots (oz). Subgroup means 2.010, 2.060, 1.975, 2.015; ranges 0.04, 0.04, 0.03, 0.03.</p>
+        <ul class="tight">
+          <li>X̄̄ = (2.010 + 2.060 + 1.975 + 2.015) / 4 = <strong>2.015 oz</strong></li>
+          <li>R̄ = (0.04 + 0.04 + 0.03 + 0.03) / 4 = <strong>0.035 oz</strong></li>
+          <li>X-bar limits = 2.015 ± 0.729 × 0.035 = <strong>1.989 to 2.041 oz</strong></li>
+          <li>R chart limits = <strong>0 to 0.080 oz</strong> (2.282 × 0.035)</li>
+        </ul>
+        <p>Now compare each point with its limits. The R chart is fine: the largest range, 0.04, is well under 0.080. But Subgroup 2's mean (2.060) is <strong>above</strong> the UCL, and Subgroup 3's mean (1.975) is <strong>below</strong> the LCL. The spread inside each subgroup is normal, yet the center jumps around, which is exactly the situation the X-bar chart exists to catch. With only four subgroups these are trial limits, so the next step is to investigate those two hours, not to adjust the machine.</p>
+      </details>
+      <details class="recap">
+        <summary>What we discussed</summary>
+        <p>A subgroup is a handful of units made close together in time, so the variation <em>inside</em> it is the process's short-term noise. The R chart watches that noise. The X-bar chart asks whether the subgroup averages wander more than that noise would explain. Control limits come from the process's own data. They are not targets or specifications.</p>
+      </details>
+    </section>
+
+    <!-- 6 -->
+    <section class="slide" id="s6" data-title="Ten-second challenge" aria-labelledby="h6">
+      <p class="tag">Live activity · Round 1 (baseline)</p>
+      <h2 id="h6">The ten-second challenge</h2>
+      <div class="split">
+        <div>
+          <ol class="how">
+            <li>Form table groups. Each group is one <strong>subgroup</strong>.</li>
+            <li>Each person presses <strong>Start</strong>, looks away from every clock, and presses <strong>Stop</strong> when they think <strong>10 seconds</strong> have passed. The timer stays hidden until you stop.</li>
+            <li>Read your group's times to the instructor, who enters one row per group below.</li>
+          </ol>
+          <p class="fine">On your own? Use group size 4 and do four tries per row. Complete at least six rows for Round 1.</p>
+        </div>
+        <div class="timer-box">
+          <p class="timer-read" id="timerRead" aria-live="polite">Ready</p>
+          <button type="button" class="btn big" id="timerBtn">Start</button>
+          <p class="fine">Space bar also starts and stops the timer when this button has focus.</p>
+        </div>
+      </div>
+      <div class="data-panel">
+        <div class="controls">
+          <label>Group size (n)
+            <select id="nSel"><option>3</option><option selected>4</option><option>5</option></select>
+          </label>
+          <label>Entering
+            <select id="roundSel"><option value="1">Round 1 (baseline)</option><option value="2">Round 2 (with a disturbance)</option></select>
+          </label>
+          <button type="button" class="btn ghost" id="addRow">Add a row</button>
+          <button type="button" class="btn ghost" id="exampleData">Load example data</button>
+          <button type="button" class="btn ghost" id="downloadCsv">Download CSV</button>
+          <button type="button" class="btn ghost danger" id="clearData">Clear</button>
+        </div>
+        <div class="table-wrap"><table class="entry" id="entryTable" aria-describedby="entryHelp"></table></div>
+        <p class="fine" id="entryHelp">Times in seconds. When you press Stop, your time drops into the first empty cell of the current round. You can type over any value. A row needs every cell filled before it is charted.</p>
+      </div>
+      <details class="recap">
+        <summary>What we did</summary>
+        <p>Each table group produced one subgroup of time estimates. Nothing changed between groups, so the variation in Round 1 is our class's <strong>common-cause</strong> variation: how far off people naturally are. Most classes come in a little under ten seconds. The next slide turns those rows into control charts.</p>
+      </details>
+    </section>
+
+    <!-- 7 -->
+    <section class="slide" id="s7" data-title="Our control charts" aria-labelledby="h7">
+      <p class="tag">Live activity · Charts from your data</p>
+      <h2 id="h7">Our charts: trial limits from Round 1</h2>
+      <div class="kpis" id="kpis" aria-live="polite"></div>
+      <figure class="chart-card wide">
+        <figcaption><strong>X-bar chart</strong> · subgroup means (seconds)</figcaption>
+        <svg id="xChart" class="chart" viewBox="0 0 900 260" role="img" aria-label="X-bar chart of subgroup means"></svg>
+      </figure>
+      <figure class="chart-card wide">
+        <figcaption><strong>R chart</strong> · subgroup ranges (seconds)</figcaption>
+        <svg id="rChart" class="chart" viewBox="0 0 900 200" role="img" aria-label="R chart of subgroup ranges"></svg>
+      </figure>
+      <div class="table-wrap"><table class="ex-table num" id="statTable"></table></div>
+      <details class="expand">
+        <summary>Show the arithmetic</summary>
+        <div id="mathOut"></div>
+      </details>
+      <details class="recap">
+        <summary>What we discussed</summary>
+        <p>The limits are calculated <em>only</em> from Round 1, our baseline. Real practice uses 20 to 25 subgroups before trusting the limits; a class gives us fewer, so treat these as <strong>trial limits</strong>. If any Round 1 point already falls outside, ask what happened to that group before using the limits.</p>
+      </details>
+    </section>
+
+    <!-- 8 -->
+    <section class="slide" id="s8" data-title="Round 2" aria-labelledby="h8">
+      <p class="tag">Live activity · Round 2</p>
+      <h2 id="h8">Round 2: add a known disturbance</h2>
+      <p>Same task, one change: while you wait for ten seconds, <strong>count backward from 100 by sevens, out loud or in your head</strong>. Switch the entry menu to <em>Round 2</em> and add the new rows. They are plotted against the Round 1 limits, which stay frozen.</p>
+      <div class="pair">
+        <div class="card">
+          <h3>Predict</h3>
+          <p>Will Round 2 move the <strong>center</strong>, the <strong>spread</strong>, both, or neither? Which chart will show it first?</p>
+        </div>
+        <div class="card">
+          <h3>Signals in our data</h3>
+          <div id="ruleOut" aria-live="polite"><p class="fine">Add Round 2 rows to check.</p></div>
+        </div>
+      </div>
+      <details class="recap">
+        <summary>What we discussed</summary>
+        <p>Counting backward is an <strong>assignable cause</strong>: we know exactly what changed and when. Mental load usually makes time feel shorter, so many people overshoot. That shows up as a shift in the X-bar chart, and often as a wider R chart, because people react to the distraction differently. Whatever your class saw, the logic is the point. Limits come from a stable baseline, and new data is judged against them. A signal sends you looking for the cause, not reaching for the controls.</p>
+      </details>
+    </section>
+
+    <!-- 9 -->
+    <section class="slide" id="s9" data-title="Reading the chart" aria-labelledby="h9">
+      <p class="tag">W12.A Section 3</p>
+      <h2 id="h9">Not just "outside the lines": the Western Electric rules</h2>
+      <div class="rules">
+        <div class="rule"><span>1</span><p><strong>One point beyond 3σ.</strong> Investigate now.</p></div>
+        <div class="rule"><span>2</span><p><strong>Eight in a row on one side</strong> of the centerline. The mean has shifted and stayed shifted.</p></div>
+        <div class="rule"><span>3</span><p><strong>Six in a row trending</strong> up or down. Something is drifting, such as wear, temperature, or fatigue.</p></div>
+        <div class="rule"><span>4</span><p><strong>Two of three beyond 2σ</strong> on the same side. An early warning before a limit is crossed.</p></div>
+      </div>
+      <p class="callout">Each pattern is unlikely to happen by chance in a stable process. More rules catch more problems, but they also cause more false alarms.</p>
+      <details class="recap">
+        <summary>What we discussed</summary>
+        <p>The page checks all four rules against our X-bar chart automatically. Look back at the Round 2 result: which rule fired, and would you have caught it by eye? Also note the reverse warning from W12.A. A chart where every point hugs the centerline can mean someone is recording "expected" values instead of real ones.</p>
+      </details>
+    </section>
+
+    <!-- 10 -->
+    <section class="slide" id="s10" data-title="Back to the bakery" aria-labelledby="h10">
+      <p class="tag">Pairs · about 22 minutes</p>
+      <h2 id="h10">Your turn: the Cowford Bakery classroom lab</h2>
+      <div class="split">
+        <div>
+          <p>Back to the loaf question. Open the lab, work with a partner, and record your work as you go.</p>
+          <ol class="how">
+            <li>Calculate each subgroup's mean and range. Keep full precision.</li>
+            <li>Build the trial limits for both charts.</li>
+            <li>Decide which signal needs investigation, and what you would check <em>before</em> adjusting anything.</li>
+            <li>Explain how a confirmed special cause changes the baseline.</li>
+          </ol>
+          <p><a class="btn" href="../w12-spc/" target="_blank" rel="noopener">Open the Bakery lab in a new tab</a></p>
+        </div>
+        <aside class="card">
+          <h3>Then revisit the poll</h3>
+          <p>Was the 806-gram average a signal or noise for <em>this</em> line? Would you change your answer from the start of class?</p>
+        </aside>
+      </div>
+      <details class="recap">
+        <summary>If you missed class</summary>
+        <p>Do the lab on your own; it saves in your browser and you can print your work record. There is no answer key on the public lab. Bring your numbers to office hours or compare them with a classmate. The Bakery data is classroom practice only, separate from the Cowford Coffee data you will use in W12.D.</p>
+      </details>
+    </section>
+
+    <!-- 11 -->
+    <section class="slide" id="s11" data-title="Control vs. specification" aria-labelledby="h11">
+      <p class="tag">W12.A Section 2 · Week 11 refresher</p>
+      <h2 id="h11">"In control" is not the same as "good enough"</h2>
+      <p>Control limits describe what the process <em>does</em>. Specification limits describe what the customer <em>requires</em>. Move the sliders for an illustrative loaf line with a 790 to 810 gram specification.</p>
+      <div class="controls sliders">
+        <label><span>Process mean: <output id="muOut">800.0</output> g</span>
+          <input type="range" id="muIn" min="790" max="810" step="0.5" value="800">
+        </label>
+        <label><span>Process σ: <output id="sgOut">2.0</output> g</span>
+          <input type="range" id="sgIn" min="0.5" max="6" step="0.1" value="2">
+        </label>
+      </div>
+      <figure class="chart-card wide">
+        <svg id="capChart" class="chart" viewBox="0 0 900 220" role="img" aria-label="Process distribution against specification limits"></svg>
+      </figure>
+      <div class="kpis" id="capKpis" aria-live="polite"></div>
+      <details class="recap">
+        <summary>What we discussed</summary>
+        <p>A process can be perfectly stable and still make out-of-spec loaves, if it is centered in the wrong place or spread too wide. Cp compares the specification width with the process spread. Cpk does the same but also penalizes off-centering, so Cpk ≤ Cp, and the gap between them measures how far off-center the process is. Check stability first; capability numbers from an unstable process can mislead.</p>
+      </details>
+    </section>
+
+    <!-- 12 -->
+    <section class="slide" id="s12" data-title="Where SPC fits" aria-labelledby="h12">
+      <p class="tag">W12.A Section 5</p>
+      <h2 id="h12">Where SPC earns its keep at Cowford, and where it does not</h2>
+      <p>SPC adds value when a process is <strong>repetitive</strong>, its output is <strong>measurable</strong>, and it is <strong>stable enough</strong> to have a baseline. Open each card and decide before you read the note.</p>
+      <div class="fit-grid" id="fitGrid"></div>
+      <details class="recap">
+        <summary>What we discussed</summary>
+        <p>Repetitive production such as Bakery, Brewery, Coffee, and Medical Supply fits X-bar and R charts well. Pass/fail service measures such as on-time delivery or class cancellations fit a p-chart. One-of-a-kind work such as a Green Build project has no repeating process to chart. The skill is knowing where the tool applies cleanly, where it applies differently, and where it does not apply at all.</p>
+      </details>
+    </section>
+
+    <!-- 13 -->
+    <section class="slide" id="s13" data-title="Exit ticket" aria-labelledby="h13">
+      <p class="tag">Last five minutes</p>
+      <h2 id="h13">Exit ticket</h2>
+      <p>Answer for <strong>any process you know</strong>: a job, a team, a campus office, or a Cowford subsidiary. Nothing here is submitted.</p>
+      <div class="ticket">
+        <label>What is the operational problem?<textarea rows="2" data-ticket="1"></textarea></label>
+        <label>What measurement would diagnose it, and what would one subgroup be?<textarea rows="2" data-ticket="2"></textarea></label>
+        <label>What intervention would you test, and when would you leave it alone?<textarea rows="2" data-ticket="3"></textarea></label>
+        <label>What evidence would change your mind?<textarea rows="2" data-ticket="4"></textarea></label>
+      </div>
+      <div class="controls">
+        <button type="button" class="btn" id="copyTicket">Copy my answers</button>
+        <span class="fine" id="copyNote" aria-live="polite"></span>
+      </div>
+      <div class="card next">
+        <h3>Next in Canvas</h3>
+        <ul class="tight">
+          <li><strong>W12.C</strong> concept check: unlimited attempts, highest score counts</li>
+          <li><strong>W12.D</strong> Cowford Coffee: SPC at Scale. Read the full case first and keep its data table open.</li>
+        </ul>
+      </div>
+      <details class="recap">
+        <summary>Why these four questions</summary>
+        <p>They are the manager's version of everything we did today: name the problem, choose a measurement that can show a signal, decide what you would change (and what you would leave alone), and say in advance what would prove you wrong.</p>
+      </details>
+    </section>
+  </main>
+
+  <nav class="present-nav" id="presentNav" aria-label="Slide navigation" hidden>
+    <button type="button" id="prevSlide" aria-label="Previous slide">&larr;</button>
+    <span id="slideCount" aria-live="polite"></span>
+    <button type="button" id="nextSlide" aria-label="Next slide">&rarr;</button>
+    <button type="button" id="exitPresent" class="ghost">Exit</button>
+  </nav>
+
+  <footer class="ss-foot">
+    <p>MAN3504 Operations Management · Cowford Holdings is a fictional company used for teaching. Data on this page is illustrative or generated in class.</p>
+  </footer>
+</body>
+</html>
