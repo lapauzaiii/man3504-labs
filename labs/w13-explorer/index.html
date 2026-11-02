@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Week 13 Sourcing Explorer | MAN3504</title>
+  <meta name="description" content="A self-paced, interactive walk through ethics, sustainability, and global sourcing at Cowford Green Build, guided by Lola June. Pairs with the W13.A reading.">
+  <link rel="stylesheet" href="../../styles/shared.css">
+  <link rel="stylesheet" href="explorer.css">
+  <style>
+    :root { --sV: #b45309; --sM: #067c86; --sG: #3b5a8a; --p-price: #0E2841; --p-freight: #3b82c4; --p-insp: #8a6fb0; --p-defect: #b42318; --p-safety: #b45309; --p-dis: #E97132; }
+    @media (prefers-color-scheme: dark) { :root { --sV: #f0a35e; --sM: #4fc3cc; --sG: #8fb0e0; --p-price: #9fb3cc; --p-freight: #4f8fca; --p-insp: #b8a2db; --p-defect: #ff8a80; --p-safety: #f0a35e; --p-dis: #f7b48d; } }
+    .sw-price { background: var(--p-price); } .sw-freight { background: var(--p-freight); } .sw-insp { background: var(--p-insp); }
+    .sw-defect { background: var(--p-defect); } .sw-safety { background: var(--p-safety); } .sw-dis { background: var(--p-dis); }
+    .tiers { display: grid; gap: 10px; margin: 12px 0; }
+    .tier { display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 12px; background: var(--card); }
+    .tier.seen { border-color: var(--teal); }
+    .tier .tnum { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--unf-navy); color: #fff; font-weight: 700; }
+    .tier.seen .tnum { background: var(--teal); }
+    .tier p { margin: 0; font-size: 14px; }
+    .tier label { display: flex; gap: 8px; align-items: center; font-size: 14px; cursor: pointer; white-space: nowrap; }
+    .tier input { width: 18px; height: 18px; accent-color: var(--unf-orange); }
+    .fog { height: 26px; border-radius: 6px; overflow: hidden; display: flex; border: 1px solid var(--border-color); margin: 8px 0; }
+    .fog .seen { background: var(--teal); } .fog .dark { background: repeating-linear-gradient(45deg, var(--border-color) 0 6px, transparent 6px 12px); }
+    .controls-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .control label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .control input[type=range] { width: 100%; accent-color: var(--unf-orange); }
+    .tco-table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; margin: 10px 0; }
+    .tco-table th, .tco-table td { padding: 6px 8px; border-bottom: 1px solid var(--border-color); text-align: right; }
+    .tco-table th:first-child, .tco-table td:first-child { text-align: left; }
+    .tco-table tr.total td { font-weight: 700; border-top: 2px solid var(--text-secondary); }
+    .tco-table td.best { color: var(--green); }
+    .table-scroll { overflow-x: auto; }
+    .wbs-grid { display: grid; gap: 8px; margin: 12px 0; }
+    .wbs-row { display: grid; grid-template-columns: 1fr 260px; gap: 12px; align-items: center; border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; }
+    .wbs-row p { margin: 0; font-size: 14px; }
+    .wbs-row select { min-height: 40px; font: inherit; font-size: 14px; }
+    .wbs-row.ok { border-color: var(--green); } .wbs-row.no { border-color: var(--red); }
+    .wbs-tree { font-size: 14px; background: var(--card); border-radius: 8px; padding: 12px 16px; }
+    .wbs-tree ul { margin: 4px 0 4px 18px; padding: 0; }
+    @media (max-width: 720px) { .controls-3 { grid-template-columns: 1fr; } .wbs-row { grid-template-columns: 1fr; } .tier { grid-template-columns: 40px 1fr; } .tier label { grid-column: 2; } }
+  </style>
+  <script src="model.js" defer></script>
+  <script src="explorer.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#explorer">Skip to the explorer</a>
+  <header class="ex-header">
+    <a class="ex-home" href="../../">All Labs</a>
+    <p class="ex-kicker">Week 13 · Ethics, Sustainability, and Global Operations</p>
+    <h1>Sourcing Explorer: Windows for Cowford Green Build</h1>
+    <p class="ex-sub">Self-paced, about 35–45 minutes. Pairs with the W13.A reading. Ungraded, and nothing you do here is saved or submitted.</p>
+  </header>
+
+  <nav class="ex-progress" aria-label="Explorer stops">
+    <ol id="stopNav"></ol>
+    <div class="ex-bar" aria-hidden="true"><div id="progressFill"></div></div>
+  </nav>
+
+  <main id="explorer" class="ex-main" tabindex="-1">
+    <noscript><p class="notice">This explorer needs JavaScript. Work through the W13.A reading instead, and ask your instructor for an alternative.</p></noscript>
+
+    <!-- ===================== START ===================== -->
+    <section class="stop" id="start" data-label="Start" aria-labelledby="h-start">
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="120" height="156">
+        <div class="bubble">
+          <p class="bubble-name">Lola June</p>
+          <p>Hi, I'm Lola June. This week I'm the site dog at Cowford Green Build, which mostly means I inspect every delivery and every lunch. Green Build has to decide where its windows come from, and that choice turns out to touch cost, people, and the planet all at once. Let's work through it together.</p>
+        </div>
+      </div>
+      <h2 id="h-start">How this walk works</h2>
+      <div class="two-col">
+        <div>
+          <p>There are five stops, one for each section of the W13.A reading, so keep it open in another tab.</p>
+          <ol class="how">
+            <li><strong>Predict.</strong> Commit to a quick guess before you touch anything. There's no score; the point is to notice when your intuition is wrong.</li>
+            <li><strong>Explore.</strong> Move the sliders, flip the switches, and watch the decision change.</li>
+            <li><strong>Lola's take.</strong> When you're ready, open my explanation and compare it with what you saw.</li>
+          </ol>
+          <p class="fine">This is not the classroom lab, and it isn't the W13.C or W13.D quiz. The data here is illustrative Cowford Green Build data and does not carry over to any of them. Nothing on this page is stored. If you refresh or leave, it starts fresh.</p>
+        </div>
+        <aside class="profile" aria-label="Cowford Green Build at a glance">
+          <h3>Cowford Green Build at a glance</h3>
+          <ul>
+            <li>Commercial and multifamily builder in Northeast Florida, about $9.6 million in annual revenue</li>
+            <li>About 35% of revenue comes from LEED and low-carbon projects, where clients pay a premium for verified sourcing</li>
+            <li>Installs about 4,000 window units a year</li>
+            <li>Three possible window suppliers: offshore (Vietnam), nearshore (Mexico), or domestic (Georgia)</li>
+          </ul>
+        </aside>
+      </div>
+      <div class="stop-map" aria-label="The five stops">
+        <div><span>1</span>Three bottom lines <em>W13.A §1</em></div>
+        <div><span>2</span>Who can you see? <em>§2</em></div>
+        <div><span>3</span>Invoice price vs. TCO <em>§3</em></div>
+        <div><span>4</span>Carbon and revenue at risk <em>§3–4</em></div>
+        <div><span>5</span>Make it a project <em>§5</em></div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 1 ===================== -->
+    <section class="stop" id="s1" data-label="1" aria-labelledby="h-s1" hidden>
+      <p class="stop-tag">Stop 1 of 5 · W13.A Section 1 · about 6 minutes</p>
+      <h2 id="h-s1">Three bottom lines</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Before we pick a supplier, let's agree on what "performing well" means. The Triple Bottom Line says Green Build is measured on People, Planet, and Profit. Some sustainability moves pay for themselves; others cost real money. Let's sort a few.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s1">
+        <legend>Predict first</legend>
+        <p>Of the four Green Build decisions below, how many do you think <em>both</em> save money <em>and</em> help the environment?</p>
+        <label><input type="radio" name="p-s1" value="a"> None of them; sustainability always costs more</label>
+        <label><input type="radio" name="p-s1" value="b"> About half</label>
+        <label><input type="radio" name="p-s1" value="c"> All of them; sustainability always pays</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s1">
+        <h3>Explore: which bottom line does each measure inform?</h3>
+        <div id="tblCards" class="cards"></div>
+        <h3>Explore: aligned, or a real trade-off?</h3>
+        <p class="fine">"Aligned" means it lowers cost and environmental impact together. "Trade-off" means someone has to pay for the sustainability benefit.</p>
+        <div id="alignCards" class="cards"></div>
+        <p id="alignMsg" class="status-line" aria-live="polite"></p>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s1" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s1" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Two of the four are aligned (LED lighting, full truckloads) and two are trade-offs (recycled steel at a premium, deeper supplier audits). That split is the honest version of Section 1: sustainability is easy when it also cuts cost and hard when it doesn't. Notice that the full-truckload move is the textbook's energy-efficiency domain; freight density lowers cost and emissions per unit together.</p>
+            <p>The measures show that the Planet dimension is more than carbon (waste diverted from landfill counts), and that the People dimension reaches past Green Build's own payroll to subcontractor workers. Keep both in mind for the next stop.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 2 ===================== -->
+    <section class="stop" id="s2" data-label="2" aria-labelledby="h-s2" hidden>
+      <p class="stop-tag">Stop 2 of 5 · W13.A Section 2 · about 7 minutes</p>
+      <h2 id="h-s2">Who can you see?</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Green Build buys windows from an assembler. The assembler buys glass and aluminum, and those suppliers buy smelted metal and mined sand. Green Build only has a contract with the first one. So where does the labor and environmental risk actually sit?</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s2">
+        <legend>Predict first</legend>
+        <p>If Green Build audits only its Tier 1 window assembler, about how much of the supply chain's labor and environmental risk can it see?</p>
+        <label><input type="radio" name="p-s2" value="a"> Most of it, maybe 80% or more</label>
+        <label><input type="radio" name="p-s2" value="b"> About half</label>
+        <label><input type="radio" name="p-s2" value="c"> A small slice, under 20%</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s2">
+        <h3>Explore: turn on audits tier by tier</h3>
+        <p class="fine">Illustrative shares of identified risk by tier, with the yearly cost of auditing each tier.</p>
+        <div class="tiers" id="tiers"></div>
+        <p class="fine" id="fogLabel">Risk Green Build can see (solid) versus risk it cannot see (hatched)</p>
+        <div class="fog" id="fog" role="img" aria-labelledby="fogLabel"></div>
+        <div class="metrics" id="visM" aria-live="polite"></div>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s2" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s2" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Auditing Tier 1 alone shows about 15% of the risk for $4,000 a year. Adding Tier 2 gets you to 50% for $16,000. Seeing all of it costs $46,000, and most of that is Tier 3, where Green Build has no contract and the most risk sits. That's the reading's point: ethical exposure is usually invisible from the buyer unless someone actively looks, and Tier 1 is the easy part.</p>
+            <p>Audits aren't perfect, either; they can be gamed and certifications vary in rigor. The obligation is transparency and improvement, not a claim of zero risk. And remember the key principle: choosing not to look is itself a process design choice.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 3 ===================== -->
+    <section class="stop" id="s3" data-label="3" aria-labelledby="h-s3" hidden>
+      <p class="stop-tag">Stop 3 of 5 · W13.A Section 3 · about 10 minutes</p>
+      <h2 id="h-s3">Invoice price vs. total cost of ownership</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Three quotes for the same window. Vietnam is cheapest on the invoice by a wide margin. But a window that arrives cracked, or late, or that forces you to hold a month of extra stock, costs more than its price tag. Let's add it all up.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s3">
+        <legend>Predict first</legend>
+        <p>Invoice prices are $310 (Vietnam), $345 (Mexico), and $372 (Georgia). Which supplier has the lowest <em>total</em> cost per window?</p>
+        <label><input type="radio" name="p-s3" value="V"> Haiphong, Vietnam (offshore)</label>
+        <label><input type="radio" name="p-s3" value="M"> Monterrey, Mexico (nearshore)</label>
+        <label><input type="radio" name="p-s3" value="G"> Macon, Georgia (domestic)</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s3">
+        <h3>Explore: build the TCO</h3>
+        <p class="fine">Safety stock follows the same policy as the reading: 2 weeks of supply if lead time is 6 weeks or less, 4 weeks if longer. Expected disruption cost = disruptions per year × cost per disruption ÷ 4,000 units.</p>
+        <div class="controls-3">
+          <div class="control">
+            <label for="tariff">Tariff on Vietnam imports: <output id="tariffOut">0%</output></label>
+            <input type="range" id="tariff" min="0" max="25" step="1" value="0">
+          </div>
+          <div class="control">
+            <label for="disrV">Vietnam disruptions per year: <output id="disrVOut">1.50</output></label>
+            <input type="range" id="disrV" min="0" max="3" step="0.05" value="1.5">
+          </div>
+          <div class="control">
+            <label for="carry">Inventory carrying rate: <output id="carryOut">22%</output></label>
+            <input type="range" id="carry" min="15" max="35" step="1" value="22">
+          </div>
+        </div>
+        <div class="chart-scroll"><svg id="tcoChart" class="chart wide" viewBox="0 0 640 230" role="img" aria-label="Stacked bars of total cost of ownership per window for the three suppliers"></svg></div>
+        <p class="legend"><span class="sw sw-price"></span>Price <span class="sw sw-freight"></span>Freight and duty <span class="sw sw-insp"></span>Inspection <span class="sw sw-defect"></span>Defects <span class="sw sw-safety"></span>Safety stock <span class="sw sw-dis"></span>Expected disruption</p>
+        <div class="table-scroll"><table class="tco-table" id="tcoTable" aria-live="polite"></table></div>
+        <p id="tcoMsg" class="status-line" aria-live="polite"></p>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s3" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s3" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>At the starting settings, Monterrey wins at $379.94 per window, Vietnam is $385.35, and Georgia is $392.86. Vietnam's $35 invoice advantage over Mexico disappears into defects ($10.85), extra safety stock for a 12-week lead time ($5.25), freight ($42), and expected disruptions ($11.25). Over 4,000 windows, Vietnam costs about $21,600 a year more than Mexico.</p>
+            <p>Drag Vietnam's disruptions below about 0.78 a year and it wins again, so the answer depends on how much you trust that risk estimate. A 10% tariff pushes Vietnam to almost $418. And notice that reshoring isn't automatically best: Georgia has the shortest lead time and fewest defects, but it still costs about $51,700 a year more than Monterrey. That's nearshoring's case in one picture.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 4 ===================== -->
+    <section class="stop" id="s4" data-label="4" aria-labelledby="h-s4" hidden>
+      <p class="stop-tag">Stop 4 of 5 · W13.A Sections 3–4 · about 7 minutes</p>
+      <h2 id="h-s4">Carbon and revenue at risk</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>TCO covers costs. It doesn't cover the clients who pay Green Build a premium because it can prove where its materials come from. Vietnam can't provide that proof; its plant won't allow third-party audits. Let's see what that puts at stake, and what each choice does to carbon.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s4">
+        <legend>Predict first</legend>
+        <p>If Green Build switches to the unverified Vietnam supplier and loses its low-carbon premium, how does the revenue at risk compare with Vietnam's TCO gap of about $21,600 a year?</p>
+        <label><input type="radio" name="p-s4" value="a"> Smaller than the TCO gap</label>
+        <label><input type="radio" name="p-s4" value="b"> About the same size</label>
+        <label><input type="radio" name="p-s4" value="c"> Several times larger</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s4">
+        <h3>Explore: the full picture</h3>
+        <p class="fine">Revenue at risk = share of revenue tied to the premium × total revenue × premium. Annual CO₂ = kg per window × 4,000 windows.</p>
+        <div class="controls-3">
+          <div class="control">
+            <label for="share">Revenue from low-carbon projects: <output id="shareOut">35%</output></label>
+            <input type="range" id="share" min="10" max="60" step="1" value="35">
+          </div>
+          <div class="control">
+            <label for="prem">Premium tied to verified sourcing: <output id="premOut">6%</output></label>
+            <input type="range" id="prem" min="0" max="12" step="0.5" value="6">
+          </div>
+          <div class="control">
+            <span class="fine">Each supplier's shipping and manufacturing footprint: Vietnam 95 kg, Mexico 40 kg, Georgia 22 kg CO₂ per window.</span>
+          </div>
+        </div>
+        <div class="table-scroll"><table class="tco-table" id="fullTable" aria-live="polite"></table></div>
+        <p id="fullMsg" class="status-line" aria-live="polite"></p>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s4" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s4" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>At 35% of $9.6 million with a 6% premium, $201,600 a year rides on being able to verify sourcing. That's about nine times Vietnam's TCO gap. Like the TCO itself, it's an estimate, and it only becomes a loss if clients act on it. But it belongs in the decision, and it would never appear in a cost-only comparison.</p>
+            <p>Now the hard part. Georgia emits 72,000 kg less CO₂ a year than Monterrey, but costs about $51,700 more, roughly $0.72 per kilogram avoided. Is that worth it? Operations can't answer that alone; it's a strategy call. This is Section 4's point: the earlier tools you learned (TCO, safety stock, defect cost) are how you put numbers on the trade-off so leaders can make it explicitly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 5 ===================== -->
+    <section class="stop" id="s5" data-label="5" aria-labelledby="h-s5" hidden>
+      <p class="stop-tag">Stop 5 of 5 · W13.A Section 5 · about 8 minutes</p>
+      <h2 id="h-s5">Make it a project</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Green Build chooses Monterrey. "Switch suppliers" sounds like one decision, but it's really a project. Let's build its Work Breakdown Structure, and follow the 100% Rule: everything in scope goes in, nothing out of scope sneaks in.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s5">
+        <legend>Predict first</legend>
+        <p>Where does "give the current Vietnam supplier six months' written notice" belong?</p>
+        <label><input type="radio" name="p-s5" value="a"> Out of scope; the old supplier isn't part of the new project</label>
+        <label><input type="radio" name="p-s5" value="b"> In scope, as a work package in the plan</label>
+        <label><input type="radio" name="p-s5" value="c"> It doesn't matter where it goes</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s5">
+        <h3>Explore: assign each work item to a Level 1 phase, or mark it out of scope</h3>
+        <p class="fine">Level 0 is the project goal: <em>Transition Green Build's window supply to a verified nearshore supplier.</em></p>
+        <div class="wbs-grid" id="wbsGrid"></div>
+        <button type="button" class="btn" id="wbsCheck">Check my WBS</button>
+        <div class="metrics" id="wbsM" aria-live="polite"></div>
+        <div class="wbs-tree" id="wbsTree" hidden></div>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s5" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s5" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Notice to the outgoing supplier is in scope. It belongs under Contract and legal. A responsible exit is part of the work; if it isn't a work package with an owner, it tends not to happen. The same goes for mapping the Tier 2 sources: that's Stop 2's ethics turned into something someone actually has to do by a date.</p>
+            <p>The hospital bid and the logo redesign might be worthwhile, but they belong to other projects. Putting them here is scope creep, the most common reason projects run over. A WBS is a planning tool for temporary, unique work; a process map is for the ongoing work that follows once Monterrey is running.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== WRAP ===================== -->
+    <section class="stop" id="wrap" data-label="Wrap" aria-labelledby="h-wrap" hidden>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="120" height="156">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>The windows are ordered, the project has a plan, and I have inspected the new delivery dock thoroughly. Thanks for walking the site with me.</p></div>
+      </div>
+      <h2 id="h-wrap">Five ideas to carry forward</h2>
+      <ol class="carry">
+        <li><strong>Performance has three bottom lines.</strong> Some sustainability moves pay for themselves; others are real trade-offs that someone must choose deliberately.</li>
+        <li><strong>Most supply chain risk sits where you have no contract.</strong> Tier 1 is the easy part to see; choosing not to look is a process design choice.</li>
+        <li><strong>The cheapest invoice is often not the cheapest supplier.</strong> Defects, safety stock, freight, and disruptions belong in the TCO.</li>
+        <li><strong>Some stakes sit outside TCO.</strong> Revenue at risk and carbon need their own numbers, so leaders can make the trade-off explicitly.</li>
+        <li><strong>A sourcing change is a project.</strong> A WBS that follows the 100% Rule turns commitments, including a responsible exit, into owned work.</li>
+      </ol>
+      <div class="next">
+        <h3>Where to next</h3>
+        <ul>
+          <li>Check your understanding with the <strong>W13.C Concept Check</strong> in Canvas.</li>
+          <li>Apply it on your own in the <strong>W13.D Cowford Application Quiz</strong> in Canvas. It uses Cowford Coffee and different numbers, so nothing here carries over directly.</li>
+          <li>Practice with your class in the <a href="../w13-sourcing/">Week 13 classroom lab</a>.</li>
+        </ul>
+      </div>
+      <button type="button" class="btn" id="restart">Walk it again from the start</button>
+    </section>
+
+    <div class="pager">
+      <button type="button" class="btn ghost" id="prevBtn">&larr; Previous</button>
+      <span id="pagerLabel" class="pager-label"></span>
+      <button type="button" class="btn" id="nextBtn">Next &rarr;</button>
+    </div>
+  </main>
+
+  <footer class="ex-footer">
+    <p>MAN3504 Operations Management · Cowford Holdings is a fictional company used for teaching. Illustrative data only; ungraded; nothing is stored or submitted. Canvas is authoritative for assignments, grades, and deadlines.</p>
+  </footer>
+</body>
+</html>
