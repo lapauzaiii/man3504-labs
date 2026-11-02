@@ -1,4 +1,4 @@
-/* Week 13 Sourcing Explorer — page behavior. No storage: all state lives in
+/* Week 13 Sourcing Explorer: page behavior. No storage: all state lives in
    memory and is discarded on refresh. Navigation and the predict → explore →
    take pattern follow the Week 10 and Week 11 explorers. */
 (function () {

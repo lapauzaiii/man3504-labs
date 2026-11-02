@@ -1,4 +1,4 @@
-/* Week 13 Sourcing Explorer — pure calculation model (no DOM, no storage).
+/* Week 13 Sourcing Explorer: pure calculation model (no DOM, no storage).
    Loaded by the page and by tests/w13-explorer.test.cjs. Illustrative
    Cowford Green Build data only; independent of the W13.D graded case
    (Cowford Coffee), the W13.C concept check, and the Week 13 Brewery

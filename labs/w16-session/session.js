@@ -1,4 +1,4 @@
-/* Week 16 Final Review Session — page behavior: reveals, expand/collapse, present mode.
+/* Week 16 Final Review Session: page behavior: reveals, expand/collapse, present mode.
    Present mode follows the Week 12 session. Nothing is stored. */
 (function () {
   'use strict';

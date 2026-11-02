@@ -1,4 +1,4 @@
-/* Final Review Explorer — page behavior. Builds the six stops from
+/* Final Review Explorer: page behavior. Builds the six stops from
    window.ReviewModel, then wires navigation and checking. No storage. */
 (function () {
   'use strict';

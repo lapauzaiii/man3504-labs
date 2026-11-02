@@ -1,4 +1,4 @@
-/* Final Review Explorer — data and checking model (no DOM, no storage).
+/* Final Review Explorer: data and checking model (no DOM, no storage).
    One connected, illustrative Cowford Brewery scenario (a new canning line)
    that touches every quantitative topic on the final. Numbers are original
    and independent of the final exam and every graded quiz.

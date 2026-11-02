@@ -1,4 +1,4 @@
-/* Week 14 Improvement Explorer — page behavior. No storage: all state lives in
+/* Week 14 Improvement Explorer: page behavior. No storage: all state lives in
    memory and is discarded on refresh. Navigation and the predict → explore →
    take pattern follow the earlier explorers. */
 (function () {
@@ -146,7 +146,7 @@
     $('#bscM').innerHTML =
       metric('Learning & Growth first falls', q(s.first.lg)) + metric('Internal Process first falls', q(s.first.p)) +
       metric('Customer first falls', q(s.first.c)) + metric('Revenue first falls', q(s.first.f), s.first.f != null ? 'warn' : '') +
-      metric('Months from cut to revenue drop', months == null ? '—' : String(months));
+      metric('Months from cut to revenue drop', months == null ? 'n/a' : String(months));
   }
 
   /* ================= Stop 2: benchmarking ================= */
@@ -229,7 +229,7 @@
     const f2 = v => fmt(v, 2);
     $('#cpmTable').innerHTML = '<caption class="fine" style="text-align:left">Times in weeks. Critical activities (zero slack) are highlighted.</caption>' +
       '<thead><tr><th scope="col">Act.</th><th scope="col">Description</th><th scope="col">Pred.</th><th scope="col">a / m / b</th><th scope="col">te</th><th scope="col">σ²</th><th scope="col">ES</th><th scope="col">EF</th><th scope="col">LS</th><th scope="col">LF</th><th scope="col">Slack</th></tr></thead><tbody>' +
-      p.acts.map(a => `<tr class="${Math.abs(a.slack) < 1e-9 ? 'crit' : ''}"><td>${a.id}</td><td>${a.name}</td><td>${a.pre.join(', ') || '—'}</td><td>${a.a} / ${a.m} / ${a.b}</td><td>${f2(a.te)}</td><td>${fmt(a.v, 3)}</td><td>${f2(a.es)}</td><td>${f2(a.ef)}</td><td>${f2(a.ls)}</td><td>${f2(a.lf)}</td><td>${f2(a.slack)}</td></tr>`).join('') + '</tbody>';
+      p.acts.map(a => `<tr class="${Math.abs(a.slack) < 1e-9 ? 'crit' : ''}"><td>${a.id}</td><td>${a.name}</td><td>${a.pre.join(', ') || 'n/a'}</td><td>${a.a} / ${a.m} / ${a.b}</td><td>${f2(a.te)}</td><td>${fmt(a.v, 3)}</td><td>${f2(a.es)}</td><td>${f2(a.ef)}</td><td>${f2(a.ls)}</td><td>${f2(a.lf)}</td><td>${f2(a.slack)}</td></tr>`).join('') + '</tbody>';
     $('#pertFormula').textContent = `z = (${fmt(T, T % 1 ? 1 : 0)} − ${f2(p.duration)}) ÷ √${fmt(p.variance, 3)} = ${f2(o.z)}`;
     $('#pertM').innerHTML = metric('Critical path', p.critical.split('').join(' → ')) + metric('Expected length', f2(p.duration) + ' weeks') +
       metric('Std. deviation', f2(p.sd) + ' weeks') + metric('Chance of finishing by target', fmt(o.prob * 100, 1) + '%', o.prob >= 0.9 ? 'good' : (o.prob < 0.6 ? 'warn' : ''));

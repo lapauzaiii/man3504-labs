@@ -1,4 +1,4 @@
-/* Week 14 Improvement Explorer — pure calculation model (no DOM, no storage).
+/* Week 14 Improvement Explorer: pure calculation model (no DOM, no storage).
    Loaded by the page and by tests/w14-explorer.test.cjs. Illustrative
    Cowford Medical Supply data only; independent of the W14.D graded case
    (Cowford Fitness), the W14.C concept check, and the Week 14 Tech Services
