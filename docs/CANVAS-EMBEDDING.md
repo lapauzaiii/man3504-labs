@@ -22,6 +22,7 @@ GitHub Pages resources do not send scores or responses to Canvas. Classroom labs
 | 13 | Ethics, Sustainability and Global Operations | https://lapauzaiii.github.io/man3504-labs/labs/w13-sourcing/ |
 | 13 | Sourcing Explorer (self-paced) | https://lapauzaiii.github.io/man3504-labs/labs/w13-explorer/ |
 | 14 | Performance Measurement and Continuous Improvement | https://lapauzaiii.github.io/man3504-labs/labs/w14-performance/ |
+| 14 | Improvement Explorer (self-paced) | https://lapauzaiii.github.io/man3504-labs/labs/w14-explorer/ |
 
 Weeks 1–3 remain placeholders. Weeks 0, 15, 16 and Finals Week have no standalone lab here.
 
@@ -48,7 +49,7 @@ No student identifiers are needed. An ordinary iframe does not interpolate Canva
 
 ## Explorer Stop Links
 
-The self-paced explorers open at a specific stop when the URL ends in a stop anchor, which is how the readings' "Try it with Lola" links work. Week 11 anchors: `#s1` (W11.A Section 1) through `#s5` (Section 5), plus `#start` and `#wrap`. Example: `https://lapauzaiii.github.io/man3504-labs/labs/w11-explorer/#s3`. Week 13 uses the same anchors (`labs/w13-explorer/#s1` through `#s5`).
+The self-paced explorers open at a specific stop when the URL ends in a stop anchor, which is how the readings' "Try it with Lola" links work. Week 11 anchors: `#s1` (W11.A Section 1) through `#s5` (Section 5), plus `#start` and `#wrap`. Example: `https://lapauzaiii.github.io/man3504-labs/labs/w11-explorer/#s3`. Weeks 13 and 14 use the same anchors (`labs/w13-explorer/#s1`, `labs/w14-explorer/#s1`, and so on through `#s5`).
 
 For Canvas pages that show Lola June, use the PNG avatar (`labs/w10-explorer/lola-june.png` or `labs/w11-explorer/lola-june.png`); the SVG does not render in Canvas.
 

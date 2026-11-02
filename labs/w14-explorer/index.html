@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Week 14 Improvement Explorer | MAN3504</title>
+  <meta name="description" content="A self-paced, interactive walk through performance measurement and continuous improvement at Cowford Medical Supply, guided by Lola June. Pairs with the W14.A reading.">
+  <link rel="stylesheet" href="../../styles/shared.css">
+  <link rel="stylesheet" href="explorer.css">
+  <style>
+    :root { --lg: #8a6fb0; --pr: #067c86; --cu: #3b82c4; --fi: #E97132; }
+    @media (prefers-color-scheme: dark) { :root { --lg: #b8a2db; --pr: #4fc3cc; --cu: #4f8fca; --fi: #f7b48d; } }
+    .sw-lg { background: var(--lg); } .sw-pr { background: var(--pr); } .sw-cu { background: var(--cu); } .sw-fi { background: var(--fi); }
+    .controls-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .control label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .control input[type=range] { width: 100%; accent-color: var(--unf-orange); }
+    .cpm-table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; margin: 10px 0; }
+    .cpm-table th, .cpm-table td { padding: 6px 8px; border-bottom: 1px solid var(--border-color); text-align: right; }
+    .cpm-table th:nth-child(-n+3), .cpm-table td:nth-child(-n+3) { text-align: left; }
+    .cpm-table tr.crit td { font-weight: 700; color: var(--unf-orange); }
+    .table-scroll { overflow-x: auto; }
+    @media (max-width: 720px) { .controls-2 { grid-template-columns: 1fr; } }
+  </style>
+  <script src="model.js" defer></script>
+  <script src="explorer.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#explorer">Skip to the explorer</a>
+  <header class="ex-header">
+    <a class="ex-home" href="../../">All Labs</a>
+    <p class="ex-kicker">Week 14 · Performance Measurement, Process Control, and Continuous Improvement</p>
+    <h1>Improvement Explorer: Getting Better at Cowford Medical Supply</h1>
+    <p class="ex-sub">Self-paced, about 35–45 minutes. Pairs with the W14.A reading. Ungraded, and nothing you do here is saved or submitted.</p>
+  </header>
+
+  <nav class="ex-progress" aria-label="Explorer stops">
+    <ol id="stopNav"></ol>
+    <div class="ex-bar" aria-hidden="true"><div id="progressFill"></div></div>
+  </nav>
+
+  <main id="explorer" class="ex-main" tabindex="-1">
+    <noscript><p class="notice">This explorer needs JavaScript. Work through the W14.A reading instead, and ask your instructor for an alternative.</p></noscript>
+
+    <!-- ===================== START ===================== -->
+    <section class="stop" id="start" data-label="Start" aria-labelledby="h-start">
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="120" height="156">
+        <div class="bubble">
+          <p class="bubble-name">Lola June</p>
+          <p>Hi, I'm Lola June. Last stop of the semester! I'm spending it at Cowford Medical Supply, where hospitals count on the right catheter showing up tomorrow morning. The question this week is how an operation knows it's getting better, and how it keeps getting better instead of slipping back.</p>
+        </div>
+      </div>
+      <h2 id="h-start">How this walk works</h2>
+      <div class="two-col">
+        <div>
+          <p>There are five stops, matched to the sections of the W14.A reading, so keep it open in another tab.</p>
+          <ol class="how">
+            <li><strong>Predict.</strong> Commit to a quick guess before you touch anything. There's no score; the point is to notice when your intuition is wrong.</li>
+            <li><strong>Explore.</strong> Move the sliders, drop the marbles, and watch the results.</li>
+            <li><strong>Lola's take.</strong> When you're ready, open my explanation and compare it with what you saw.</li>
+          </ol>
+          <p class="fine">This is not the classroom lab, and it isn't the W14.C or W14.D quiz. The data here is illustrative Cowford Medical Supply data and does not carry over to any of them. Nothing on this page is stored. If you refresh or leave, it starts fresh.</p>
+        </div>
+        <aside class="profile" aria-label="Cowford Medical Supply at a glance">
+          <h3>Cowford Medical Supply at a glance</h3>
+          <ul>
+            <li>Distributes catheters, wound care, and surgical consumables to hospitals and clinics across Northeast Florida</li>
+            <li>Three distribution centers; Westside is the largest</li>
+            <li>Westside's order-to-ship time is 2.4 days</li>
+            <li>A mis-pick at a hospital can delay a procedure, so accuracy is everything</li>
+          </ul>
+        </aside>
+      </div>
+      <div class="stop-map" aria-label="The five stops">
+        <div><span>1</span>The scorecard's slow fuse <em>W14.A §1</em></div>
+        <div><span>2</span>Who to compare against <em>§2</em></div>
+        <div><span>3</span>Plan, Do, Check, Act <em>§3</em></div>
+        <div><span>4</span>The funnel <em>§4</em></div>
+        <div><span>5</span>Scheduling the rollout <em>§5</em></div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 1 ===================== -->
+    <section class="stop" id="s1" data-label="1" aria-labelledby="h-s1" hidden>
+      <p class="stop-tag">Stop 1 of 5 · W14.A Section 1 · about 7 minutes</p>
+      <h2 id="h-s1">The scorecard's slow fuse</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Westside's manager wants to cut the picker certification budget to make this year's numbers look better. The Balanced Scorecard says that cut travels up a chain: capability, then process, then customers, then money. Let's light the fuse and time it.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s1">
+        <legend>Predict first</legend>
+        <p>Westside cuts training at the start of Quarter 1. When does revenue first fall?</p>
+        <label><input type="radio" name="p-s1" value="a"> In Quarter 1, right away</label>
+        <label><input type="radio" name="p-s1" value="b"> About two quarters later</label>
+        <label><input type="radio" name="p-s1" value="c"> More than a year later</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s1">
+        <h3>Explore: cut capability and watch the four perspectives</h3>
+        <p class="fine">Each line is an index where 100 is healthy. Illustrative model: each perspective passes 80% of the shortfall below it upward, after a delay.</p>
+        <div class="controls-2">
+          <div class="control">
+            <label for="cut">Training cut starting in Q1: <output id="cutOut">30%</output></label>
+            <input type="range" id="cut" min="0" max="50" step="5" value="30">
+          </div>
+          <div class="control">
+            <label class="check-inline"><input type="checkbox" id="restore"> Restore training at the start of Q3</label>
+          </div>
+        </div>
+        <div class="chart-scroll"><svg id="bscChart" class="chart wide" viewBox="0 0 640 250" role="img" aria-label="Four scorecard perspectives over nine quarters"></svg></div>
+        <p class="legend"><span class="sw sw-lg"></span>Learning &amp; Growth <span class="sw sw-pr"></span>Internal Process <span class="sw sw-cu"></span>Customer <span class="sw sw-fi"></span>Financial</p>
+        <div class="metrics" id="bscM" aria-live="polite"></div>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s1" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s1" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Learning &amp; Growth drops in Q1, order accuracy in Q2, customer retention in Q4, and revenue not until Q6, about 15 months after the cut. For five quarters the financials look fine, which is exactly why a manager judged only on revenue would call the cut a success. That's Section 1: financial metrics lag, and the scorecard's job is to show the problem while it's still in transit.</p>
+            <p>Now check the restore box. Training comes back in Q3, but revenue still dips in Q6 and Q7 before recovering. Lags work in both directions: the damage arrives late, and so does the repair.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 2 ===================== -->
+    <section class="stop" id="s2" data-label="2" aria-labelledby="h-s2" hidden>
+      <p class="stop-tag">Stop 2 of 5 · W14.A Section 2 · about 7 minutes</p>
+      <h2 id="h-s2">Who to compare against</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Westside ships an order in 2.4 days. Is that good? You can't tell without a benchmark, and the answer changes depending on whom you compare against.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s2">
+        <legend>Predict first</legend>
+        <p>Which benchmark will show Westside the <em>biggest</em> gap?</p>
+        <label><input type="radio" name="p-s2" value="a"> Another Cowford distribution center (internal)</label>
+        <label><input type="radio" name="p-s2" value="b"> The leading regional medical distributor (competitive)</label>
+        <label><input type="radio" name="p-s2" value="c"> An e-commerce fulfillment leader (functional)</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s2">
+        <h3>Explore: pick a benchmark</h3>
+        <div class="seg" role="group" aria-label="Benchmark" id="benchSeg"></div>
+        <div class="metrics" id="benchM" aria-live="polite"></div>
+        <p id="benchMsg" class="status-line" aria-live="polite"></p>
+        <h3>Explore: name the benchmarking type</h3>
+        <div id="benchCards" class="cards"></div>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s2" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s2" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>The same 2.4 days is 0.8 days behind Orange Park, 1.2 behind the competitor, and 2.0 behind the e-commerce leader. Internal benchmarks are the easiest to close because the practices transfer directly. Functional benchmarks show the biggest gap and the freshest ideas, but a hospital order isn't a sweater, so not everything will carry over.</p>
+            <p>The fourth card is the one to remember. Long-time hospital customers say they would miss the on-call clinical specialist most. A cost-cutting benchmark might flag that role as overhead. Reverse benchmarking says protect it: it's why those customers stay.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 3 ===================== -->
+    <section class="stop" id="s3" data-label="3" aria-labelledby="h-s3" hidden>
+      <p class="stop-tag">Stop 3 of 5 · W14.A Section 3 · about 6 minutes</p>
+      <h2 id="h-s3">Plan, Do, Check, Act</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Westside wants to cut mis-picks with scan-to-confirm. The team could just install it everywhere on Monday. PDCA says try it small, check it with data, then decide. Let's sort the team's steps.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s3">
+        <legend>Predict first</legend>
+        <p>The pilot shows <em>no</em> improvement. Is that a failed PDCA cycle?</p>
+        <label><input type="radio" name="p-s3" value="a"> Yes; the cycle failed and the effort was wasted</label>
+        <label><input type="radio" name="p-s3" value="b"> No; it's a completed cycle that produced learning</label>
+        <label><input type="radio" name="p-s3" value="c"> It depends on whether management liked the idea</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s3">
+        <h3>Explore: which phase is each step?</h3>
+        <div id="pdcaCards" class="cards"></div>
+        <p id="pdcaMsg" class="status-line" aria-live="polite"></p>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s3" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s3" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Two steps are Plan, and the sneaky one is setting the success target in advance. Decide what "worked" means after you see the data, and you'll always find a way to call it a win. The pilot on one aisle is Do, the control-chart comparison is Check, and both outcomes of Act appear: standardize when it works, return to Plan when it doesn't.</p>
+            <p>So a flat pilot isn't a failed cycle. It ruled out a hypothesis cheaply, on one aisle, before the company paid for scanners everywhere. That's the point of piloting before scaling.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 4 ===================== -->
+    <section class="stop" id="s4" data-label="4" aria-labelledby="h-s4" hidden>
+      <p class="stop-tag">Stop 4 of 5 · W14.A Section 4 · about 8 minutes</p>
+      <h2 id="h-s4">The funnel: when helping hurts</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>Deming's funnel experiment: drop a marble through a funnel at a target and record where it lands. It never lands exactly on target; that's common cause noise. The question is what to do about each miss. Westside's shift leads have opinions.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s4">
+        <legend>Predict first</legend>
+        <p>After each drop, a shift lead moves the funnel to correct for the last miss (Rule 2). Compared with never moving it, the drops will be:</p>
+        <label><input type="radio" name="p-s4" value="a"> Closer to the target</label>
+        <label><input type="radio" name="p-s4" value="b"> About the same</label>
+        <label><input type="radio" name="p-s4" value="c"> More spread out</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s4">
+        <h3>Explore: drop 50 marbles under each rule</h3>
+        <div class="seg seg-col" role="group" aria-label="Adjustment rule" id="ruleSeg"></div>
+        <button type="button" class="btn ghost" id="redrop">Drop a new set of 50</button>
+        <div class="chart-scroll"><svg id="funnelChart" class="chart wide" viewBox="0 0 640 240" role="img" aria-label="Distance from the target for 50 drops"></svg></div>
+        <div class="metrics" id="funnelM" aria-live="polite"></div>
+        <p id="funnelMsg" class="status-line" aria-live="polite"></p>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s4" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s4" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>Rule 1 gives the tightest pattern. Rule 2 spreads the drops by about 40% (in the long run, √2 times the natural noise), because each correction adds the last miss's randomness back in. Rules 3 and 4 have no anchor at all, and the drops wander farther and farther from the target. Every extra adjustment made a stable process worse.</p>
+            <p>That's overcontrol, and it's what Section 4 means by the control chart being the Check infrastructure: only act on signals the chart flags as special cause. If the process is stable but still not good enough, the fix is redesign (a better funnel, or scan-to-confirm), not reacting to each reading.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STOP 5 ===================== -->
+    <section class="stop" id="s5" data-label="5" aria-labelledby="h-s5" hidden>
+      <p class="stop-tag">Stop 5 of 5 · W14.A Section 5 · about 9 minutes</p>
+      <h2 id="h-s5">Scheduling the rollout</h2>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="96" height="125">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>The pilot worked, so scan-to-confirm goes to all three DCs. Now it's a project. The VP wants it done in 16 weeks. Some activities are uncertain, so let's use PERT and see how likely that is.</p></div>
+      </div>
+
+      <fieldset class="predict" data-stop="s5">
+        <legend>Predict first</legend>
+        <p>The expected project length is exactly 15 weeks. What's the chance of finishing within 16?</p>
+        <label><input type="radio" name="p-s5" value="a"> About 50%</label>
+        <label><input type="radio" name="p-s5" value="b"> About 75–80%</label>
+        <label><input type="radio" name="p-s5" value="c"> Nearly 100%; there's a week of cushion</label>
+        <button type="button" class="btn lock" disabled>Lock in my prediction</button>
+        <p class="locked-msg" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="explore" data-stop="s5">
+        <h3>Explore: the network, the critical path, and the odds</h3>
+        <p class="fine">te = (a + 4m + b) ÷ 6. Variance = ((b − a) ÷ 6)². Project variance = sum of critical-path variances. z = (target − expected length) ÷ √variance.</p>
+        <div class="controls-2">
+          <div class="control">
+            <label for="target">Target completion: <output id="targetOut">16</output> weeks</label>
+            <input type="range" id="target" min="12" max="19" step="0.5" value="16">
+          </div>
+          <div class="control">
+            <label class="check-inline"><input type="checkbox" id="fastC"> The vendor sends an integration engineer for activity C (a = 2, m = 3, b = 5)</label>
+          </div>
+        </div>
+        <div class="table-scroll"><table class="cpm-table" id="cpmTable" aria-live="polite"></table></div>
+        <p class="formula" id="pertFormula" aria-live="polite"></p>
+        <div class="metrics" id="pertM" aria-live="polite"></div>
+      </div>
+
+      <div class="take-wrap">
+        <button type="button" class="btn take-btn" data-take="s5" disabled>Hear Lola's take</button>
+        <div class="take" id="take-s5" hidden>
+          <img src="lola.svg" alt="" width="56" height="73">
+          <div>
+            <p class="bubble-name">Lola's take</p>
+            <p>The critical path is A → C → D → F → G, with an expected length of 15.0 weeks. Its variance is 1.72, so the standard deviation is 1.31 weeks. For 16 weeks, z = 1 ÷ 1.31 = 0.76, which gives about a 78% chance. A week of cushion isn't a guarantee; set the target at 15 and the odds are a coin flip. B and E have slack (3.5 and 5 weeks), so a delay there costs nothing up to that point.</p>
+            <p>Now send the integration engineer. C's expected time drops from 4.5 to 3.17 weeks and its variance from 0.69 to 0.25, so the project shrinks to about 13.7 weeks and the 16-week odds rise above 98%. Help on the critical path pays off; the same help on B or E wouldn't change the end date at all.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== WRAP ===================== -->
+    <section class="stop" id="wrap" data-label="Wrap" aria-labelledby="h-wrap" hidden>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="120" height="156">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>That's the last walk of the semester. I've inspected fourteen weeks of Cowford Holdings and found it mostly delicious. Thanks for walking with me, and good luck on the final.</p></div>
+      </div>
+      <h2 id="h-wrap">Five ideas to carry forward</h2>
+      <ol class="carry">
+        <li><strong>Financial results lag.</strong> The scorecard runs from capability to process to customer to money; watch the leading perspectives to catch problems while they're fixable.</li>
+        <li><strong>A benchmark gives a number its meaning.</strong> Internal, competitive, and functional benchmarks set different targets; reverse benchmarking tells you what not to cut.</li>
+        <li><strong>PDCA learns before it commits.</strong> Set the success criterion in Plan, pilot in Do, judge with data in Check, then standardize or go back to Plan.</li>
+        <li><strong>Don't touch a stable process.</strong> Adjusting for every miss adds variation; act only on special-cause signals, and redesign when a stable process isn't good enough.</li>
+        <li><strong>Protect the critical path.</strong> CPM finds it, PERT tells you how likely the deadline is, and help is worth sending only where slack is zero.</li>
+      </ol>
+      <div class="next">
+        <h3>Where to next</h3>
+        <ul>
+          <li>Check your understanding with the <strong>W14.C Concept Check</strong> in Canvas.</li>
+          <li>Apply it on your own in the <strong>W14.D Cowford Application Quiz</strong> in Canvas. It uses Cowford Fitness and different numbers, so nothing here carries over directly.</li>
+          <li>Practice with your class in the <a href="../w14-performance/">Week 14 classroom lab</a>.</li>
+        </ul>
+      </div>
+      <button type="button" class="btn" id="restart">Walk it again from the start</button>
+    </section>
+
+    <div class="pager">
+      <button type="button" class="btn ghost" id="prevBtn">&larr; Previous</button>
+      <span id="pagerLabel" class="pager-label"></span>
+      <button type="button" class="btn" id="nextBtn">Next &rarr;</button>
+    </div>
+  </main>
+
+  <footer class="ex-footer">
+    <p>MAN3504 Operations Management · Cowford Holdings is a fictional company used for teaching. Illustrative data only; ungraded; nothing is stored or submitted. Canvas is authoritative for assignments, grades, and deadlines.</p>
+  </footer>
+</body>
+</html>
