@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Final Review Explorer | MAN3504</title>
+  <meta name="description" content="A cumulative, self-paced final exam review with Lola June: one Cowford Brewery canning line, every quantitative topic from the semester, with instant checking.">
+  <link rel="stylesheet" href="../../../styles/shared.css">
+  <link rel="stylesheet" href="explorer.css">
+  <style>
+    .setup { background: var(--card); border-left: 4px solid var(--unf-navy); border-radius: 6px; padding: 12px 16px; margin: 12px 0 18px; }
+    @media (prefers-color-scheme: dark) { .setup { border-left-color: var(--unf-orange); } }
+    .prob { border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; margin: 10px 0; }
+    .prob.right { border-color: var(--green); } .prob.wrong { border-color: var(--red); }
+    .prob label { display: block; font-weight: 600; margin-bottom: 6px; }
+    .prob-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .prob input { font: inherit; padding: 8px 10px; min-height: 44px; width: 160px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--ink); }
+    .fb { margin: 8px 0 0; font-size: 14px; }
+    .fb.right { color: var(--green); } .fb.wrong { color: var(--red); }
+    .sol { margin-top: 8px; background: var(--card); padding: 8px 10px; border-radius: 6px; font-size: 14px; }
+    .think { border: 2px dashed var(--border-color); border-radius: 8px; padding: 12px 16px; margin-top: 18px; }
+    .think label { display: flex; gap: 10px; align-items: flex-start; padding: 5px 0; cursor: pointer; }
+    .think input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--unf-orange); }
+    .score { font-weight: 700; }
+    .chain { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 12px 0; font-size: 14px; }
+    .chain span { background: var(--card); border: 1px solid var(--border-color); border-radius: 16px; padding: 4px 10px; }
+  </style>
+  <script src="model.js" defer></script>
+  <script src="review.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#explorer">Skip to the review</a>
+  <header class="ex-header">
+    <a class="ex-home" href="../">Final Exam Study Guide</a>
+    <p class="ex-kicker">Final Exam Review · Weeks 1–14</p>
+    <h1>Final Review Explorer: One Canning Line, the Whole Semester</h1>
+    <p class="ex-sub">Self-paced, about 60–75 minutes. Ungraded practice with instant checking. Nothing you type is saved or submitted.</p>
+  </header>
+
+  <nav class="ex-progress" aria-label="Review stops">
+    <ol id="stopNav"></ol>
+    <div class="ex-bar" aria-hidden="true"><div id="progressFill"></div></div>
+  </nav>
+
+  <main id="explorer" class="ex-main" tabindex="-1">
+    <noscript><p class="notice">This review needs JavaScript. Use the Final Exam Study Guide instead.</p></noscript>
+
+    <section class="stop" id="start" data-label="Start" aria-labelledby="h-start">
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="120" height="156">
+        <div class="bubble">
+          <p class="bubble-name">Lola June</p>
+          <p>Hi, it's Lola June, back for one more walk. Cowford Brewery is launching a canning line, and getting it right takes almost everything from this semester: a forecast, a bottleneck, inventory, lean flow, quality control, sourcing and a project schedule. Let's build it together, one decision at a time.</p>
+        </div>
+      </div>
+      <h2 id="h-start">How this review works</h2>
+      <div class="two-col">
+        <div>
+          <ol class="how">
+            <li><strong>Read the setup</strong> for each stop. Every number you need is there.</li>
+            <li><strong>Work it out</strong> on paper or a calculator, type your answer, and press Check. If you're stuck, open the hint before the full solution.</li>
+            <li><strong>Think it through.</strong> Each stop ends with one judgment question, the kind where correct math can still lead to a wrong decision.</li>
+          </ol>
+          <p class="fine">These numbers are original practice data. They are not taken from the final exam or any graded quiz, so don't memorize answers; practice the method. The final has 60 multiple-choice, multiple-answer and true/false questions, and roughly 40% involve a calculation like these.</p>
+        </div>
+        <aside class="profile" aria-label="The chain">
+          <h3>The chain you'll follow</h3>
+          <div class="chain"><span>Forecast</span>→<span>Capacity</span>→<span>Inventory</span>→<span>Lean flow</span>→<span>Quality and SPC</span>→<span>Sourcing and improvement</span></div>
+          <p class="fine">Each decision feeds the next, the same way the course did.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Stops 1–6 are generated from model.js -->
+
+    <section class="stop" id="wrap" data-label="Wrap" aria-labelledby="h-wrap" hidden>
+      <div class="lola">
+        <img src="lola.svg" alt="" class="lola-img" width="120" height="156">
+        <div class="bubble"><p class="bubble-name">Lola June</p>
+          <p>The line is running, the lids are stocked, and the cans are full. You've just worked through most of the semester in one sitting. Go get some rest before the exam. I'll be napping.</p></div>
+      </div>
+      <h2 id="h-wrap">Your results</h2>
+      <p id="wrapScore" class="score" aria-live="polite"></p>
+      <ul id="wrapMissed"></ul>
+      <div class="next">
+        <h3>Before the exam</h3>
+        <ul>
+          <li>For anything you missed, reread the matching section of that week's W#.A reading in Canvas, then redo the problem here.</li>
+          <li>Review the <a href="../">Final Exam Study Guide</a> for the topics this review doesn't calculate (definitions, frameworks and judgment questions).</li>
+          <li>Revisit any weekly explorer: <a href="../../w10-explorer/">Week 10</a>, <a href="../../w11-explorer/">Week 11</a>, <a href="../../w13-explorer/">Week 13</a>, <a href="../../w14-explorer/">Week 14</a>.</li>
+        </ul>
+      </div>
+      <button type="button" class="btn" id="restart">Start over</button>
+    </section>
+
+    <div class="pager">
+      <button type="button" class="btn ghost" id="prevBtn">&larr; Previous</button>
+      <span id="pagerLabel" class="pager-label"></span>
+      <button type="button" class="btn" id="nextBtn">Next &rarr;</button>
+    </div>
+  </main>
+
+  <footer class="ex-footer">
+    <p>MAN3504 Operations Management · Cowford Holdings is a fictional company used for teaching. Illustrative data only; ungraded; nothing is stored or submitted. Canvas is authoritative for the exam date, time and rules.</p>
+  </footer>
+</body>
+</html>

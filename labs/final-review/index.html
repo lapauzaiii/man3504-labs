@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Final Exam Study Guide | MAN3504</title>
+  <meta name="description" content="MAN3504 Fall 2026 final exam study guide: format, coverage by week, competencies, formulas, and links to practice.">
+  <link rel="stylesheet" href="../../styles/shared.css">
+  <style>
+    body { font-size: 15px; }
+    .sg-header { background: var(--unf-navy); color: #fff; padding: 28px 24px 24px; }
+    .sg-header > * { max-width: 980px; margin-left: auto; margin-right: auto; }
+    .sg-header h1 { color: #fff; font-size: 30px; margin: 4px auto 8px; }
+    .sg-header p { color: #d6dde5; margin-bottom: 0; }
+    .sg-header a { color: #f7b48d; font-size: 13px; }
+    .sg-main { max-width: 980px; margin: 0 auto; padding: 24px; }
+    .cards3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
+    .card3 { border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; background: var(--bg-secondary); }
+    .card3 strong { display: block; font-size: 22px; color: var(--unf-orange); }
+    table.bp { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+    table.bp th, table.bp td { border-bottom: 1px solid var(--border-color); padding: 7px 8px; text-align: left; }
+    table.bp td.n { text-align: right; }
+    table.bp tr.sub td { font-weight: 700; background: var(--bg-secondary); }
+    details.wk { border: 1px solid var(--border-color); border-radius: 8px; margin: 10px 0; padding: 0 16px; }
+    details.wk > summary { cursor: pointer; padding: 12px 0; font-weight: 700; font-size: 16px; color: var(--text-primary); }
+    details.wk > summary span { font-weight: 400; color: var(--text-secondary); font-size: 13px; margin-left: 6px; }
+    details.wk[open] > summary { border-bottom: 1px solid var(--border-color); margin-bottom: 10px; }
+    .formula { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13.5px; background: var(--bg-secondary); padding: 8px 10px; border-radius: 6px; margin: 6px 0; overflow-x: auto; }
+    .cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .cta a { display: inline-block; padding: 12px 18px; border-radius: 6px; background: var(--unf-orange); color: #fff; font-weight: 700; text-decoration: none; }
+    .cta a.alt { background: var(--unf-navy); }
+    .lola { display: flex; gap: 14px; align-items: center; border: 2px solid var(--unf-orange); border-radius: 12px; padding: 10px 16px; margin: 16px 0; }
+    .lola img { flex: none; }
+    .lola p { margin: 0; }
+    @media (max-width: 720px) { .cards3 { grid-template-columns: 1fr; } }
+    @media print { .cta, .sg-header a { display: none; } details.wk { break-inside: avoid; } details.wk:not([open]) > *:not(summary) { display: block; } }
+  </style>
+</head>
+<body>
+  <header class="sg-header">
+    <a href="../../">All Labs</a>
+    <p style="color:#f7b48d;font-weight:600;margin:6px auto 0;">MAN3504 Operations Management · Fall 2026</p>
+    <h1>Final Exam Study Guide</h1>
+    <p>What the final covers, how much each topic counts, what you should be able to do, and where to practice. This guide lists competencies, not exam questions.</p>
+  </header>
+
+  <main class="sg-main">
+    <div class="cards3">
+      <div class="card3"><strong>60 questions</strong>Multiple choice, multiple answer, and true/false. Every question is worth the same.</div>
+      <div class="card3"><strong>150 points</strong>Comprehensive, with about 80% of the points on Weeks 8–14.</div>
+      <div class="card3"><strong>Honorlock</strong>Taken in Canvas and proctored through Honorlock. Check Canvas for your section's date, time window, attempts, and allowed materials (including calculators).</div>
+    </div>
+
+    <div class="cta">
+      <a href="explorer/">Start the Final Review Explorer</a>
+      <a class="alt" href="../w16-session/">Week 16 in-class review session</a>
+    </div>
+
+    <div class="lola">
+      <img src="explorer/lola-june.png" alt="Lola June, the course guide dog" width="56" height="73">
+      <p><strong>Lola's study plan:</strong> (1) skim the coverage table so you know where the points are; (2) open each week below and check every "you should be able to" item; (3) work the Final Review Explorer, which has 19 practice calculations with instant checking; (4) for anything shaky, reread that week's W#.A reading in Canvas.</p>
+    </div>
+
+    <h2>Coverage by week</h2>
+    <p>Each question is worth 2.5 points. Use the table to plan your time.</p>
+    <table class="bp">
+      <thead><tr><th scope="col">Weeks</th><th scope="col">Topic</th><th scope="col" style="text-align:right">Questions</th><th scope="col" style="text-align:right">Points</th></tr></thead>
+      <tbody>
+        <tr><td>1–6</td><td>Foundations, process design, capacity, forecasting, operations planning (2 questions per week)</td><td class="n">12</td><td class="n">30</td></tr>
+        <tr><td>8</td><td>Supply chain management</td><td class="n">6</td><td class="n">15</td></tr>
+        <tr><td>9</td><td>Inventory management</td><td class="n">8</td><td class="n">20</td></tr>
+        <tr><td>10</td><td>Lean systems and vendor relationships</td><td class="n">7</td><td class="n">17.5</td></tr>
+        <tr><td>11</td><td>Quality and performance management</td><td class="n">7</td><td class="n">17.5</td></tr>
+        <tr><td>12</td><td>Statistical process control</td><td class="n">8</td><td class="n">20</td></tr>
+        <tr><td>13</td><td>Ethics, sustainability, and global operations</td><td class="n">6</td><td class="n">15</td></tr>
+        <tr><td>14</td><td>Performance measurement and continuous improvement</td><td class="n">6</td><td class="n">15</td></tr>
+        <tr class="sub"><td colspan="2">Total</td><td class="n">60</td><td class="n">150</td></tr>
+      </tbody>
+    </table>
+    <p class="fine">About a third of the questions test recall and understanding, about half ask you to apply a tool (many involve a short calculation), and the rest ask you to judge a situation. Expect Cowford Holdings scenarios throughout, with new numbers.</p>
+
+    <h2>What you should be able to do</h2>
+    <p>Open each week. If you can do everything listed, you are ready for that part of the exam.</p>
+
+    <details class="wk"><summary>Weeks 1–6: Foundations through operations planning <span>12 questions · 30 points</span></summary>
+      <ul>
+        <li><strong>Week 1.</strong> Name the competitive priorities (cost, quality, time, flexibility) and tell an order qualifier from an order winner.</li>
+        <li><strong>Week 2.</strong> Classify a process (job, batch, line, continuous) and find the bottleneck and maximum output of a simple line.</li>
+        <li><strong>Week 3.</strong> Distinguish design and effective capacity; compute utilization and efficiency; explain capacity cushion; apply the Theory of Constraints steps in order.</li>
+        <li><strong>Week 4.</strong> Compute moving average and exponential smoothing forecasts; compute and interpret MAD and the tracking signal.</li>
+        <li><strong>Week 5.</strong> Use a regression equation to forecast; choose an appropriate qualitative method (e.g., Delphi) when there is no history.</li>
+        <li><strong>Week 6.</strong> Compare chase and level aggregate plans; compute an MRP net requirement; explain how the aggregate plan, MPS and MRP connect.</li>
+      </ul>
+      <div class="formula">Utilization = actual ÷ design capacity &nbsp;·&nbsp; Efficiency = actual ÷ effective capacity<br>Fₜ₊₁ = Fₜ + α(Aₜ − Fₜ) &nbsp;·&nbsp; Tracking signal = CFE ÷ MAD (review beyond ±4)<br>Net requirement = gross requirement − projected on-hand − scheduled receipts</div>
+    </details>
+
+    <details class="wk"><summary>Week 8: Supply chain management <span>6 questions · 15 points</span></summary>
+      <ul>
+        <li>Match efficient and responsive supply chain designs to product demand characteristics.</li>
+        <li>Define the bullwhip effect and identify practices that amplify or dampen it.</li>
+        <li>Compute weeks of supply and inventory turnover.</li>
+        <li>Find the make-or-buy break-even quantity and explain what else matters besides cost.</li>
+      </ul>
+      <div class="formula">Weeks of supply = average aggregate inventory value ÷ weekly cost of goods sold<br>Inventory turnover = annual cost of goods sold ÷ average aggregate inventory value<br>Make-or-buy break-even Q = (F_make − F_buy) ÷ (c_buy − c_make)</div>
+    </details>
+
+    <details class="wk"><summary>Week 9: Inventory management <span>8 questions · 20 points</span></summary>
+      <ul>
+        <li>Compute EOQ and the total annual ordering and holding cost.</li>
+        <li>Compute safety stock and the reorder point.</li>
+        <li>Compare continuous (Q) and periodic (P) review systems.</li>
+        <li>Apply ABC classification by dollar usage.</li>
+        <li>Recognize when EOQ's assumptions fail (perishability, service capacity that cannot be stored).</li>
+      </ul>
+      <div class="formula">EOQ = √(2DS ÷ H) &nbsp;·&nbsp; Annual cost = (D ÷ Q)S + (Q ÷ 2)H<br>Safety stock = z × σ_d × √L &nbsp;·&nbsp; ROP = d × L + safety stock</div>
+    </details>
+
+    <details class="wk"><summary>Week 10: Lean systems and vendor relationships <span>7 questions · 17.5 points</span></summary>
+      <ul>
+        <li>Compute takt time and compare it with step cycle times.</li>
+        <li>Compute process cycle efficiency and identify where to cut non-value-added time safely.</li>
+        <li>Compute the number of kanban containers (always round up).</li>
+        <li>Classify the seven wastes; explain push versus pull.</li>
+        <li>Describe lean supplier relationships.</li>
+      </ul>
+      <div class="formula">Takt time = available time ÷ demand &nbsp;·&nbsp; PCE = value-added time ÷ total lead time<br>Kanban containers k = d(w + p)(1 + α) ÷ c, rounded up</div>
+    </details>
+
+    <details class="wk"><summary>Week 11: Quality and performance management <span>7 questions · 17.5 points</span></summary>
+      <ul>
+        <li>Classify costs as prevention, appraisal, internal failure, or external failure, and compute shares of total cost of quality.</li>
+        <li>Compute DPMO.</li>
+        <li>Compute Cp and Cpk, and decide whether to recenter or reduce variation.</li>
+        <li>Explain Deming's view of system-caused problems, TQM, and the DMAIC phases.</li>
+      </ul>
+      <div class="formula">DPMO = defects ÷ (units × opportunities) × 1,000,000<br>Cp = (USL − LSL) ÷ 6σ &nbsp;·&nbsp; Cpk = min[(x̄ − LSL) ÷ 3σ, (USL − x̄) ÷ 3σ]</div>
+    </details>
+
+    <details class="wk"><summary>Week 12: Statistical process control <span>8 questions · 20 points</span></summary>
+      <ul>
+        <li>Compute X-bar and R chart limits from factor tables (factors will be given).</li>
+        <li>Compute p-chart and c-chart limits (an LCL below zero is set to 0).</li>
+        <li>Choose the right chart for the data.</li>
+        <li>Apply run rules; distinguish common from special causes; explain tampering.</li>
+        <li>Distinguish control limits from specification limits, and stability from capability.</li>
+      </ul>
+      <div class="formula">X-bar: X̄̄ ± A₂R̄ &nbsp;·&nbsp; R: UCL = D₄R̄, LCL = D₃R̄<br>p: p̄ ± 3√(p̄(1 − p̄) ÷ n) &nbsp;·&nbsp; c: c̄ ± 3√c̄</div>
+    </details>
+
+    <details class="wk"><summary>Week 13: Ethics, sustainability, and global operations <span>6 questions · 15 points</span></summary>
+      <ul>
+        <li>Build a total cost of ownership comparison (price, freight, defects, safety stock, expected disruption) and explain why invoice price misleads.</li>
+        <li>Compute revenue at risk from a sourcing claim.</li>
+        <li>Classify measures by Triple Bottom Line dimension.</li>
+        <li>Distinguish offshoring, nearshoring, and reshoring.</li>
+        <li>Interpret an audit refusal; explain the 100% Rule and scope creep in a WBS.</li>
+      </ul>
+      <div class="formula">Defect cost per unit = defect rate × price &nbsp;·&nbsp; Expected disruption cost per unit = (disruptions per year × cost each) ÷ annual volume<br>Revenue at risk = share tied to premium × total revenue × premium</div>
+    </details>
+
+    <details class="wk"><summary>Week 14: Performance measurement and continuous improvement <span>6 questions · 15 points</span></summary>
+      <ul>
+        <li>Place metrics in Balanced Scorecard perspectives and read lagging versus leading patterns.</li>
+        <li>Identify competitive, internal, functional, and reverse benchmarking.</li>
+        <li>Place activities in PDCA phases, including both outcomes of Act.</li>
+        <li>Explain Deming's funnel rules and overcontrol.</li>
+        <li>Compute a PERT expected time and variance, and the probability of meeting a deadline.</li>
+      </ul>
+      <div class="formula">te = (a + 4m + b) ÷ 6 &nbsp;·&nbsp; σ² = ((b − a) ÷ 6)²<br>z = (target − expected length) ÷ √(sum of critical-path variances)</div>
+    </details>
+
+    <h2>Practice resources</h2>
+    <ul>
+      <li><a href="explorer/"><strong>Final Review Explorer</strong></a>: one Cowford Brewery scenario, 19 calculations with instant checking, plus six judgment questions.</li>
+      <li><a href="../w16-session/"><strong>Week 16 in-class review session</strong></a>: the slides and practice rounds from class, with notes if you missed it.</li>
+      <li>Weekly explorers with Lola June: <a href="../w10-explorer/">Week 10</a>, <a href="../w11-explorer/">Week 11</a>, <a href="../w13-explorer/">Week 13</a>, <a href="../w14-explorer/">Week 14</a>. For Weeks 1–6, use the <a href="../midterm-prep/">midterm prep page</a>.</li>
+      <li>If your W#.C concept checks are still open in Canvas, retaking the ones you scored lowest on is one of the best uses of your time.</li>
+    </ul>
+    <p class="fine">Cowford Holdings is a fictional company used for teaching. Canvas is authoritative for the exam date, time window, allowed materials, proctoring, and accommodations.</p>
+  </main>
+</body>
+</html>

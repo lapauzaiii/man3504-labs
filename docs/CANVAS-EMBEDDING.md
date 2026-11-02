@@ -23,6 +23,9 @@ GitHub Pages resources do not send scores or responses to Canvas. Classroom labs
 | 13 | Sourcing Explorer (self-paced) | https://lapauzaiii.github.io/man3504-labs/labs/w13-explorer/ |
 | 14 | Performance Measurement and Continuous Improvement | https://lapauzaiii.github.io/man3504-labs/labs/w14-performance/ |
 | 14 | Improvement Explorer (self-paced) | https://lapauzaiii.github.io/man3504-labs/labs/w14-explorer/ |
+| 16 | Final Exam Study Guide | https://lapauzaiii.github.io/man3504-labs/labs/final-review/ |
+| 16 | Final Review Explorer (self-paced) | https://lapauzaiii.github.io/man3504-labs/labs/final-review/explorer/ |
+| 16 | In-Class Session | https://lapauzaiii.github.io/man3504-labs/labs/w16-session/ |
 
 Weeks 1–3 remain placeholders. Weeks 0, 15, 16 and Finals Week have no standalone lab here.
 

@@ -30,6 +30,9 @@ The eight subsidiaries are Bakery, Coffee, Fitness, Brewery, Medical Supply, Log
 | 13 | Sourcing Explorer (self-paced) | `labs/w13-explorer/` | Green Build walk with Lola June; pairs with W13.A; stores nothing |
 | 14 | Performance Measurement and Continuous Improvement | `labs/w14-performance/` | Tech Services scorecard and PDCA |
 | 14 | Improvement Explorer (self-paced) | `labs/w14-explorer/` | Medical Supply walk with Lola June; pairs with W14.A; stores nothing |
+| 16 | Final Exam Study Guide | `labs/final-review/` | Format, coverage by week, competencies and formulas; no exam items |
+| 16 | Final Review Explorer (self-paced) | `labs/final-review/explorer/` | Brewery canning line; 19 checked practice calculations; stores nothing |
+| 16 | In-Class Session: Putting the Semester Together | `labs/w16-session/` | Present or read mode; practice rounds with reveals |
 
 Classroom labs and midterm review are ungraded. The Netflix page retains assignment instructions and its past Fall 2026 deadline. Canvas is authoritative for submissions, grades and current deadlines. Both Week 4 resources remain available; Notion records a next-semester review of their overlap.
 
@@ -55,6 +58,6 @@ The existing palette is navy `#0E2841` and orange `#E97132`. Preserve course ide
 
 ## Validation and Deployment
 
-Run `node --test labs/w8-supply-chain/tests/model.test.js tests/classroom.test.cjs tests/w10-explorer.test.cjs tests/w11-explorer.test.cjs tests/w12-session.test.cjs tests/w13-explorer.test.cjs tests/w14-explorer.test.cjs`. Browser QA covers desktop/mobile, charts, persistence, export/import, reset and dark mode. Preview through a local HTTP server, commit verified changes to main, and check deployed Pages URLs before embedding.
+Run `node --test labs/w8-supply-chain/tests/model.test.js tests/classroom.test.cjs tests/w10-explorer.test.cjs tests/w11-explorer.test.cjs tests/w12-session.test.cjs tests/w13-explorer.test.cjs tests/w14-explorer.test.cjs tests/final-review.test.cjs`. Browser QA covers desktop/mobile, charts, persistence, export/import, reset and dark mode. Preview through a local HTTP server, commit verified changes to main, and check deployed Pages URLs before embedding.
 
 GitHub Pages serves public student files. Canvas module publication and assessment deployment require separate checks in Canvas.

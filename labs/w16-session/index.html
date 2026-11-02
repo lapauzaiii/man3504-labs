@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Week 16 Final Review Session | MAN3504</title>
+  <meta name="description" content="Week 16 in-class final exam review: what's on the final, the course as one chain, a which-tool round, four practice rounds and exam-day strategy, with notes for anyone who missed class.">
+  <link rel="stylesheet" href="../../styles/shared.css">
+  <link rel="stylesheet" href="session.css">
+  <style>
+    .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin: 12px 0; }
+    .tool { border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 14px; background: var(--card); }
+    .tool p { margin: 0 0 8px; }
+    .ans { margin-top: 8px; padding: 8px 10px; border-left: 4px solid var(--unf-orange); background: var(--bg-primary); border-radius: 4px; }
+    .reveal { min-height: 40px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font: inherit; cursor: pointer; }
+    .chainrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0 18px; }
+    .chainrow span { background: var(--card); border: 2px solid var(--unf-navy); border-radius: 18px; padding: 6px 14px; font-weight: 600; }
+    .bpt { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+    .bpt td, .bpt th { padding: 6px 10px; border-bottom: 1px solid var(--border-color); text-align: left; }
+    .bpt td.n { text-align: right; }
+  </style>
+  <script src="session.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#deck">Skip to the session</a>
+  <header class="ss-header">
+    <a class="ss-home" href="../../">All Labs</a>
+    <p class="ss-kicker">Week 16 · Wrap-up and final exam preparation · In-class session</p>
+    <h1>Putting the Semester Together</h1>
+    <p class="ss-sub">Follow along in class, or work through it on your own if you missed the session. Ungraded; nothing on this page is stored or submitted.</p>
+    <div class="ss-modes" role="group" aria-label="View">
+      <button type="button" id="btnPresent" class="mode-btn">Present slides</button>
+      <button type="button" id="btnExpand" class="mode-btn ghost">Expand all notes</button>
+      <button type="button" id="btnCollapse" class="mode-btn ghost">Collapse all notes</button>
+    </div>
+  </header>
+
+  <main id="deck" class="deck" tabindex="-1">
+    <section class="slide" id="s1" data-title="Welcome" aria-labelledby="h1">
+      <p class="tag">Week 16 · 75 minutes</p>
+      <h2 id="h1">Today: one semester, one chain of decisions</h2>
+      <div class="split">
+        <ol class="agenda">
+          <li><strong>What's on the final</strong>, and where the points are</li>
+          <li><strong>The course as one chain</strong></li>
+          <li><strong>Which tool?</strong> A quick-fire round</li>
+          <li><strong>Four practice rounds</strong>: Weeks 1–6, 8–10, 11–12, 13–14</li>
+          <li><strong>Correct math, wrong decision</strong></li>
+          <li><strong>Exam-day strategy</strong> and exit ticket</li>
+        </ol>
+        <aside class="card">
+          <h3>Your review kit</h3>
+          <ul class="tight">
+            <li><a href="../final-review/">Final Exam Study Guide</a></li>
+            <li><a href="../final-review/explorer/">Final Review Explorer</a> (19 checked practice problems)</li>
+            <li>Each week's W#.A reading in Canvas</li>
+          </ul>
+          <p class="fine">Canvas has your section's exam date, time window and rules.</p>
+        </aside>
+      </div>
+      <details class="recap" open><summary>Missed class? Start here</summary>
+        <p>Every slide has a note like this one with what we covered in the room. Work each practice round on paper before you open the answers. Plan on about 45 minutes, then go straight to the Final Review Explorer.</p>
+      </details>
+    </section>
+
+    <section class="slide" id="s2" data-title="What's on the final" aria-labelledby="h2">
+      <p class="tag">The exam</p>
+      <h2 id="h2">60 questions, 150 points, about 80% on Weeks 8–14</h2>
+      <div class="split">
+        <table class="bpt">
+          <thead><tr><th scope="col">Weeks</th><th scope="col">Questions</th><th scope="col">Points</th></tr></thead>
+          <tbody>
+            <tr><td>1–6 (two per week)</td><td class="n">12</td><td class="n">30</td></tr>
+            <tr><td>8 Supply chains</td><td class="n">6</td><td class="n">15</td></tr>
+            <tr><td>9 Inventory</td><td class="n">8</td><td class="n">20</td></tr>
+            <tr><td>10 Lean</td><td class="n">7</td><td class="n">17.5</td></tr>
+            <tr><td>11 Quality</td><td class="n">7</td><td class="n">17.5</td></tr>
+            <tr><td>12 SPC</td><td class="n">8</td><td class="n">20</td></tr>
+            <tr><td>13 Responsible global ops</td><td class="n">6</td><td class="n">15</td></tr>
+            <tr><td>14 Improvement systems</td><td class="n">6</td><td class="n">15</td></tr>
+          </tbody>
+        </table>
+        <aside class="card">
+          <h3>Format</h3>
+          <ul class="tight">
+            <li>Multiple choice, multiple answer, and true/false</li>
+            <li>Every question is worth 2.5 points</li>
+            <li>Cowford scenarios with new numbers</li>
+            <li>Proctored through Honorlock in Canvas</li>
+          </ul>
+        </aside>
+      </div>
+      <details class="recap"><summary>What we said</summary>
+        <p>Inventory (Week 9) and SPC (Week 12) carry the most questions. Weeks 1–6 still count for 30 points, so don't skip them; the midterm prep page is the fastest refresher. Check Canvas for your exam window, attempts, allowed materials and accommodations.</p>
+      </details>
+    </section>
+
+    <section class="slide" id="s3" data-title="One chain" aria-labelledby="h3">
+      <p class="tag">The big picture</p>
+      <h2 id="h3">Every topic answered the same question</h2>
+      <p>How does an organization design and run the system that delivers value, reliably, efficiently and responsibly?</p>
+      <div class="chainrow"><span>Forecast demand</span>→<span>Set capacity</span>→<span>Plan and schedule</span>→<span>Design the supply chain</span>→<span>Hold inventory</span>→<span>Make it flow</span>→<span>Build in quality</span>→<span>Control the process</span>→<span>Source responsibly</span>→<span>Measure and improve</span></div>
+      <details class="recap"><summary>What we said</summary>
+        <p>A bad forecast creates the wrong capacity, which creates the wrong inventory, which hides problems lean would expose, which shows up as quality failures, which the scorecard eventually catches in the financials. On the exam, ask yourself where in this chain each question lives, and the right tool usually follows.</p>
+      </details>
+    </section>
+
+    <section class="slide" id="s4" data-title="Which tool?" aria-labelledby="h4">
+      <p class="tag">Quick-fire · 8 minutes</p>
+      <h2 id="h4">Which tool would you reach for?</h2>
+      <div class="tools">
+        <div class="tool"><p>Cowford Coffee wants to know how many bags of beans to order each time.</p><button type="button" class="reveal">Reveal</button><p class="ans" hidden>EOQ (Week 9), then check it against shelf life.</p></div>
+        <div class="tool"><p>Cowford Bakery's oven line can't keep up with customer demand, but nobody agrees on why.</p><button type="button" class="reveal">Reveal</button><p class="ans" hidden>Compare each step's cycle time with takt time; find the bottleneck (Weeks 2–3, 10).</p></div>
+        <div class="tool"><p>Cowford Logistics wants to know whether late deliveries rose last week or just bounced around.</p><button type="button" class="reveal">Reveal</button><p class="ans" hidden>A p-chart with run rules (Week 12).</p></div>
+        <div class="tool"><p>Cowford Medical Supply wants to know which defect type to attack first.</p><button type="button" class="reveal">Reveal</button><p class="ans" hidden>A Pareto chart (Week 11).</p></div>
+        <div class="tool"><p>Cowford Brewery has a cheaper malt supplier with longer lead times and no audits.</p><button type="button" class="reveal">Reveal</button><p class="ans" hidden>Total cost of ownership plus a supplier-risk and ethics review (Week 13).</p></div>
+        <div class="tool"><p>Cowford Fitness's revenue is fine, but instructor turnover has doubled.</p><button type="button" class="reveal">Reveal</button><p class="ans" hidden>A Balanced Scorecard reading: Learning &amp; Growth is a leading indicator (Week 14).</p></div>
+        <div class="tool"><p>Cowford Green Build needs to know if a 16-week rollout deadline is realistic.</p><button type="button" class="reveal">Reveal</button><p class="ans" hidden>CPM for the critical path, PERT for the probability (Weeks 6, 14).</p></div>
+        <div class="tool"><p>Cowford Tech Services' help-desk forecast keeps coming in under actual demand.</p><button type="button" class="reveal">Reveal</button><p class="ans" hidden>Check the tracking signal for bias, then reconsider the method or α (Week 4).</p></div>
+      </div>
+      <details class="recap"><summary>What we said</summary>
+        <p>Name the tool before you calculate anything. Many exam questions are really "which tool applies here?" with the math as a second step.</p>
+      </details>
+    </section>
+
+    <section class="slide" id="s5" data-title="Round 1" aria-labelledby="h5">
+      <p class="tag">Practice round 1 · Weeks 1–6</p>
+      <h2 id="h5">Forecasting and capacity</h2>
+      <div class="tools">
+        <div class="tool"><p><strong>A.</strong> Cowford Tech Services had 410, 450 and 470 help-desk tickets in the last three weeks. What is the three-week moving average forecast for next week?</p><button type="button" class="reveal">Show answer</button><p class="ans" hidden>(410 + 450 + 470) ÷ 3 = 443.3 tickets.</p></div>
+        <div class="tool"><p><strong>B.</strong> A Cowford Green Build prefab line has three steps of 50, 75 and 40 seconds per panel, one worker each. Maximum panels per hour?</p><button type="button" class="reveal">Show answer</button><p class="ans" hidden>The 75-second step is the bottleneck: 3,600 ÷ 75 = 48 panels per hour.</p></div>
+      </div>
+      <details class="recap"><summary>What we said</summary>
+        <p>For capacity, the slowest step sets the pace, not the sum of the steps. For forecasting, know moving averages, exponential smoothing, MAD, and the tracking signal (CFE ÷ MAD; beyond ±4 means bias).</p>
+      </details>
+    </section>
+
+    <section class="slide" id="s6" data-title="Round 2" aria-labelledby="h6">
+      <p class="tag">Practice round 2 · Weeks 8–10</p>
+      <h2 id="h6">Supply chains, inventory and lean</h2>
+      <div class="tools">
+        <div class="tool"><p><strong>A.</strong> Cowford Coffee uses 5,000 bags of cups a year; each order costs $40 and holding a bag for a year costs $1.60. EOQ?</p><button type="button" class="reveal">Show answer</button><p class="ans" hidden>√(2 × 5,000 × 40 ÷ 1.60) = √250,000 = 500 bags.</p></div>
+        <div class="tool"><p><strong>B.</strong> A Cowford Bakery line has 480 minutes a day and demand of 1,200 rolls. Takt time?</p><button type="button" class="reveal">Show answer</button><p class="ans" hidden>28,800 seconds ÷ 1,200 = 24 seconds per roll.</p></div>
+        <div class="tool"><p><strong>C.</strong> Cowford Logistics holds $120,000 of inventory; annual cost of goods sold is $3,120,000. Weeks of supply?</p><button type="button" class="reveal">Show answer</button><p class="ans" hidden>Weekly COGS = $60,000; $120,000 ÷ $60,000 = 2 weeks.</p></div>
+      </div>
+      <details class="recap"><summary>What we said</summary>
+        <p>Watch units: takt in seconds versus minutes, lead time in days versus weeks. Safety stock uses √L, not L. Kanban containers always round up.</p>
+      </details>
+    </section>
+
+    <section class="slide" id="s7" data-title="Round 3" aria-labelledby="h7">
+      <p class="tag">Practice round 3 · Weeks 11–12</p>
+      <h2 id="h7">Quality and SPC</h2>
+      <div class="tools">
+        <div class="tool"><p><strong>A.</strong> Cowford Green Build inspections average 16 defects per unit. c-chart limits?</p><button type="button" class="reveal">Show answer</button><p class="ans" hidden>16 ± 3√16 = 16 ± 12: UCL = 28, LCL = 4.</p></div>
+        <div class="tool"><p><strong>B.</strong> A part's specification is 4.0 to 6.0 mm, σ = 0.25 mm, and the mean is 5.4 mm. Cp, Cpk, and what to do (critical value 1.33)?</p><button type="button" class="reveal">Show answer</button><p class="ans" hidden>Cp = 2.0 ÷ 1.5 = 1.33 (passes). Cpk = min(1.4 ÷ 0.75, 0.6 ÷ 0.75) = 0.80 (fails). Spread is fine, so recenter toward 5.0 mm.</p></div>
+      </div>
+      <details class="recap"><summary>What we said</summary>
+        <p>Control limits come from the process; specification limits come from the customer. In control does not mean capable. Cp fails: reduce variation. Cp passes but Cpk fails: recenter.</p>
+      </details>
+    </section>
+
+    <section class="slide" id="s8" data-title="Round 4" aria-labelledby="h8">
+      <p class="tag">Practice round 4 · Weeks 13–14</p>
+      <h2 id="h8">Responsible sourcing and improvement</h2>
+      <div class="tools">
+        <div class="tool"><p><strong>A.</strong> Cowford Bakery earns $1.5 million a year; 30% comes from products with a 5% "locally milled" premium. Revenue at risk if the claim ends?</p><button type="button" class="reveal">Show answer</button><p class="ans" hidden>0.30 × $1,500,000 × 0.05 = $22,500.</p></div>
+        <div class="tool"><p><strong>B.</strong> An activity has a = 3, m = 6, b = 15 weeks. PERT expected time and variance?</p><button type="button" class="reveal">Show answer</button><p class="ans" hidden>te = (3 + 24 + 15) ÷ 6 = 7.0 weeks. σ² = (12 ÷ 6)² = 4.0.</p></div>
+      </div>
+      <details class="recap"><summary>What we said</summary>
+        <p>TCO adds freight, defects, safety stock and expected disruptions to price. Revenue at risk sits outside TCO. On the scorecard, Learning &amp; Growth leads and Financial lags.</p>
+      </details>
+    </section>
+
+    <section class="slide" id="s9" data-title="Correct math, wrong decision" aria-labelledby="h9">
+      <p class="tag">Discussion · 10 minutes</p>
+      <h2 id="h9">When the math is right and the decision is wrong</h2>
+      <div class="tools">
+        <div class="tool"><p>EOQ says order 2,000 packs of fresh tortillas; they go stale in 4 days.</p><button type="button" class="reveal">Why it's wrong</button><p class="ans" hidden>EOQ assumes inventory keeps. Cap the order at what can be used before it expires.</p></div>
+        <div class="tool"><p>The cheaper supplier saves 6% on the invoice price.</p><button type="button" class="reveal">Why it's wrong</button><p class="ans" hidden>Defects, freight and disruptions can reverse the comparison. Compare TCO.</p></div>
+        <div class="tool"><p>A manager adjusts the process after every below-average reading.</p><button type="button" class="reveal">Why it's wrong</button><p class="ans" hidden>That's tampering. Adjusting a stable process adds variation.</p></div>
+        <div class="tool"><p>Benchmark price against a self-serve competitor.</p><button type="button" class="reveal">Why it's wrong</button><p class="ans" hidden>A different business model is a category error. Pick comparable benchmarks, and use reverse benchmarking to protect what customers value.</p></div>
+      </div>
+      <details class="recap"><summary>What we said</summary>
+        <p>Several exam questions are built this way: the calculation is fine, and the question is whether the assumptions fit the situation.</p>
+      </details>
+    </section>
+
+    <section class="slide" id="s10" data-title="Exam-day strategy" aria-labelledby="h10">
+      <p class="tag">Strategy</p>
+      <h2 id="h10">On exam day</h2>
+      <div class="split">
+        <ol class="agenda">
+          <li>Read every choice before picking one. Distractors are built from common mistakes.</li>
+          <li>Write the formula first, then plug in numbers.</li>
+          <li>Check units and rounding: seconds vs. minutes, √L, round kanban up, LCL below zero becomes 0.</li>
+          <li>On multiple-answer questions, judge each option separately.</li>
+          <li>If stuck, name the tool first (slide 4), then come back.</li>
+        </ol>
+        <aside class="card">
+          <h3>Before you start</h3>
+          <ul class="tight">
+            <li>Run the Honorlock system check early</li>
+            <li>Confirm your window, attempts and allowed materials in Canvas</li>
+            <li>Email me with questions before the exam window opens</li>
+          </ul>
+        </aside>
+      </div>
+      <details class="recap"><summary>What we said</summary>
+        <p>Most lost points come from units and rounding, not from not knowing the tool. Slow down on the calculation questions.</p>
+      </details>
+    </section>
+
+    <section class="slide" id="s11" data-title="Exit ticket" aria-labelledby="h11">
+      <p class="tag">Exit ticket</p>
+      <h2 id="h11">Before you leave</h2>
+      <ol class="agenda">
+        <li>Which one topic will you review tonight?</li>
+        <li>Which resource will you use for it (the reading, the explorer, or a concept check)?</li>
+        <li>What is one question you still have? Email it to me.</li>
+      </ol>
+      <details class="recap"><summary>Missed class?</summary>
+        <p>Answer these three for yourself, then start the <a href="../final-review/explorer/">Final Review Explorer</a>. Thanks for a great semester.</p>
+      </details>
+    </section>
+  </main>
+
+  <nav class="present-nav" id="presentNav" aria-label="Slide navigation" hidden>
+    <button type="button" id="prevSlide" aria-label="Previous slide">&larr;</button>
+    <span id="slideCount" aria-live="polite"></span>
+    <button type="button" id="nextSlide" aria-label="Next slide">&rarr;</button>
+    <button type="button" id="exitPresent" class="ghost">Exit</button>
+  </nav>
+
+  <footer class="ss-foot">
+    <p>MAN3504 Operations Management · Cowford Holdings is a fictional company used for teaching. Practice numbers are original and are not exam questions.</p>
+  </footer>
+</body>
+</html>
