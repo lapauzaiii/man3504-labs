@@ -128,16 +128,12 @@
       line-height: 1.6;
     }
 
-    .badge-new {
-      display: inline-block;
-      background-color: #28a745;
-      color: white;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 3px;
-      margin-left: 8px;
-    }
+    .week-resources summary { cursor: pointer; font-weight: 700; color: var(--unf-navy); padding: 10px 0; }
+    .week-resources summary:focus-visible { outline: 3px solid var(--unf-orange); outline-offset: 3px; }
+    .week-resource-list { display: grid; gap: 12px; margin-top: 12px; }
+    .week-resource { padding: 14px; border: 1px solid var(--border-color); border-radius: var(--border-radius); background: var(--bg-primary); }
+    .week-resource h4 { margin: 0 0 8px; color: var(--text-primary); }
+    .week-resource .btn-launch { margin-top: 4px; }
   </style>
 </head>
 <body>
@@ -150,8 +146,7 @@
     <!-- Labs Grid -->
     <h2 style="margin-top: 0;">Labs and Review by Week</h2>
     <div class="labs-grid">
-      <!-- Week 1: Operations Management Foundations (In Development) -->
-      <div class="lab-card coming-soon">
+<div class="lab-card coming-soon">
         <div class="week-badge" style="background-color: var(--text-secondary);">Week 1</div>
         <h3>Operations Management Foundations</h3>
         <p>Explore transformation processes, productivity, value, break-even analysis, and the differences between goods and services.</p>
@@ -160,9 +155,7 @@
         </div>
         <button class="btn-launch" disabled>Coming Soon</button>
       </div>
-
-      <!-- Week 2: Process Design (In Development) -->
-      <div class="lab-card coming-soon">
+<div class="lab-card coming-soon">
         <div class="week-badge" style="background-color: var(--text-secondary);">Week 2</div>
         <h3>Process Design and Capacity Fundamentals</h3>
         <p>Map process flows, identify bottlenecks and handoff delays, and align process choices with operating strategy.</p>
@@ -171,9 +164,7 @@
         </div>
         <button class="btn-launch" disabled>Coming Soon</button>
       </div>
-
-      <!-- Week 3: Lean & Theory of Constraints (In Development) -->
-      <div class="lab-card coming-soon">
+<div class="lab-card coming-soon">
         <div class="week-badge" style="background-color: var(--text-secondary);">Week 3</div>
         <h3>Capacity Planning and Bottleneck Management</h3>
         <p>Evaluate capacity, utilization, capacity cushions and system bottlenecks.</p>
@@ -182,28 +173,29 @@
         </div>
         <button class="btn-launch" disabled>Coming Soon</button>
       </div>
-
-      <div class="lab-card">
+      <div class="lab-card week-group">
         <div class="week-badge">Week 4</div>
-        <h3>Quantitative Forecasting</h3>
-        <p>Compare moving averages and exponential smoothing on a common evaluation window. Record accuracy measures and defend a purchasing recommendation.</p>
-        <div class="cowford-anchor"><strong>Cowford anchor:</strong> Coffee</div>
-        <a href="labs/w4-forecasting/" class="btn-launch">Launch Lab &rarr;</a>
+        <h3>Quantitative Forecasting and Excel</h3>
+        <p>2 resources available. Expand to choose an activity.</p>
+        <details class="week-resources">
+          <summary>View 2 resources</summary>
+          <div class="week-resource-list">
+            <section class="week-resource">
+              <h4>Quantitative Forecasting</h4>
+              <p>Compare moving averages and exponential smoothing on a common evaluation window. Record accuracy measures and defend a purchasing recommendation.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Coffee</div>
+              <a href="labs/w4-forecasting/" class="btn-launch">Launch Lab &rarr;</a>
+            </section>
+            <section class="week-resource">
+              <h4>Netflix Excel Assignment</h4>
+              <p>Student-facing instructions for building the Week 4 Netflix Excel workbook, answering the Canvas questions, and submitting the required file.</p>
+              <div class="cowford-anchor"><strong>Submit:</strong> Canvas responses and LastName_FirstName_Week4_Netflix.xlsx</div>
+              <a href="labs/w4-netflix/" class="btn-launch">Open Assignment &rarr;</a>
+            </section>
+          </div>
+        </details>
       </div>
-
-      <!-- Week 4: Netflix Excel Assignment (LIVE) -->
-      <div class="lab-card">
-        <div class="week-badge">Week 4 Excel Activity</div>
-        <h3>Netflix Excel Assignment</h3>
-        <p>Student-facing instructions for building the Week 4 Netflix Excel workbook, answering the Canvas questions, and submitting the required file.</p>
-        <div class="cowford-anchor">
-          <strong>Submit:</strong> Canvas responses and LastName_FirstName_Week4_Netflix.xlsx
-        </div>
-        <a href="labs/w4-netflix/" class="btn-launch">Open Assignment &rarr;</a>
-      </div>
-
-      <!-- Week 5: Forecasting (LIVE) -->
-      <div class="lab-card">
+<div class="lab-card">
         <div class="week-badge">Week 5</div>
         <h3>Forecasting Methods</h3>
         <p>Qualitative forecasting (Delphi, market survey, sales force composite) vs. quantitative approaches (regression, trend projection). Interactive regression calculator and method-selection scenarios.</p>
@@ -212,9 +204,7 @@
         </div>
         <a href="labs/w5-forecasting/" class="btn-launch">Launch Lab →</a>
       </div>
-
-      <!-- Week 6: MRP & Aggregate Planning (LIVE) -->
-      <div class="lab-card">
+<div class="lab-card">
         <div class="week-badge">Week 6</div>
         <h3>Operations Planning</h3>
         <p>Explore aggregate planning, job sequencing, MRP and CPM/PERT project planning using Cowford scenarios.</p>
@@ -223,9 +213,7 @@
         </div>
         <a href="labs/w6-mrp/" class="btn-launch">Launch Lab →</a>
       </div>
-
-      <!-- Week 7: Midterm Prep Interactive Review (LIVE) -->
-      <div class="lab-card">
+<div class="lab-card">
         <div class="week-badge">Week 7 · Practice Review</div>
         <h3>Midterm Preparation</h3>
         <p>Practice material from Weeks 1–6 with randomized questions, immediate feedback, retry options, and section-level score reporting.</p>
@@ -234,10 +222,8 @@
         </div>
         <a href="labs/midterm-prep/" class="btn-launch">Launch Review &rarr;</a>
       </div>
-
-      <!-- Week 8: Supply Chain Disruption Simulator (LIVE) -->
-      <div class="lab-card">
-        <div class="week-badge">Week 8 <span class="badge-new">NEW</span></div>
+<div class="lab-card">
+        <div class="week-badge">Week 8</div>
         <h3>Supply Chain Network Disruption Simulator</h3>
         <p>Choose a sourcing architecture before the disruption is revealed, observe the operational consequences, revise your decision, and stress-test the network across multiple disruption scenarios.</p>
         <div class="cowford-anchor">
@@ -245,9 +231,7 @@
         </div>
         <a href="labs/w8-supply-chain/?seed=3504-W8-04" class="btn-launch">Launch Lab &rarr;</a>
       </div>
-
-      <!-- Week 9: Inventory (In Development) -->
-      <div class="lab-card">
+<div class="lab-card">
         <div class="week-badge">Week 9</div>
         <h3>Inventory Management</h3>
         <p>Balance holding costs vs. stockout risk. Explore EOQ, safety stock, and reorder points under demand uncertainty.</p>
@@ -256,142 +240,151 @@
         </div>
         <a href="labs/w9-inventory/" class="btn-launch">Launch Lab &rarr;</a>
       </div>
-
-      <!-- Week 10: Lean (In Development) -->
-      <div class="lab-card">
+      <div class="lab-card week-group">
         <div class="week-badge">Week 10</div>
-        <h3>Lean Systems and Vendor Relationships</h3>
-        <p>Waste elimination, value stream mapping, and lean vendor partnerships.</p>
-        <div class="cowford-anchor">
-          <strong>Cowford anchor:</strong> Coffee ,  flow efficiency and countermeasure trials
-        </div>
-        <a href="labs/w10-lean/" class="btn-launch">Launch Lab &rarr;</a>
+        <h3>Lean Systems</h3>
+        <p>2 resources available. Expand to choose an activity.</p>
+        <details class="week-resources">
+          <summary>View 2 resources</summary>
+          <div class="week-resource-list">
+            <section class="week-resource">
+              <h4>Lean Systems and Vendor Relationships</h4>
+              <p>Waste elimination, value stream mapping, and lean vendor partnerships.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Coffee ,  flow efficiency and countermeasure trials</div>
+              <a href="labs/w10-lean/" class="btn-launch">Launch Lab &rarr;</a>
+            </section>
+            <section class="week-resource">
+              <h4>Lean Explorer (Self-Paced)</h4>
+              <p>A guided, interactive walk through the W10.A reading with Lola June: predict, explore, then compare. About 35–45 minutes; nothing is saved.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Brewery ,  waste walk, push vs. pull, takt, layout, PCE and kanban</div>
+              <a href="labs/w10-explorer/" class="btn-launch">Open Explorer &rarr;</a>
+            </section>
+          </div>
+        </details>
       </div>
-
-      <!-- Week 10: Lean Explorer (self-paced, replaces lecture) -->
-      <div class="lab-card">
-        <div class="week-badge">Week 10</div>
-        <h3>Lean Explorer (Self-Paced)</h3>
-        <p>A guided, interactive walk through the W10.A reading with Lola June: predict, explore, then compare. About 35–45 minutes; nothing is saved.</p>
-        <div class="cowford-anchor">
-          <strong>Cowford anchor:</strong> Brewery ,  waste walk, push vs. pull, takt, layout, PCE and kanban
-        </div>
-        <a href="labs/w10-explorer/" class="btn-launch">Open Explorer &rarr;</a>
-      </div>
-
-      <!-- Week 11: Quality (In Development) -->
-      <div class="lab-card">
+      <div class="lab-card week-group">
         <div class="week-badge">Week 11</div>
-        <h3>Quality and Performance Management</h3>
-        <p>Cost of quality framework and quality management foundations.</p>
-        <div class="cowford-anchor">
-          <strong>Cowford anchor:</strong> Medical Supply ,  cost of quality and DMAIC
-        </div>
-        <a href="labs/w11-quality/" class="btn-launch">Launch Lab &rarr;</a>
+        <h3>Quality Management</h3>
+        <p>2 resources available. Expand to choose an activity.</p>
+        <details class="week-resources">
+          <summary>View 2 resources</summary>
+          <div class="week-resource-list">
+            <section class="week-resource">
+              <h4>Quality and Performance Management</h4>
+              <p>Cost of quality framework and quality management foundations.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Medical Supply ,  cost of quality and DMAIC</div>
+              <a href="labs/w11-quality/" class="btn-launch">Launch Lab &rarr;</a>
+            </section>
+            <section class="week-resource">
+              <h4>Quality Explorer (Self-Paced)</h4>
+              <p>A guided, interactive walk through the W11.A reading with Lola June: predict, explore, then compare. About 35–45 minutes; nothing is saved.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Logistics ,  Deming, cost of quality, Pareto, DMAIC and DPMO, SERVQUAL, Cp and Cpk</div>
+              <a href="labs/w11-explorer/" class="btn-launch">Open Explorer &rarr;</a>
+            </section>
+          </div>
+        </details>
       </div>
-
-      <!-- Week 11: Quality Explorer (self-paced, replaces lecture) -->
-      <div class="lab-card">
-        <div class="week-badge">Week 11</div>
-        <h3>Quality Explorer (Self-Paced)</h3>
-        <p>A guided, interactive walk through the W11.A reading with Lola June: predict, explore, then compare. About 35–45 minutes; nothing is saved.</p>
-        <div class="cowford-anchor">
-          <strong>Cowford anchor:</strong> Logistics ,  Deming, cost of quality, Pareto, DMAIC and DPMO, SERVQUAL, Cp and Cpk
-        </div>
-        <a href="labs/w11-explorer/" class="btn-launch">Open Explorer &rarr;</a>
-      </div>
-
-      <!-- Week 12: SPC (In Development) -->
-      <div class="lab-card">
+      <div class="lab-card week-group">
         <div class="week-badge">Week 12</div>
         <h3>Statistical Process Control</h3>
-        <p>Monitor process variation with control charts. Detect assignable causes and make improvement decisions.</p>
-        <div class="cowford-anchor">
-          <strong>Cowford anchor:</strong> Bakery ,  subgroup statistics and trial control limits
-        </div>
-        <a href="labs/w12-spc/" class="btn-launch">Launch Lab &rarr;</a>
+        <p>2 resources available. Expand to choose an activity.</p>
+        <details class="week-resources">
+          <summary>View 2 resources</summary>
+          <div class="week-resource-list">
+            <section class="week-resource">
+              <h4>Statistical Process Control</h4>
+              <p>Monitor process variation with control charts. Detect assignable causes and make improvement decisions.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Bakery ,  subgroup statistics and trial control limits</div>
+              <a href="labs/w12-spc/" class="btn-launch">Launch Lab &rarr;</a>
+            </section>
+            <section class="week-resource">
+              <h4>In-Class Session: When to Touch a Process</h4>
+              <p>Slides for the in-person session with a live ten-second timing experiment that builds real X-bar and R charts. Missed class? Every slide carries a recap note.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Bakery ,  tampering, control charts, Western Electric rules, control versus specification limits</div>
+              <a href="labs/w12-session/" class="btn-launch">Open Session &rarr;</a>
+            </section>
+          </div>
+        </details>
       </div>
-
-      <!-- Week 12: In-class session (slides + live activity + recap) -->
-      <div class="lab-card">
-        <div class="week-badge">Week 12</div>
-        <h3>In-Class Session: When to Touch a Process</h3>
-        <p>Slides for the in-person session with a live ten-second timing experiment that builds real X-bar and R charts. Missed class? Every slide carries a recap note.</p>
-        <div class="cowford-anchor">
-          <strong>Cowford anchor:</strong> Bakery ,  tampering, control charts, Western Electric rules, control versus specification limits
-        </div>
-        <a href="labs/w12-session/" class="btn-launch">Open Session &rarr;</a>
-      </div>
-
-      <!-- Week 13: Ethics (In Development) -->
-      <div class="lab-card">
+      <div class="lab-card week-group">
         <div class="week-badge">Week 13</div>
-        <h3>Ethics, Sustainability and Global Operations</h3>
-        <p>Triple Bottom Line, ethical sourcing, and sustainability frameworks.</p>
-        <div class="cowford-anchor">
-          <strong>Cowford anchor:</strong> Brewery ,  sourcing costs and due-diligence gates
-        </div>
-        <a href="labs/w13-sourcing/" class="btn-launch">Launch Lab &rarr;</a>
+        <h3>Ethics and Global Operations</h3>
+        <p>2 resources available. Expand to choose an activity.</p>
+        <details class="week-resources">
+          <summary>View 2 resources</summary>
+          <div class="week-resource-list">
+            <section class="week-resource">
+              <h4>Ethics, Sustainability and Global Operations</h4>
+              <p>Triple Bottom Line, ethical sourcing, and sustainability frameworks.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Brewery ,  sourcing costs and due-diligence gates</div>
+              <a href="labs/w13-sourcing/" class="btn-launch">Launch Lab &rarr;</a>
+            </section>
+            <section class="week-resource">
+              <h4>Sourcing Explorer (Self-Paced)</h4>
+              <p>A guided, interactive walk through the W13.A reading with Lola June: predict, explore, then compare. About 35–45 minutes; nothing is saved.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Green Build: Triple Bottom Line, tier visibility, TCO across offshore/nearshore/domestic, revenue at risk, WBS</div>
+              <a href="labs/w13-explorer/" class="btn-launch">Open Explorer &rarr;</a>
+            </section>
+          </div>
+        </details>
       </div>
-
-      <!-- Week 13: Sourcing Explorer (self-paced) -->
-      <div class="lab-card">
-        <div class="week-badge">Week 13</div>
-        <h3>Sourcing Explorer (Self-Paced)</h3>
-        <p>A guided, interactive walk through the W13.A reading with Lola June: predict, explore, then compare. About 35–45 minutes; nothing is saved.</p>
-        <div class="cowford-anchor">
-          <strong>Cowford anchor:</strong> Green Build: Triple Bottom Line, tier visibility, TCO across offshore/nearshore/domestic, revenue at risk, WBS
-        </div>
-        <a href="labs/w13-explorer/" class="btn-launch">Open Explorer &rarr;</a>
-      </div>
-
-      <!-- Week 14: Performance Measurement (In Development) -->
-      <div class="lab-card">
+      <div class="lab-card week-group">
         <div class="week-badge">Week 14</div>
-        <h3>Performance Measurement and Continuous Improvement</h3>
-        <p>Balanced Scorecard, benchmarking, and continuous improvement.</p>
-        <div class="cowford-anchor">
-          <strong>Cowford anchor:</strong> Tech Services ,  Balanced Scorecard and PDCA
-        </div>
-        <a href="labs/w14-performance/" class="btn-launch">Launch Lab &rarr;</a>
+        <h3>Performance and Continuous Improvement</h3>
+        <p>2 resources available. Expand to choose an activity.</p>
+        <details class="week-resources">
+          <summary>View 2 resources</summary>
+          <div class="week-resource-list">
+            <section class="week-resource">
+              <h4>Performance Measurement and Continuous Improvement</h4>
+              <p>Balanced Scorecard, benchmarking, and continuous improvement.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Tech Services ,  Balanced Scorecard and PDCA</div>
+              <a href="labs/w14-performance/" class="btn-launch">Launch Lab &rarr;</a>
+            </section>
+            <section class="week-resource">
+              <h4>Improvement Explorer (Self-Paced)</h4>
+              <p>A guided, interactive walk through the W14.A reading with Lola June: predict, explore, then compare. About 35–45 minutes; nothing is saved.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Medical Supply: Balanced Scorecard lag, benchmarking, PDCA, Deming's funnel, CPM and PERT</div>
+              <a href="labs/w14-explorer/" class="btn-launch">Open Explorer &rarr;</a>
+            </section>
+          </div>
+        </details>
       </div>
-
-      <!-- Week 14: Improvement Explorer (self-paced) -->
-      <div class="lab-card">
-        <div class="week-badge">Week 14</div>
-        <h3>Improvement Explorer (Self-Paced)</h3>
-        <p>A guided, interactive walk through the W14.A reading with Lola June: predict, explore, then compare. About 35–45 minutes; nothing is saved.</p>
-        <div class="cowford-anchor">
-          <strong>Cowford anchor:</strong> Medical Supply: Balanced Scorecard lag, benchmarking, PDCA, Deming's funnel, CPM and PERT
-        </div>
-        <a href="labs/w14-explorer/" class="btn-launch">Open Explorer &rarr;</a>
-      </div>
-
-      <!-- Final exam preparation --><div class="lab-card"><div class="week-badge">Week 16</div><h3>Final Exam Prep: How the Final Works + 3 Questions You Will See</h3><p>Interactive present and read modes, three guaranteed anchor questions and exam strategy.</p><div class="cowford-anchor"><strong>Cowford anchor:</strong> Coffee, Brewery and Fitness</div><a href="labs/final-prep/" class="btn-launch">Open Final Exam Prep &rarr;</a></div>
-      <div class="lab-card">
+      <div class="lab-card week-group">
         <div class="week-badge">Week 16</div>
-        <h3>Final Exam Study Guide</h3>
-        <p>Exam format, coverage by week, what you should be able to do, and the formulas to know.</p>
-        <div class="cowford-anchor"><strong>Covers:</strong> Weeks 1–14, with about 80% on Weeks 8–14</div>
-        <a href="labs/final-review/" class="btn-launch">Open Study Guide &rarr;</a>
+        <h3>Final Exam Preparation</h3>
+        <p>4 resources available. Expand to choose an activity.</p>
+        <details class="week-resources">
+          <summary>View 4 resources</summary>
+          <div class="week-resource-list">
+            <section class="week-resource">
+              <h4>Final Exam Prep: How the Final Works + 3 Questions You Will See</h4>
+              <p>Interactive present and read modes, three guaranteed anchor questions and exam strategy.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Coffee, Brewery and Fitness</div>
+              <a href="labs/final-prep/" class="btn-launch">Open Final Exam Prep &rarr;</a>
+            </section>
+            <section class="week-resource">
+              <h4>Final Exam Study Guide</h4>
+              <p>Exam format, coverage by week, what you should be able to do, and the formulas to know.</p>
+              <div class="cowford-anchor"><strong>Covers:</strong> Weeks 1–14, with about 80% on Weeks 8–14</div>
+              <a href="labs/final-review/" class="btn-launch">Open Study Guide &rarr;</a>
+            </section>
+            <section class="week-resource">
+              <h4>Final Review Explorer (Self-Paced)</h4>
+              <p>One Cowford Brewery canning line, every quantitative topic from the semester, 19 practice calculations with instant checking. About 60–75 minutes; nothing is saved.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> Brewery: forecast, capacity, inventory, lean, SPC, sourcing and PERT</div>
+              <a href="labs/final-review/explorer/" class="btn-launch">Open Explorer &rarr;</a>
+            </section>
+            <section class="week-resource">
+              <h4>Final Review Session (Nov 18)</h4>
+              <p>Slides from the November 18 final in-person class: which-tool round, four practice rounds, and exam-day strategy. Missed class? Every slide carries a recap note.</p>
+              <div class="cowford-anchor"><strong>Cowford anchor:</strong> All eight subsidiaries</div>
+              <a href="labs/w16-session/" class="btn-launch">Open Session &rarr;</a>
+            </section>
+          </div>
+        </details>
       </div>
-
-      <div class="lab-card">
-        <div class="week-badge">Week 16</div>
-        <h3>Final Review Explorer (Self-Paced)</h3>
-        <p>One Cowford Brewery canning line, every quantitative topic from the semester, 19 practice calculations with instant checking. About 60–75 minutes; nothing is saved.</p>
-        <div class="cowford-anchor"><strong>Cowford anchor:</strong> Brewery: forecast, capacity, inventory, lean, SPC, sourcing and PERT</div>
-        <a href="labs/final-review/explorer/" class="btn-launch">Open Explorer &rarr;</a>
-      </div>
-
-      <div class="lab-card">
-        <div class="week-badge">Nov 18</div>
-        <h3>Final Review Session (Nov 18)</h3>
-        <p>Slides from the November 18 final in-person class: which-tool round, four practice rounds, and exam-day strategy. Missed class? Every slide carries a recap note.</p>
-        <div class="cowford-anchor"><strong>Cowford anchor:</strong> All eight subsidiaries</div>
-        <a href="labs/w16-session/" class="btn-launch">Open Session &rarr;</a>
-      </div>
-
+    
     </div>
 
     <!-- How to Use -->
