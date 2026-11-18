@@ -47,5 +47,5 @@ test('final prep pages store nothing and make no unconfirmed promises', () => {
     assert.doesNotMatch(s, /calculator is allowed|calculator is permitted/i);
   }
   assert.match(sess, /class="slide"/);
-  assert.equal((sess.match(/class="slide"/g) || []).length, 11);
+  assert.equal((sess.match(/class="slide"/g) || []).length, 12);
 });
